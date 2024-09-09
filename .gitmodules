@@ -1,0 +1,19 @@
+[submodule "common/platforms/bdf"]
+	path = common/platforms/bdf
+	url = https://github.com/Avnet/bdf
+[submodule "common/petalinux/meta-avnet"]
+	path = common/petalinux/meta-avnet
+	url = https://github.com/Avnet/meta-avnet
+	branch = 2023.2
+[submodule "common/petalinux/meta-on-semiconductor"]
+	path = common/petalinux/meta-on-semiconductor
+	url = https://github.com/Avnet/meta-on-semiconductor
+	branch = 2023.2
+[submodule "common/petalinux/meta-hailo-kirkstone"]
+	path = common/petalinux/meta-hailo-kirkstone
+	url = https://github.com/hailo-ai/meta-hailo
+	branch = kirkstone
+[submodule "common/petalinux/meta-hailo-mickledore"]
+	path = common/petalinux/meta-hailo-mickledore
+	url = https://github.com/hailo-ai/meta-hailo
+	branch = mickledore
