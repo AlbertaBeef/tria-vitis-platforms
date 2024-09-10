@@ -1,0 +1,31 @@
+#Note: Mention Each package in individual line
+#These packages will get added into rootfs menu entry
+
+CONFIG_gpio-demo
+CONFIG_peekpoke
+
+CONFIG_auto-resize
+CONFIG_xmutil
+
+CONFIG_tria-zub1cg-base
+CONFIG_tria-zub1cg-dualcam
+CONFIG_tria-zub1cg-benchmark
+CONFIG_tria-zub1cg-dualcam-dpu
+
+CONFIG_vitis-ai-library
+CONFIG_vitis-ai-library-dev
+CONFIG_vitis-ai-library-dbg
+
+CONFIG_vvas-utils
+CONFIG_vvas-gst
+CONFIG_vvas-accel-libs
+CONFIG_vvas-core
+CONFIG_simd
+
+CONFIG_hailortcli
+CONFIG_libhailort
+CONFIG_pyhailort
+CONFIG_hailo-pci
+CONFIG_hailo-firmware
+CONFIG_libgsthailo
+

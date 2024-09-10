@@ -29,20 +29,46 @@ VITIS_OVERLAY_BIT = $(VITIS_OVERLAY_DIR)/binary_container_1/link/int/system.bit
 help:
 	@echo 'Usage:'
 	@echo ''
-	@echo '  make overlay OVERLAY=<val>'
-	@echo '    Build the Vitis application overlay.'
-	@echo ''
-	@echo '    Valid options for OVERLAY: ${OVERLAY_LIST}'
-	@echo ''
 	@echo '  make platform PFM=<val> JOBS=<n>'
 	@echo '    Build the Vitis platform.'
 	@echo ''
 	@echo '    Valid options for PFM: ${PFM_LIST}'
 	@echo '    JOBS: optional param to set number of synthesis jobs (default 8)'
 	@echo ''
+	@echo '  make overlay OVERLAY=<val>'
+	@echo '    Build the Vitis application overlay.'
+	@echo ''
+	@echo '    Valid options for OVERLAY: ${OVERLAY_LIST}'
+	@echo ''
+	@echo '  make petalinux'
+	@echo '    Build the petalinux project.'
+	@echo ''
 	@echo '  make clean'
 	@echo '    Clean runs'
 	@echo ''
+
+.PHONY: petalinux
+petalinux: 
+	@if [ -d petalinux/.petalinux ]; then  \
+	  echo 'Reusing existing petalinux/.petalinux files ...'; \
+	else \
+	  echo 'Creating new .petalinux files ...'; \
+	  mkdir -p petalinux/.petalinux; \
+	  echo PETALINUX=2023.2 > petalinux/.petalinux/metadata; \
+	fi
+	@if [ -d petalinux/project-spec/hw-description ]; then  \
+	  echo 'Reusing existing petalinux/project-spec/hw-description files ...'; \
+	else \
+	  echo 'Creating new .petalinux/project-spec/hw-description files ...'; \
+	  mkdir -p petalinux/project-spec/hw-description; \
+	  touch petalinux/project-spec/hw-description/metadata; \
+	fi
+	echo 'Configuring petalinux project ...'
+	cd petalinux; \
+	petalinux-config --silentconfig --get-hw-description=../platforms/vivado/zub1cg_sbc_dualcam/project/zub1cg_sbc_dualcam.xsa
+	echo 'Building petalinux project ...'
+	cd petalinux; \
+	petalinux-build
 
 .PHONY: overlay
 overlay: $(VITIS_OVERLAY_BIT)
