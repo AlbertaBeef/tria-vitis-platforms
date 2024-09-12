@@ -31,3 +31,14 @@ common/overlays/DPUCV2DX8G*
 */petalinux/images/linux
 
 
+*/petalinux/project-spec/configs/.Xil/
+*/petalinux/project-spec/configs/.statistics
+*/petalinux/project-spec/configs/configs/
+*/petalinux/project-spec/configs/flash_parts.txt
+*/petalinux/project-spec/configs/gen-machineconf.log
+*/petalinux/project-spec/configs/plnx_syshw_data
+*/petalinux/project-spec/configs/plnxtool.conf
+*/petalinux/project-spec/configs/rootfsconfigs/
+*/petalinux/project-spec/configs/u96v2-sbc-dualcam-xczu3eg.conf
+*/petalinux/project-spec/configs/zub1cg-sbc-trifecta-xczu1cg.conf
+

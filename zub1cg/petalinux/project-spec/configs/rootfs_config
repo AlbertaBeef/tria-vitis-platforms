@@ -4080,15 +4080,18 @@ CONFIG_Init-manager-systemd=y
 # user packages 
 #
 CONFIG_libgsthailo=y
+CONFIG_libgsthailotools=y
 CONFIG_libhailort=y
 CONFIG_auto-resize=y
 # CONFIG_gpio-demo is not set
 CONFIG_hailo-firmware=y
 CONFIG_hailo-pci=y
+CONFIG_hailo-post-processes=y
 CONFIG_hailortcli=y
 # CONFIG_peekpoke is not set
 # CONFIG_pyhailort is not set
 CONFIG_simd=y
+# CONFIG_tappas-apps is not set
 CONFIG_tria-zub1cg-base=y
 CONFIG_tria-zub1cg-benchmark=y
 CONFIG_tria-zub1cg-dualcam=y

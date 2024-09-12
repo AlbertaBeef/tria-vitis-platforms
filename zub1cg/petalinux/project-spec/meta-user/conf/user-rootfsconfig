@@ -22,10 +22,14 @@ CONFIG_vvas-accel-libs
 CONFIG_vvas-core
 CONFIG_simd
 
+CONFIG_hailo-pci
+CONFIG_hailo-firmware
+
 CONFIG_hailortcli
 CONFIG_libhailort
 CONFIG_pyhailort
-CONFIG_hailo-pci
-CONFIG_hailo-firmware
 CONFIG_libgsthailo
 
+CONFIG_libgsthailotools
+CONFIG_hailo-post-processes
+CONFIG_tappas-apps

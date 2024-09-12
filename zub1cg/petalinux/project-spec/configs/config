@@ -289,6 +289,7 @@ CONFIG_USER_LAYER_0="${PROOT}/project-spec/meta-avnet"
 CONFIG_USER_LAYER_1="${PROOT}/project-spec/meta-on-semiconductor"
 CONFIG_USER_LAYER_2="${PROOT}/project-spec/meta-hailo/meta-hailo-accelerator"
 CONFIG_USER_LAYER_3="${PROOT}/project-spec/meta-hailo/meta-hailo-libhailort"
-CONFIG_USER_LAYER_4=""
+CONFIG_USER_LAYER_4="${PROOT}/project-spec/meta-hailo/meta-hailo-tappas"
+CONFIG_USER_LAYER_5=""
 CONFIG_SUBSYSTEM_PRELOADED_BL33_BASE=
 CONFIG_SUBSYSTEM_BOOTARGS_GENERATED="earlycon console=ttyPS0,115200 clk_ignore_unused root=/dev/mmcblk1p2 ro rootwait"

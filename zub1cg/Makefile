@@ -59,7 +59,7 @@ petalinux:
 	@if [ -d petalinux/project-spec/hw-description ]; then  \
 	  echo 'Reusing existing petalinux/project-spec/hw-description files ...'; \
 	else \
-	  echo 'Creating new .petalinux/project-spec/hw-description files ...'; \
+	  echo 'Creating new petalinux/project-spec/hw-description files ...'; \
 	  mkdir -p petalinux/project-spec/hw-description; \
 	  touch petalinux/project-spec/hw-description/metadata; \
 	fi
