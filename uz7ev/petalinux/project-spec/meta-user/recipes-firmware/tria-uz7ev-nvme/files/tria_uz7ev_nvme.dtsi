@@ -1,0 +1,170 @@
+/dts-v1/;
+/plugin/;
+
+#include <dt-bindings/gpio/gpio.h>
+
+&fpga_full {	
+	#address-cells = <2>;
+	#size-cells = <2>;
+	firmware-name = "tria_uz7ev_nvme.bit.bin";
+	resets = <&zynqmp_reset 116>, <&zynqmp_reset 117>, <&zynqmp_reset 118>, <&zynqmp_reset 119>;
+};
+
+&amba {
+	afi0: afi0 {
+		compatible = "xlnx,afi-fpga";
+		config-afi = <0 0>, <1 0>, <2 0>, <3 0>, <4 0>, <5 0>, <6 0>, <7 0>, <8 0>, <9 0>, <10 0>, <11 0>, <12 0>, <13 0>, <14 0xa00>, <15 0x000>;
+		resets = <&zynqmp_reset 116>, <&zynqmp_reset 117>, <&zynqmp_reset 118>, <&zynqmp_reset 119>;
+		reset-names = "pl0", "pl1", "pl2", "pl3";
+	};		
+};
+
+/*
+&axi_iic_0 {
+  #address-cells = <1>;
+  #size-cells = <0>;
+  clock-frequency = <100000>;
+  stts22htr: stts22htr@3f {
+    compatible = "st,stts22h";
+    reg = <0x3f>;
+  };
+};
+*/
+
+&amba {
+		axi_intc_0: interrupt-controller@a0030000 {
+			#interrupt-cells = <2>;
+			clock-names = "s_axi_aclk";
+			clocks = <&zynqmp_clk 71>;
+			compatible = "xlnx,axi-intc-4.1", "xlnx,xps-intc-1.00.a";
+			interrupt-controller ;
+			interrupt-names = "irq";
+			interrupt-parent = <&gic>;
+			interrupts = <0 94 1>;
+			reg = <0x0 0xa0030000 0x0 0x10000>;
+			xlnx,kind-of-intr = <0x1>;
+			xlnx,num-intr-inputs = <0x20>;
+		};
+		axi_gpio_0: gpio@a0000000 {
+			#gpio-cells = <2>;
+			#interrupt-cells = <2>;
+			clock-names = "s_axi_aclk";
+			clocks = <&zynqmp_clk 71>;
+			compatible = "xlnx,axi-gpio-2.0", "xlnx,xps-gpio-1.00.a";
+			gpio-controller ;
+			interrupt-controller ;
+			interrupt-names = "ip2intc_irpt";
+			interrupt-parent = <&gic>;
+			interrupts = <0 89 4>;
+			reg = <0x0 0xa0000000 0x0 0x10000>;
+			xlnx,all-inputs = <0x1>;
+			xlnx,all-inputs-2 = <0x0>;
+			xlnx,all-outputs = <0x0>;
+			xlnx,all-outputs-2 = <0x0>;
+			xlnx,dout-default = <0x00000000>;
+			xlnx,dout-default-2 = <0x00000000>;
+			xlnx,gpio-width = <0x8>;
+			xlnx,gpio2-width = <0x20>;
+			xlnx,interrupt-present = <0x1>;
+			xlnx,is-dual = <0x0>;
+			xlnx,tri-default = <0xFFFFFFFF>;
+			xlnx,tri-default-2 = <0xFFFFFFFF>;
+		};
+		axi_gpio_1: gpio@a0010000 {
+			#gpio-cells = <2>;
+			clock-names = "s_axi_aclk";
+			clocks = <&zynqmp_clk 71>;
+			compatible = "xlnx,axi-gpio-2.0", "xlnx,xps-gpio-1.00.a";
+			gpio-controller ;
+			reg = <0x0 0xa0010000 0x0 0x10000>;
+			xlnx,all-inputs = <0x0>;
+			xlnx,all-inputs-2 = <0x0>;
+			xlnx,all-outputs = <0x1>;
+			xlnx,all-outputs-2 = <0x0>;
+			xlnx,dout-default = <0x00000000>;
+			xlnx,dout-default-2 = <0x00000000>;
+			xlnx,gpio-width = <0x8>;
+			xlnx,gpio2-width = <0x20>;
+			xlnx,interrupt-present = <0x0>;
+			xlnx,is-dual = <0x0>;
+			xlnx,tri-default = <0xFFFFFFFF>;
+			xlnx,tri-default-2 = <0xFFFFFFFF>;
+		};
+		axi_gpio_2: gpio@a0020000 {
+			#gpio-cells = <2>;
+			#interrupt-cells = <2>;
+			clock-names = "s_axi_aclk";
+			clocks = <&zynqmp_clk 71>;
+			compatible = "xlnx,axi-gpio-2.0", "xlnx,xps-gpio-1.00.a";
+			gpio-controller ;
+			interrupt-controller ;
+			interrupt-names = "ip2intc_irpt";
+			interrupt-parent = <&gic>;
+			interrupts = <0 90 4>;
+			reg = <0x0 0xa0020000 0x0 0x10000>;
+			xlnx,all-inputs = <0x1>;
+			xlnx,all-inputs-2 = <0x0>;
+			xlnx,all-outputs = <0x0>;
+			xlnx,all-outputs-2 = <0x0>;
+			xlnx,dout-default = <0x00000000>;
+			xlnx,dout-default-2 = <0x00000000>;
+			xlnx,gpio-width = <0x3>;
+			xlnx,gpio2-width = <0x20>;
+			xlnx,interrupt-present = <0x1>;
+			xlnx,is-dual = <0x0>;
+			xlnx,tri-default = <0xFFFFFFFF>;
+			xlnx,tri-default-2 = <0xFFFFFFFF>;
+		};
+		xdma_0: axi-pcie@b0000000 {
+			#address-cells = <3>;
+			#interrupt-cells = <1>;
+			#size-cells = <2>;
+			clock-names = "sys_clk", "sys_clk_gt";
+			clocks = <&misc_clk_0>, <&misc_clk_0>;
+			compatible = "xlnx,xdma-host-3.00";
+			device_type = "pci";
+			interrupt-map = <0 0 0 1 &pcie_intc_0 1>, <0 0 0 2 &pcie_intc_0 2>, <0 0 0 3 &pcie_intc_0 3>, <0 0 0 4 &pcie_intc_0 4>;
+			interrupt-map-mask = <0 0 0 7>;
+			interrupt-names = "misc", "msi0", "msi1";
+			interrupt-parent = <&gic>;
+			interrupts = <0 104 4 0 105 4 0 106 4>;
+			ranges = <0x02000000 0x00000000 0xA0000000 0x0 0xB0000000 0x00000000 0x01000000>;
+			reg = <0x00000005 0x00000000 0x0 0x20000000>;
+			pcie_intc_0: interrupt-controller {
+				#address-cells = <0>;
+				#interrupt-cells = <1>;
+				interrupt-controller ;
+			};
+		};
+		misc_clk_0: misc_clk_0 {
+			#clock-cells = <0>;
+			clock-frequency = <100000000>;
+			compatible = "fixed-clock";
+		};
+		zyxclmm_drm {
+			compatible = "xlnx,zocl";
+			interrupts-extended = <&axi_intc_0 0 4>, <&axi_intc_0 1 4>, <&axi_intc_0 2 4>, <&axi_intc_0 3 4>, <&axi_intc_0 4 4>, <&axi_intc_0 5 4>, <&axi_intc_0 6 4>, <&axi_intc_0 7 4>, <&axi_intc_0 8 4>, <&axi_intc_0 9 4>,
+<&axi_intc_0 10 4>, <&axi_intc_0 11 4>, <&axi_intc_0 12 4>, <&axi_intc_0 13 4>, <&axi_intc_0 14 4>,
+<&axi_intc_0 15 4>, <&axi_intc_0 16 4>, <&axi_intc_0 17 4>, <&axi_intc_0 18 4>, <&axi_intc_0 19 4>,
+<&axi_intc_0 20 4>, <&axi_intc_0 21 4>, <&axi_intc_0 22 4>, <&axi_intc_0 23 4>, <&axi_intc_0 24 4>,
+<&axi_intc_0 25 4>, <&axi_intc_0 26 4>, <&axi_intc_0 27 4>, <&axi_intc_0 28 4>, <&axi_intc_0 29 4>,
+<&axi_intc_0 30 4>, <&axi_intc_0 31 4 >;
+		};
+};
+
+&zynqmp_dpsub {
+	status = "okay";		
+};
+&zynqmp_dp_snd_pcm0 {
+	status = "okay";		
+};
+&zynqmp_dp_snd_pcm1 {
+	status = "okay";		
+};
+&zynqmp_dp_snd_card0 {
+	status = "okay";		
+};
+&zynqmp_dp_snd_codec0 {
+	status = "okay";		
+};
+
