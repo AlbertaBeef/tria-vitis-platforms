@@ -62,17 +62,17 @@ Create the final u96v2 SD card image:
 Navigate to u96v2 directory:
 - cd uz7ev
 
-Build (all) the u96v2 vitis platforms:
-- make platform PFM=u96v2_sbc_base
-- make platform PFM=u96v2_sbc_nvme
+Build (all) the uz7ev vitis platforms:
+- make platform PFM=uz7ev_sbc_base
+- make platform PFM=uz7ev_sbc_nvme
 
-Build (all) the u96v2 vitis overlays:
+Build (all) the uz7ev vitis overlays:
 - make overlay OVERLAY=benchmark
 
-Build the u96v2 petalinux project:
+Build the uz7ev petalinux project:
 - make petalinux
 
-Create the final u96v2 SD card image:
+Create the final uz7ev SD card image:
 - ...
 
 # VEK280 Instructions
