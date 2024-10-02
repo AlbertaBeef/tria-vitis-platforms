@@ -2,7 +2,7 @@
 
 Tria Vitis platforms and overlays 
 
-# Preperation
+# Preparation
 
 Clone repository:
 - git clone --branch 2023.2 https://github.com/AlbertaBeef/tria-vitis-platforms
@@ -59,7 +59,21 @@ Create the final u96v2 SD card image:
 
 # UltraZed-7EV Instructions
 
-...
+Navigate to u96v2 directory:
+- cd uz7ev
+
+Build (all) the u96v2 vitis platforms:
+- make platform PFM=u96v2_sbc_base
+- make platform PFM=u96v2_sbc_nvme
+
+Build (all) the u96v2 vitis overlays:
+- make overlay OVERLAY=benchmark
+
+Build the u96v2 petalinux project:
+- make petalinux
+
+Create the final u96v2 SD card image:
+- ...
 
 # VEK280 Instructions
 
