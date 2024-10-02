@@ -5,7 +5,7 @@ Tria Vitis platforms and overlays
 # Preparation
 
 Clone repository:
-- git clone --branch 2023.2 https://github.com/AlbertaBeef/tria-vitis-platforms
+- git clone --recursive --branch 2023.2 https://github.com/AlbertaBeef/tria-vitis-platforms
 - cd tria-vitis-platforms
 
 Download DPU IP:
