@@ -6,7 +6,7 @@
 &fpga_full {	
 	#address-cells = <2>;
 	#size-cells = <2>;
-	firmware-name = "tria_uz7ev_nvme.bit.bin";
+	firmware-name = "tria_uz7ev_benchmark.bit.bin";
 	resets = <&zynqmp_reset 116>, <&zynqmp_reset 117>, <&zynqmp_reset 118>, <&zynqmp_reset 119>;
 };
 

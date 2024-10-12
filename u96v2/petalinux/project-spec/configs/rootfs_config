@@ -4083,11 +4083,15 @@ CONFIG_libgsthailo=y
 CONFIG_libgsthailotools=y
 CONFIG_libhailort=y
 CONFIG_auto-resize=y
+CONFIG_cv-bridge=y
+CONFIG_cv-bridge-dev=y
 # CONFIG_gpio-demo is not set
 CONFIG_hailo-firmware=y
 CONFIG_hailo-pci=y
 CONFIG_hailo-post-processes=y
 CONFIG_hailortcli=y
+# CONFIG_packagegroup-petalinux-ros is not set
+# CONFIG_packagegroup-petalinux-ros-dev is not set
 # CONFIG_peekpoke is not set
 # CONFIG_pyhailort is not set
 CONFIG_simd=y
@@ -4096,6 +4100,10 @@ CONFIG_tria-u96v2-base=y
 CONFIG_tria-u96v2-benchmark=y
 CONFIG_tria-u96v2-dualcam=y
 CONFIG_tria-u96v2-dualcam-dpu=y
+CONFIG_turtlesim=y
+CONFIG_turtlesim-dev=y
+CONFIG_v4l2-camera=y
+CONFIG_v4l2-camera-dev=y
 CONFIG_vitis-ai-library=y
 # CONFIG_vitis-ai-library-dbg is not set
 CONFIG_vitis-ai-library-dev=y

@@ -33,3 +33,13 @@ CONFIG_libgsthailo
 CONFIG_libgsthailotools
 CONFIG_hailo-post-processes
 CONFIG_tappas-apps
+
+CONFIG_packagegroup-petalinux-ros
+CONFIG_packagegroup-petalinux-ros-dev
+CONFIG_cv-bridge
+CONFIG_cv-bridge-dev
+CONFIG_v4l2-camera
+CONFIG_v4l2-camera-dev
+CONFIG_turtlesim
+CONFIG_turtlesim-dev
+
