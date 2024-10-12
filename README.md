@@ -31,6 +31,11 @@ Download DPU IP:
 - source ./get_dpu_ip.sh
 - cd ../..
 
+Download prebuilt binaries for final SD image:
+- cd common/sdcard/content
+- source ./download_content.sh
+- cd ../../..
+
 ## ZUBoard Instructions
 
 Navigate to zub1cg directory:
@@ -50,8 +55,14 @@ Build (all) the  zub1cg vitis overlays:
 Build the zub1cg petalinux project:
 - make petalinux
 
+Create the BOOT.BIN (without bitstream):
+- cd petalinux
+- petalinux-package --boot --fsbl --pmufw --u-boot --force
+- cd ..
+
 Create the final zub1cg SD card image:
-- ...
+- cd sdcard
+- sudo ./generate_sdcard.sh
 
 ## Ultra96-V2 Instructions
 
@@ -72,8 +83,14 @@ Build (all) the u96v2 vitis overlays:
 Build the u96v2 petalinux project:
 - make petalinux
 
-Create the final u96v2 SD card image:
-- ...
+Create the BOOT.BIN (without bitstream):
+- cd petalinux
+- petalinux-package --boot --fsbl --pmufw --u-boot --force
+- cd ..
+
+Create the final zub1cg SD card image:
+- cd sdcard
+- sudo ./generate_sdcard.sh
 
 ## UltraZed-7EV Instructions
 
@@ -90,8 +107,14 @@ Build (all) the uz7ev vitis overlays:
 Build the uz7ev petalinux project:
 - make petalinux
 
-Create the final uz7ev SD card image:
-- ...
+Create the BOOT.BIN (without bitstream):
+- cd petalinux
+- petalinux-package --boot --fsbl --pmufw --u-boot --force
+- cd ..
+
+Create the final zub1cg SD card image:
+- cd sdcard
+- sudo ./generate_sdcard.sh
 
 
 
