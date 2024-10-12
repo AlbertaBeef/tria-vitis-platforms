@@ -43,4 +43,7 @@ common/overlays/DPUCV2DX8G*
 */petalinux/project-spec/configs/zub1cg-sbc-trifecta-xczu1cg.conf
 */petalinux/project-spec/configs/uz7ev-evcc-nvme-xczu7ev.conf
 
+*/sdcard/content/*.tar.gz
+*/sdcard/*.img
+*/sdcard/*.img.gz
 
