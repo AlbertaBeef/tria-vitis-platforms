@@ -8,8 +8,7 @@ S = "${WORKDIR}/git/src/vai_library"
 DEPENDS = "protobuf-native vart opencv googletest libeigen libeigen-native pkgconfig-native"
 
 PACKAGECONFIG[test] = ",,,"
-#PACKAGECONFIG[python] = "-DBUILD_PYTHON=ON -DPYTHON_INSTALL_DIR=${PYTHON_DIR},-DBUILD_PYTHON=OFF,, graphviz python3-graphviz bash"
-PACKAGECONFIG[python] = "-DBUILD_PYTHON=ON -DPYTHON_INSTALL_DIR=${PYTHON_DIR},-DBUILD_PYTHON=OFF,, python3-graphviz bash"
+PACKAGECONFIG[python] = "-DBUILD_PYTHON=ON -DPYTHON_INSTALL_DIR=${PYTHON_DIR},-DBUILD_PYTHON=OFF,, graphviz python3-graphviz bash"
 
 inherit cmake python3-dir
 

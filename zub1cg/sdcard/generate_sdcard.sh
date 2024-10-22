@@ -106,7 +106,7 @@ VAI_DIM=7680
 FREELO="$( losetup -f)"
 
 RF_LIST=(\
-    BOOT/boot.bin \
+    BOOT/BOOT.BIN \
     BOOT/boot.scr \
     BOOT/image.ub \
     BOOT/platform_desc.txt \
