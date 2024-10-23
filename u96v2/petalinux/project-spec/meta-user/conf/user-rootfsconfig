@@ -22,18 +22,6 @@ CONFIG_vvas-accel-libs
 CONFIG_vvas-core
 CONFIG_simd
 
-CONFIG_hailo-pci
-CONFIG_hailo-firmware
-
-CONFIG_hailortcli
-CONFIG_libhailort
-CONFIG_pyhailort
-CONFIG_libgsthailo
-
-CONFIG_libgsthailotools
-CONFIG_hailo-post-processes
-CONFIG_tappas-apps
-
 CONFIG_packagegroup-petalinux-ros
 CONFIG_packagegroup-petalinux-ros-dev
 CONFIG_cv-bridge
