@@ -1,0 +1,24 @@
+From 3d83aa9ec6f060ff4c985d8ea007324a3d164688 Mon Sep 17 00:00:00 2001
+From: Manjuraehmad Momin <manjuraehmad.momin@amd.com>
+Date: Thu, 28 Dec 2023 11:28:49 +0530
+Subject: [PATCH] gpu: drm: hdmi: force driver to run only in TMDS mode
+
+---
+ drivers/gpu/drm/xlnx/xlnx_hdmi.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/gpu/drm/xlnx/xlnx_hdmi.c b/drivers/gpu/drm/xlnx/xlnx_hdmi.c
+index fc4b7bf..05eeac7 100644
+--- a/drivers/gpu/drm/xlnx/xlnx_hdmi.c
++++ b/drivers/gpu/drm/xlnx/xlnx_hdmi.c
+@@ -2612,6 +2612,7 @@ static int xlnx_hdmi_get_property(struct drm_connector *connector,
+ 	}
+ 
+ 	memcpy(buf, buffer + block * 128, len);
++	hdmi->stream.is_frl = 0;	
+ 
+ 	kfree(buffer);
+ 	return 0;
+-- 
+1.8.3.1
+

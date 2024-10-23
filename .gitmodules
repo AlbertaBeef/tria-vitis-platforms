@@ -17,3 +17,7 @@
 	path = common/petalinux/meta-hailo-mickledore
 	url = https://github.com/hailo-ai/meta-hailo
 	branch = mickledore
+[submodule "common/Vitis_Libraries"]
+	path = common/Vitis_Libraries
+	url = https://github.com/Xilinx/Vitis_Libraries
+	branch = 2023.2

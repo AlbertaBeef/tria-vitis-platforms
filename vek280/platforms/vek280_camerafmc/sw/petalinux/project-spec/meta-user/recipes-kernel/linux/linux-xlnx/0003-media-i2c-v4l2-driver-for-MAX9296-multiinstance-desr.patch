@@ -1,0 +1,1386 @@
+From 16b3e34349e8de68c19998cdfc83af3b72f7200f Mon Sep 17 00:00:00 2001
+From: verma <amit.verma@amd.com>
+Date: Mon, 31 Jul 2023 16:50:56 +0530
+Subject: [PATCH 3/4] media: i2c: v4l2 driver for MAX9296 multiinstance
+ desrializer
+
+MAX9296 i2c client driver supports to deserializer data captured from
+image sensor and pass it to MIPI. it suppose configuration of different
+deserializer and to configure different link to pass data to configured mipi
+interface.
+
+Signed-off-by: verma <amit.verma@amd.com>
+---
+ drivers/media/i2c/max9296.c | 1225 +++++++++++++++++++++++++++++++++++++++++++
+ drivers/media/i2c/max9296.h |  127 +++++
+ 2 files changed, 1352 insertions(+)
+ create mode 100644 drivers/media/i2c/max9296.c
+ create mode 100644 drivers/media/i2c/max9296.h
+
+diff --git a/drivers/media/i2c/max9296.c b/drivers/media/i2c/max9296.c
+new file mode 100644
+index 0000000..77bc63e
+--- /dev/null
++++ b/drivers/media/i2c/max9296.c
+@@ -0,0 +1,1225 @@
++// SPDX-License-Identifier: GPL-2.0+
++/*
++ * Maxim MAX9296 GMSL Deserializer Driver
++ *
++ * Copyright (C) 2017-2019 Jacopo Mondi
++ * Copyright (C) 2017-2019 Kieran Bingham
++ * Copyright (C) 2017-2019 Laurent Pinchart
++ * Copyright (C) 2017-2019 Niklas Söderlund
++ * Copyright (C) 2016 Renesas Electronics Corporation
++ * Copyright (C) 2015 Cogent Embedded, Inc.
++ */
++
++#include <linux/delay.h>
++#include <linux/device.h>
++#include <linux/fwnode.h>
++#include <linux/gpio/consumer.h>
++#include <linux/gpio/driver.h>
++#include <linux/i2c.h>
++#include <linux/i2c-mux.h>
++#include <linux/module.h>
++#include <linux/mutex.h>
++#include <linux/of_graph.h>
++#include <linux/regulator/consumer.h>
++#include <linux/slab.h>
++#include <linux/regmap.h>
++#include "max9296.h"
++
++#include <media/v4l2-async.h>
++#include <media/v4l2-ctrls.h>
++#include <media/v4l2-device.h>
++#include <media/v4l2-fwnode.h>
++#include <media/v4l2-subdev.h>
++
++/*
++ * The sink and source pads are created to match the OF graph port numbers so
++ * that their indexes can be used interchangeably.
++ */
++#define MAX9296_NUM_GMSL		1
++#define MAX9296_N_SINKS			1
++#define MAX9296_N_PADS			2
++#define MAX9296_SRC_PAD			1
++
++struct max9296_source {
++	struct v4l2_subdev *sd;
++	struct fwnode_handle *fwnode;
++	struct device *dev;
++	struct regulator *regulator;
++
++};
++
++struct max9296_asd {
++	struct v4l2_async_subdev base;
++	struct max9296_source *source;
++};
++
++struct ldac_device {
++	struct i2c_client *client;
++};
++
++struct regulator_device {
++	struct i2c_client *client;
++};
++
++struct deser_device {
++	struct i2c_client *client;
++};
++
++static const struct regmap_config fpga_regmap_config = {
++	.reg_bits = 32,
++	.val_bits = 32,
++	.cache_type = REGCACHE_NONE,
++};
++
++static const struct regmap_config regulator_regmap_config = {
++	.reg_bits = 8,
++	.val_bits = 8,
++	.cache_type = REGCACHE_NONE,
++};
++static const struct regmap_config deser_regmap_config = {
++	.reg_bits = 16,
++	.val_bits = 8,
++	.cache_type = REGCACHE_NONE,
++};
++
++static const struct regmap_config ser_regmap_config = {
++	.reg_bits = 16,
++	.val_bits = 8,
++	.cache_type = REGCACHE_NONE,
++};
++
++
++static inline struct max9296_asd *to_max9296_asd(struct v4l2_async_subdev *asd)
++{
++	return container_of(asd, struct max9296_asd, base);
++}
++
++struct max9296_priv {
++	struct device *dev;
++	struct i2c_client *client;
++	struct i2c_client *ldac;
++	struct i2c_client *regul;
++	struct i2c_client *exp;
++	struct i2c_client *deser;
++	struct i2c_client *ser;
++	struct i2c_client *fpga;
++
++	struct regmap *regulator_regmap;
++	struct regmap *ldac_regmap;
++	struct regmap *deser_regmap;
++	struct regmap *fpga_regmap;
++	struct regmap *ser_regmap;
++
++	struct gpio_desc *gpiod_pwdn;
++	struct v4l2_subdev sd;
++	struct media_pad pads[MAX9296_N_PADS];
++	struct regulator *regulator;
++	u32 addrs[4];
++	struct gpio_chip gpio;
++	u8 gpio_state;
++
++	struct i2c_mux_core *mux;
++	unsigned int mux_channel;
++	bool mux_open;
++
++	/* The initial reverse control channel amplitude. */
++	u32 init_rev_chan_mv;
++	u32 rev_chan_mv;
++
++	struct v4l2_ctrl_handler ctrls;
++	struct v4l2_ctrl *pixelrate;
++
++	struct v4l2_mbus_framefmt fmt[MAX9296_N_PADS];
++
++	/* Protects controls and fmt structures */
++	struct mutex mutex;
++
++	unsigned int nsources;
++	unsigned int source_mask;
++	unsigned int route_mask;
++	unsigned int bound_sources;
++	unsigned int csi2_data_lanes;
++	struct max9296_source sources[MAX9296_NUM_GMSL];
++	struct v4l2_async_notifier notifier;
++};
++
++static struct max9296_source *next_source(struct max9296_priv *priv,
++		struct max9296_source *source)
++{
++	if (!source)
++		source = &priv->sources[0];
++	else
++		source++;
++
++	for (; source < &priv->sources[MAX9296_NUM_GMSL]; source++)
++		if (source->fwnode)
++			return source;
++
++	return NULL;
++}
++
++#define for_each_source(priv, source) \
++	for ((source) = NULL; ((source) = next_source((priv), (source))); )
++
++#define to_index(priv, source) ((source) - &(priv)->sources[0])
++
++static inline struct max9296_priv *sd_to_max9296(struct v4l2_subdev *sd)
++{
++	return container_of(sd, struct max9296_priv, sd);
++}
++
++/*
++ * max929x_write_reg - Function called when write register to GMSL2 device
++ * @i2c_client: Pointer to i2c_client device
++ * @slave_addr: device slave addr
++ * @reg: device register addr
++ * @val: register val
++ *
++ * write val to gmsl2 device.
++ *
++ * Return: 0 on success
++ */
++static int max929x_write_reg(struct i2c_client *i2c_client, u8 slave_addr, u16 reg, u8 val)
++{
++	struct i2c_client *client = i2c_client;
++	struct device *dev = &client->dev;
++	struct i2c_msg msgs[1];
++	u8 send_buf[3];
++	int ret;
++	char temp;
++	int back_addr = client->addr;
++
++	client->addr = slave_addr;
++	send_buf[0] = reg >> 8;
++	send_buf[1] = reg & 0xff;
++	send_buf[2] = val & 0xff;
++
++	msgs[0].addr = client->addr;
++	msgs[0].len = 3;
++	msgs[0].buf = send_buf;
++	msgs[0].flags = 0;
++
++	ret = i2c_transfer(client->adapter, msgs, ARRAY_SIZE(msgs));
++
++	if (ret != ARRAY_SIZE(msgs)) {
++		dev_err(dev, "Failed to write register, ret = %d\n", ret);
++		return ret < 0 ? ret : -EIO;
++	}
++
++	msleep(50);
++	client->addr = back_addr;
++
++	return 0;
++}
++
++
++/*
++ * power_up -Power up sequence to init the fmc including serdes.
++ * Also enable/disable particular deserializer as per the 
++ * enable from dtsi file. 
++ * Return: 0 on success
++ * @i2c_client: Pointer to i2c_client device
++ */
++static int power_up(struct i2c_client *i2c_client)
++{
++	struct i2c_client *client = i2c_client;
++	struct device *dev = &client->dev;
++	struct i2c_msg msgs[1];
++	u8 send_buf[3];
++	int ret;
++	int back_addr = client->addr;
++	static int pre_config;
++	u16 n_slave_addr;
++
++	client->addr = 0x2f;
++	send_buf[0] = 0x00;
++	send_buf[1] = 0x04;
++
++	msgs[0].addr = client->addr;
++	msgs[0].len = 2;
++	msgs[0].buf = send_buf;
++	msgs[0].flags = 0;
++
++	ret = i2c_transfer(client->adapter, msgs, ARRAY_SIZE(msgs));
++	if (ret != ARRAY_SIZE(msgs)) {
++		dev_err(dev, "Failed to write register, ret = %d\n", ret);
++		return ret < 0 ? ret : -EIO;
++	}
++	msleep(100);
++
++	client->addr = 0x4c;
++	send_buf[0] = 0x60;
++	send_buf[1] = 0xff;
++	send_buf[2] = 0xff;
++
++	msgs[0].addr = client->addr;
++	msgs[0].len = 3;
++	msgs[0].buf = send_buf;
++	msgs[0].flags = 0;
++
++	ret = i2c_transfer(client->adapter, msgs, ARRAY_SIZE(msgs));
++	if (ret != ARRAY_SIZE(msgs)) {
++		dev_err(dev, "Failed to write register, ret = %d\n", ret);
++		return ret < 0 ? ret : -EIO;
++	}
++	msleep(100);
++
++	client->addr = 0x4c;
++	send_buf[0] = 0x3f;
++	send_buf[1] = 0x00;
++	send_buf[2] = 0x00;
++
++	msgs[0].addr = client->addr;
++	msgs[0].len = 3;
++	msgs[0].buf = send_buf;
++	msgs[0].flags = 0;
++
++	ret = i2c_transfer(client->adapter, msgs, ARRAY_SIZE(msgs));
++	if (ret != ARRAY_SIZE(msgs)) {
++		dev_err(dev, "Failed to write register, ret = %d\n", ret);
++		return ret < 0 ? ret : -EIO;
++	}
++	msleep(100);
++
++	client->addr = 0x20;
++	send_buf[0] = 0x01;
++	send_buf[1] = 0x00;
++
++	msgs[0].addr = client->addr;
++	msgs[0].len = 2;
++	msgs[0].buf = send_buf;
++	msgs[0].flags = 0;
++
++	ret = i2c_transfer(client->adapter, msgs, ARRAY_SIZE(msgs));
++	if (ret != ARRAY_SIZE(msgs)) {
++		dev_err(dev, "Failed to write register, ret = %d\n", ret);
++		return ret < 0 ? ret : -EIO;
++	}
++	msleep(100);
++
++	if (back_addr == 0x4b) {
++		client->addr = 0x20;
++		send_buf[0] = 0x15;
++		send_buf[1] = 0xa;
++
++		msgs[0].addr = client->addr;
++		msgs[0].len = 2;
++		msgs[0].buf = send_buf;
++		msgs[0].flags = 0;
++
++		ret = i2c_transfer(client->adapter, msgs, ARRAY_SIZE(msgs));
++		if (ret != ARRAY_SIZE(msgs)) {
++			dev_err(dev, "Failed to write register, ret = %d\n", ret);
++			return ret < 0 ? ret : -EIO;
++		}
++
++		ret = 0;
++		msleep(100);
++		n_slave_addr = 0x0000;
++
++		ret = max929x_write_reg(client, 0x4a, n_slave_addr, 0x4b << 1);
++		msleep(500);
++
++	}
++
++	client->addr = 0x20;
++	send_buf[0] = 0x15;
++
++	if (back_addr == 0x68)
++		send_buf[1] = 0x02;
++	else if (back_addr == 0x4b)
++		send_buf[1] = 0x0a;
++	else if (back_addr == 0x6c)
++		send_buf[1] = 0x1a;
++	else if (back_addr == 0x4d)
++		send_buf[1] = 0x1e;
++
++	msgs[0].addr = client->addr;
++	msgs[0].len = 2;
++	msgs[0].buf = send_buf;
++	msgs[0].flags = 0;
++
++	ret = i2c_transfer(client->adapter, msgs, ARRAY_SIZE(msgs));
++	if (ret != ARRAY_SIZE(msgs)) {
++		dev_err(dev, "Failed to write register, ret = %d\n", ret);
++		return ret < 0 ? ret : -EIO;
++	}
++
++	ret = 0;
++	msleep(100);
++
++	if (back_addr == 0x4b)
++		ret = max929x_write_reg(client, 0x4a, 0x0000, (0x4b << 1));
++
++	msleep(500);
++	client->addr = back_addr;
++
++	return ret;
++}
++
++
++static int regul_read(struct max9296_priv *priv, u8 reg)
++{
++	int ret;
++
++	ret = i2c_smbus_read_byte_data(priv->regul, reg);
++	if (ret < 0)
++		dev_err(&priv->client->dev,
++			"%s: register 0x%02x read failed (%d)\n",
++			__func__, reg, ret);
++
++	return ret;
++}
++
++
++static int max9296_read(struct max9296_priv *priv, u8 reg)
++{
++	int ret;
++
++	ret = i2c_smbus_read_byte_data(priv->exp, reg);
++	if (ret < 0)
++		dev_err(&priv->client->dev,
++			"%s: register 0x%02x read failed (%d)\n",
++			__func__, reg, ret);
++
++	return ret;
++}
++
++static int max9296_write(struct max9296_priv *priv, u8 reg, u8 val)
++{
++	int ret;
++
++	ret = i2c_smbus_write_byte_data(priv->exp, reg, val);
++	if (ret < 0)
++		dev_err(&priv->client->dev,
++			"%s: register 0x%02x write failed (%d)\n",
++			__func__, reg, ret);
++
++	return ret;
++}
++static int regul_write(struct max9296_priv *priv, u8 reg, u8 val)
++{
++	int ret;
++
++	ret = i2c_smbus_write_byte_data(priv->regul, reg, val);
++	if (ret < 0)
++		dev_err(&priv->client->dev,
++			"%s: register 0x%02x write failed (%d)\n",
++			__func__, reg, ret);
++
++	return ret;
++}
++
++static int ldac_write(struct max9296_priv *priv, u8 reg, u8 val)
++{
++	int ret;
++
++	ret = i2c_smbus_write_byte_data(priv->ldac, reg, val);
++	if (ret < 0)
++		dev_err(&priv->client->dev,
++			"%s: register 0x%02x write failed (%d)\n",
++			__func__, reg, ret);
++
++	return ret;
++}
++
++static int ldac_read(struct max9296_priv *priv, u8 reg)
++{
++	int ret;
++
++	ret = i2c_smbus_read_byte_data(priv->ldac, reg);
++	if (ret < 0)
++		dev_err(&priv->client->dev,
++			"%s: register 0x%02x read failed (%d)\n",
++			__func__, reg, ret);
++
++	return ret;
++}
++
++static int deser_write(struct max9296_priv *priv, u16 reg, u8 val)
++{
++	int ret;
++
++	ret = regmap_write(priv->deser_regmap, reg, val);
++
++	return ret;
++}
++
++static int deser_read(struct max9296_priv *priv, unsigned int reg, unsigned int *val)
++{
++	int ret;
++
++	ret = regmap_read(priv->deser_regmap, reg, val);
++
++	return ret;
++}
++
++static int fpga_write(struct max9296_priv *priv, u16 reg, u8 val)
++{
++	int ret;
++
++	ret = regmap_write(priv->fpga_regmap, reg, val);
++
++	return ret;
++}
++
++static int fpga_read(struct max9296_priv *priv, unsigned int reg, unsigned int *val)
++{
++	int ret;
++
++	ret = regmap_read(priv->fpga_regmap, reg, val);
++
++	return ret;
++}
++
++static int ser_write(struct max9296_priv *priv, u16 reg, u8 val)
++{
++	int ret;
++
++	ret = regmap_write(priv->ser_regmap, reg, val);
++
++	return ret;
++}
++
++static int ser_read(struct max9296_priv *priv, unsigned int reg, unsigned int *val)
++{
++	int ret;
++
++	ret = regmap_read(priv->ser_regmap, reg, val);
++
++	return ret;
++}
++
++/*
++ * max9296_check_video_links() - Make sure video links are detected and locked
++ *
++ * Performs safety checks on video link status. Make sure they are detected
++ * and all enabled links are locked.
++ *
++ * Returns 0 for success, -EIO for errors.
++ */
++static int max9296_check_video_links(struct max9296_priv *priv)
++{
++#ifdef FUTURE_IMPL
++	unsigned int i;
++	int ret;
++
++	/*
++	 * Make sure valid video links are detected.
++	 * The delay is not characterized in de-serializer manual, wait up
++	 * to 5 ms.
++	 */
++	for (i = 0; i < 10; i++) {
++		ret = max9296_read(priv, 0x49);
++		if (ret < 0)
++			return -EIO;
++
++		if ((ret & MAX9296_VIDEO_DETECT_MASK) == priv->source_mask)
++			break;
++
++		usleep_range(350, 500);
++	}
++
++	if (i == 10) {
++		dev_err(&priv->client->dev,
++			"Unable to detect video links: 0x%02x\n", ret);
++		return -EIO;
++	}
++
++	/* Make sure all enabled links are locked (4ms max). */
++	for (i = 0; i < 10; i++) {
++		ret = max9296_read(priv, 0x27);
++		if (ret < 0)
++			return -EIO;
++
++		if (ret & MAX9296_LOCKED)
++			break;
++
++		usleep_range(350, 450);
++	}
++
++	if (i == 10) {
++		dev_err(&priv->client->dev, "Not all enabled links locked\n");
++		return -EIO;
++	}
++
++#endif
++	return 0;
++}
++
++/*
++ * max9296_check_config_link() - Detect and wait for configuration links
++ *
++ * Determine if the configuration channel is up and settled for a link.
++ *
++ * Returns 0 for success, -EIO for errors.
++ */
++static int max9296_check_config_link(struct max9296_priv *priv,
++				     unsigned int source_mask)
++{
++	unsigned int conflink_mask = (source_mask & 0x0f) << 4;
++	unsigned int i;
++	int ret;
++
++	/*
++	 * Make sure requested configuration links are detected.
++	 * The delay is not characterized in the chip manual: wait up
++	 * to 5 milliseconds.
++	 */
++	for (i = 0; i < 10; i++) {
++		ret = max9296_read(priv, 0x49);
++		if (ret < 0)
++			return -EIO;
++
++		ret &= 0xf0;
++		if (ret == conflink_mask)
++			break;
++
++		usleep_range(350, 500);
++	}
++
++	if (ret != conflink_mask) {
++		dev_err(&priv->client->dev,
++			"Unable to detect configuration links: 0x%02x expected 0x%02x\n",
++			ret, conflink_mask);
++		return -EIO;
++	}
++
++	dev_info(&priv->client->dev,
++		 "Successfully detected configuration links after %u loops: 0x%02x\n",
++		 i, conflink_mask);
++
++	return 0;
++}
++
++/* -----------------------------------------------------------------------------
++ * V4L2 Subdev
++ */
++
++static int max9296_set_pixelrate(struct max9296_priv *priv)
++{
++	struct max9296_source *source = NULL;
++	u64 pixelrate = 0;
++
++	for_each_source(priv, source) {
++		struct v4l2_ctrl *ctrl;
++		u64 source_rate = 0;
++
++		/* Pixel rate is mandatory to be reported by sources. */
++		ctrl = v4l2_ctrl_find(source->sd->ctrl_handler,
++				      V4L2_CID_PIXEL_RATE);
++		if (!ctrl) {
++			pixelrate = 0;
++			break;
++		}
++
++		/* All source must report the same pixel rate. */
++		source_rate = v4l2_ctrl_g_ctrl_int64(ctrl);
++		if (!pixelrate) {
++			pixelrate = source_rate;
++		} else if (pixelrate != source_rate) {
++			dev_err(&priv->client->dev,
++				"Unable to calculate pixel rate\n");
++			return -EINVAL;
++		}
++	}
++
++	if (!pixelrate) {
++		dev_err(&priv->client->dev,
++			"No pixel rate control available in sources\n");
++		return -EINVAL;
++	}
++
++	/*
++	 * The CSI-2 transmitter pixel rate is the single source rate multiplied
++	 * by the number of available sources.
++	 */
++	return v4l2_ctrl_s_ctrl_int64(priv->pixelrate,
++				      pixelrate * priv->nsources);
++}
++
++static int max9296_notify_bound(struct v4l2_async_notifier *notifier,
++				struct v4l2_subdev *subdev,
++				struct v4l2_async_subdev *asd)
++{
++	struct max9296_priv *priv = sd_to_max9296(notifier->sd);
++	struct max9296_source *source = to_max9296_asd(asd)->source;
++	unsigned int index = to_index(priv, source);
++	unsigned int src_pad;
++	int ret;
++
++	ret = media_entity_get_fwnode_pad(&subdev->entity,
++					  source->fwnode,
++					  MEDIA_PAD_FL_SOURCE);
++	if (ret < 0) {
++		dev_err(&priv->client->dev,
++			"Failed to find pad for %s\n", subdev->name);
++		return ret;
++	}
++
++	priv->bound_sources |= BIT(index);
++	source->sd = subdev;
++	src_pad = ret;
++
++	ret = media_create_pad_link(&source->sd->entity, src_pad,
++				    &priv->sd.entity, index,
++				    MEDIA_LNK_FL_ENABLED |
++				    MEDIA_LNK_FL_IMMUTABLE);
++	if (ret) {
++		dev_err(&priv->client->dev,
++			"Unable to link %s:%u -> %s:%u\n",
++			source->sd->name, src_pad, priv->sd.name, index);
++		return ret;
++	}
++
++	dev_dbg(&priv->client->dev, "Bound %s pad: %u on index %u\n",
++		subdev->name, src_pad, index);
++
++	/*
++	 * As we register a subdev notifiers we won't get a .complete() callback
++	 * here, so we have to use bound_sources to identify when all remote
++	 * serializers have probed.
++	 */
++	if (priv->bound_sources != priv->source_mask)
++		return 0;
++
++	/*
++	 * All enabled sources have probed and enabled their reverse control
++	 * channels:
++	 *
++	 * - Increase the reverse channel amplitude to compensate for the
++	 *   remote ends high threshold
++	 * - Verify all configuration links are properly detected
++	 * - Disable auto-ack as communication on the control channel are now
++	 *   stable.
++	 */
++	max9296_check_config_link(priv, priv->source_mask);
++
++	return max9296_set_pixelrate(priv);
++}
++
++static void max9296_notify_unbind(struct v4l2_async_notifier *notifier,
++				  struct v4l2_subdev *subdev,
++				  struct v4l2_async_subdev *asd)
++{
++	struct max9296_priv *priv = sd_to_max9296(notifier->sd);
++	struct max9296_source *source = to_max9296_asd(asd)->source;
++	unsigned int index = to_index(priv, source);
++
++	source->sd = NULL;
++	priv->bound_sources &= ~BIT(index);
++}
++
++static const struct v4l2_async_notifier_operations max9296_notify_ops = {
++	.bound = max9296_notify_bound,
++	.unbind = max9296_notify_unbind,
++};
++
++static int max9296_v4l2_notifier_register(struct max9296_priv *priv)
++{
++	struct device *dev = &priv->client->dev;
++	struct max9296_source *source = NULL;
++	int ret;
++
++	if (!priv->nsources)
++		return 0;
++
++	v4l2_async_nf_init(&priv->notifier);
++
++	for_each_source(priv, source) {
++		unsigned int i = to_index(priv, source);
++		struct max9296_asd *mas;
++
++		mas = v4l2_async_nf_add_fwnode(&priv->notifier,
++				source->fwnode,
++				struct max9296_asd);
++		if (IS_ERR(mas)) {
++			dev_err(dev, "Failed to add subdev for source %u: %ld",
++				i, PTR_ERR(mas));
++			v4l2_async_nf_cleanup(&priv->notifier);
++			return PTR_ERR(mas);
++		}
++
++		mas->source = source;
++	}
++
++	priv->notifier.ops = &max9296_notify_ops;
++
++	ret = v4l2_async_subdev_nf_register(&priv->sd, &priv->notifier);
++	if (ret) {
++		dev_err(dev, "Failed to register subdev_notifier");
++		v4l2_async_nf_cleanup(&priv->notifier);
++		return ret;
++	}
++
++	return 0;
++}
++
++static void max9296_v4l2_notifier_unregister(struct max9296_priv *priv)
++{
++	if (!priv->nsources)
++		return;
++
++	v4l2_async_nf_unregister(&priv->notifier);
++	v4l2_async_nf_cleanup(&priv->notifier);
++}
++
++static int max9296_s_stream(struct v4l2_subdev *sd, int enable)
++{
++#ifdef FUTURE_IMPL
++	struct max9296_priv *priv = sd_to_max9296(sd);
++	struct max9296_source *source;
++	unsigned int i;
++	bool sync = false;
++	int ret;
++
++	if (enable) {
++		/*
++		 * The frame sync between cameras is transmitted across the
++		 * reverse channel as GPIO. We must open all channels while
++		 * streaming to allow this synchronisation signal to be shared.
++		 */
++		max9296_i2c_mux_open(priv);
++
++		/* Start all cameras. */
++		for_each_source(priv, source) {
++			ret = v4l2_subdev_call(source->sd, video, s_stream, 1);
++			if (ret)
++				return ret;
++		}
++
++		ret = max9296_check_video_links(priv);
++		if (ret)
++			return ret;
++
++		/*
++		 * Wait until frame synchronization is locked.
++		 *
++		 * Manual says frame sync locking should take ~6 VTS.
++		 * From practical experience at least 8 are required. Give
++		 * 12 complete frames time (~400ms at 30 fps) to achieve frame
++		 * locking before returning error.
++		 */
++		for (i = 0; i < 40; i++) {
++			if (max9296_read(priv, 0x31) & MAX9296_FSYNC_LOCKED) {
++				sync = true;
++				break;
++			}
++			usleep_range(9000, 11000);
++		}
++
++		if (!sync) {
++			dev_err(&priv->client->dev,
++				"Failed to get frame synchronization\n");
++			return -EXDEV; /* Invalid cross-device link */
++		}
++
++		/*
++		 * Enable CSI output, VC set according to link number.
++		 * Bit 7 must be set (chip manual says it's 0 and reserved).
++		 */
++		max9296_write(priv, 0x15, 0x80 | MAX9296_VCTYPE |
++			      MAX9296_CSIOUTEN | MAX9296_0X15_RESV);
++	} else {
++		max9296_write(priv, 0x15, MAX9296_VCTYPE | MAX9296_0X15_RESV);
++
++		/* Stop all cameras. */
++		for_each_source(priv, source)
++			v4l2_subdev_call(source->sd, video, s_stream, 0);
++
++		max9296_i2c_mux_close(priv);
++	}
++
++#endif
++	return 0;
++}
++
++static int max9296_enum_mbus_code(struct v4l2_subdev *sd,
++				  struct v4l2_subdev_state *sd_state,
++				  struct v4l2_subdev_mbus_code_enum *code)
++{
++	if (code->pad || code->index > 0)
++		return -EINVAL;
++
++	code->code = MEDIA_BUS_FMT_UYVY8_1X16;
++
++	return 0;
++}
++
++static struct v4l2_mbus_framefmt *max9296_get_pad_format(struct max9296_priv *priv,
++		struct v4l2_subdev_state *sd_state,
++		unsigned int pad, u32 which)
++{
++	switch (which) {
++	case V4L2_SUBDEV_FORMAT_TRY:
++		return v4l2_subdev_get_try_format(&priv->sd, sd_state, pad);
++	case V4L2_SUBDEV_FORMAT_ACTIVE:
++		return &priv->fmt[pad];
++	default:
++		return NULL;
++	}
++}
++
++static int max9296_set_fmt(struct v4l2_subdev *sd,
++			   struct v4l2_subdev_state *sd_state,
++			   struct v4l2_subdev_format *format)
++{
++	struct max9296_priv *priv = sd_to_max9296(sd);
++	struct v4l2_mbus_framefmt *cfg_fmt;
++
++	/* Refuse non YUV422 formats as we hardcode DT to 8 bit YUV422 */
++	switch (format->format.code) {
++	case MEDIA_BUS_FMT_UYVY8_1X16:
++	case MEDIA_BUS_FMT_VYUY8_1X16:
++	case MEDIA_BUS_FMT_YUYV8_1X16:
++	case MEDIA_BUS_FMT_YVYU8_1X16:
++		break;
++	default:
++		format->format.code = MEDIA_BUS_FMT_UYVY8_1X16;
++		break;
++	}
++
++	cfg_fmt = max9296_get_pad_format(priv, sd_state, format->pad,
++					 format->which);
++	if (!cfg_fmt)
++		return -EINVAL;
++
++	mutex_lock(&priv->mutex);
++	*cfg_fmt = format->format;
++	mutex_unlock(&priv->mutex);
++
++	return 0;
++}
++
++static int max9296_get_fmt(struct v4l2_subdev *sd,
++			   struct v4l2_subdev_state *sd_state,
++			   struct v4l2_subdev_format *format)
++{
++	struct max9296_priv *priv = sd_to_max9296(sd);
++	struct v4l2_mbus_framefmt *cfg_fmt;
++	unsigned int pad = format->pad;
++
++	/*
++	 * Multiplexed Stream Support: Support link validation by returning the
++	 * format of the first bound link. All links must have the same format,
++	 * as we do not support mixing and matching of cameras connected to the
++	 * max9296.
++	 */
++	cfg_fmt = max9296_get_pad_format(priv, sd_state, pad, format->which);
++	if (!cfg_fmt)
++		return -EINVAL;
++
++	mutex_lock(&priv->mutex);
++	format->format = *cfg_fmt;
++	mutex_unlock(&priv->mutex);
++
++	return 0;
++}
++
++static const struct v4l2_subdev_video_ops max9296_video_ops = {
++	.s_stream	= max9296_s_stream,
++};
++
++static const struct v4l2_subdev_pad_ops max9296_pad_ops = {
++	.enum_mbus_code = max9296_enum_mbus_code,
++	.get_fmt	= max9296_get_fmt,
++	.set_fmt	= max9296_set_fmt,
++};
++
++static const struct v4l2_subdev_ops max9296_subdev_ops = {
++	.video		= &max9296_video_ops,
++	.pad		= &max9296_pad_ops,
++};
++
++static void max9296_init_format(struct v4l2_mbus_framefmt *fmt)
++{
++	fmt->width		= 1920;
++	fmt->height		= 1080;
++	fmt->code		= MEDIA_BUS_FMT_SGRBG12_1X12;
++	fmt->colorspace		= V4L2_COLORSPACE_SRGB;
++	fmt->field		= V4L2_FIELD_NONE;
++	fmt->ycbcr_enc		= V4L2_YCBCR_ENC_DEFAULT;
++	fmt->quantization	= V4L2_QUANTIZATION_DEFAULT;
++	fmt->xfer_func		= V4L2_XFER_FUNC_DEFAULT;
++}
++
++static int max9296_open(struct v4l2_subdev *subdev, struct v4l2_subdev_fh *fh)
++{
++	struct v4l2_mbus_framefmt *format;
++	unsigned int i;
++
++	for (i = 0; i < MAX9296_N_SINKS; i++) {
++		format = v4l2_subdev_get_try_format(subdev, fh->state, i);
++		max9296_init_format(format);
++	}
++
++	return 0;
++}
++
++static const struct v4l2_subdev_internal_ops max9296_subdev_internal_ops = {
++	.open = max9296_open,
++};
++
++static int max9296_s_ctrl(struct v4l2_ctrl *ctrl)
++{
++	switch (ctrl->id) {
++	case V4L2_CID_PIXEL_RATE:
++		return 0;
++	default:
++		return -EINVAL;
++	}
++}
++
++static const struct v4l2_ctrl_ops max9296_ctrl_ops = {
++	.s_ctrl = max9296_s_ctrl,
++};
++
++static int max9296_v4l2_register(struct max9296_priv *priv)
++{
++	struct device *dev = &priv->client->dev;
++	struct fwnode_handle *ep;
++	int ret;
++	int i;
++
++	/* Register v4l2 async notifiers for connected Camera subdevices */
++	ret = max9296_v4l2_notifier_register(priv);
++	if (ret) {
++		dev_err(dev, "Unable to register V4L2 async notifiers\n");
++		return ret;
++	}
++
++	/* Configure V4L2 for the MAX9296 itself */
++	for (i = 0; i < MAX9296_N_PADS; i++)
++		max9296_init_format(&priv->fmt[i]);
++
++	v4l2_i2c_subdev_init(&priv->sd, priv->client, &max9296_subdev_ops);
++	priv->sd.internal_ops = &max9296_subdev_internal_ops;
++	priv->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
++
++	v4l2_ctrl_handler_init(&priv->ctrls, 1);
++	priv->pixelrate = v4l2_ctrl_new_std(&priv->ctrls,
++					    &max9296_ctrl_ops,
++					    V4L2_CID_PIXEL_RATE,
++					    1, INT_MAX, 1, 50000000);
++
++	priv->sd.ctrl_handler = &priv->ctrls;
++	ret = priv->ctrls.error;
++	if (ret)
++		goto err_async;
++
++	priv->sd.entity.function = MEDIA_ENT_F_VID_IF_BRIDGE;
++	priv->pads[MAX9296_SRC_PAD].flags = MEDIA_PAD_FL_SOURCE;
++
++	for (i = 0; i < MAX9296_SRC_PAD; i++)
++		priv->pads[i].flags = MEDIA_PAD_FL_SINK;
++
++	ret = media_entity_pads_init(&priv->sd.entity, MAX9296_N_PADS,
++				     priv->pads);
++	if (ret)
++		goto err_async;
++
++	ep = fwnode_graph_get_endpoint_by_id(dev_fwnode(dev), MAX9296_SRC_PAD,
++					     0, 0);
++	if (!ep) {
++		dev_err(dev, "Unable to retrieve endpoint on \"port@4\"\n");
++		ret = -ENOENT;
++		goto err_async;
++	}
++
++	ret = v4l2_async_register_subdev(&priv->sd);
++	if (ret < 0) {
++		dev_err(dev, "Unable to register subdevice\n");
++		goto err_put_node;
++	}
++	return 0;
++
++err_put_node:
++	fwnode_handle_put(ep);
++err_async:
++	max9296_v4l2_notifier_unregister(priv);
++
++	return ret;
++}
++
++static void max9296_v4l2_unregister(struct max9296_priv *priv)
++{
++	fwnode_handle_put(priv->sd.fwnode);
++	v4l2_async_unregister_subdev(&priv->sd);
++	max9296_v4l2_notifier_unregister(priv);
++}
++
++static int max9296_init(struct device *dev)
++{
++	struct max9296_priv *priv;
++	struct i2c_client *client;
++	int ret;
++
++	client = to_i2c_client(dev);
++	priv = i2c_get_clientdata(client);
++
++	/*
++	 * Register all V4L2 interactions for the MAX9296 and notifiers for
++	 * any subdevices connected.
++	 */
++	ret = max9296_v4l2_register(priv);
++	if (ret) {
++		dev_err(dev, "Failed to register with V4L2\n");
++		goto err_v4l2_register;
++	}
++
++	return 0;
++
++err_v4l2_register:
++	max9296_v4l2_unregister(priv);
++
++	return ret;
++}
++
++static void max9296_source_dev_release(struct device *dev)
++{
++	of_node_put(dev->of_node);
++	kfree(dev);
++}
++
++static void max9296_cleanup_dt(struct max9296_priv *priv)
++{
++	struct max9296_source *source;
++
++	for_each_source(priv, source) {
++		fwnode_handle_put(source->fwnode);
++		source->fwnode = NULL;
++	}
++}
++
++static int max9296_probe(struct i2c_client *client)
++{
++	struct max9296_priv *priv;
++	int read_value;
++	int ret, i;
++	int cam_link = 0;
++
++	priv = devm_kzalloc(&client->dev, sizeof(*priv), GFP_KERNEL);
++	if (!priv)
++		return -ENOMEM;
++
++	priv->dev = &client->dev;
++	mutex_init(&priv->mutex);
++
++	ret = power_up(client);
++	msleep(200);
++
++	priv->client = client;
++	i2c_set_clientdata(client, priv);
++
++	ret = of_property_read_u32_array(client->dev.of_node, "reg", priv->addrs, 4);
++	if (ret < 0) {
++		dev_err(&priv->client->dev, "%s: Invalid DT reg property\n", __func__);
++		return -EINVAL;
++	}
++
++	of_property_read_u32(client->dev.of_node, "link", &cam_link);
++
++#ifdef DUMMY_NODE
++	/* Create the dummy I2C client for the deser. */
++	priv->deser = i2c_new_dummy_device(client->adapter,
++					   0x68);
++	if (IS_ERR(priv->deser)) {
++		ret = PTR_ERR(priv->deser);
++		goto error;
++	}
++
++
++	priv->deser_regmap = devm_regmap_init_i2c(priv->deser, &deser_regmap_config);
++	deser_read(priv, 0x0, &read_value);
++	deser_read(priv, 0x1, &read_value);
++	deser_read(priv, 0x26, &read_value);
++
++	deser_write(priv, 0x2, 0x8);
++
++	deser_read(priv, 0x2, &read_value);
++#endif
++
++	if (priv->addrs[0] == 0x4d)
++		priv->addrs[0] = 0x4a;
++
++	/* Initialize MAX9296 */
++	if (cam_link == 1) {
++		for (i = 0; ; i++) {
++			if (deser_init_a[i].addr == MAX929X_TABLE_END)
++				break;
++			if (deser_init_a[i].addr == MAX929X_TABLE_WAIT) {
++				msleep(deser_init_a[i].val);
++				continue;
++			}
++
++			ret = max929x_write_reg(client, priv->addrs[0],
++						deser_init_a[i].addr,
++						deser_init_a[i].val);
++			if (ret)
++				return ret;
++		}
++	} else if (cam_link == 2) {
++		for (i = 0; ; i++) {
++			if (deser_init_b[i].addr == MAX929X_TABLE_END)
++				break;
++			if (deser_init_b[i].addr == MAX929X_TABLE_WAIT) {
++				msleep(deser_init_b[i].val);
++				continue;
++			}
++
++			ret = max929x_write_reg(client, priv->addrs[0],
++						deser_init_b[i].addr,
++						deser_init_b[i].val);
++			if (ret)
++				return ret;
++		}
++	} else {
++		dev_err(&priv->client->dev, "Invalid link value\n");
++		return -EINVAL;
++	}
++	msleep(1000);
++
++	ret = max9296_init(&client->dev);
++	if (ret < 0)
++		goto err_cleanup_dt;
++
++#ifdef DUMMY_NODE
++error:
++#endif
++	return 0;
++
++err_cleanup_dt:
++	return ret;
++}
++
++static void max9296_remove(struct i2c_client *client)
++{
++	struct max9296_priv *priv = i2c_get_clientdata(client);
++
++	i2c_mux_del_adapters(priv->mux);
++	max9296_v4l2_unregister(priv);
++	regulator_disable(priv->regulator);
++	gpiod_set_value_cansleep(priv->gpiod_pwdn, 0);
++	max9296_cleanup_dt(priv);
++}
++
++static const struct of_device_id max9296_dt_ids[] = {
++	{ .compatible = "maxim,max9296" },
++	{}
++};
++MODULE_DEVICE_TABLE(of, max9296_dt_ids);
++
++static struct i2c_driver max9296_i2c_driver = {
++	.driver	= {
++		.name		= "max9296",
++		.of_match_table	= of_match_ptr(max9296_dt_ids),
++	},
++	.probe_new	= max9296_probe,
++	.remove		= max9296_remove,
++};
++
++module_i2c_driver(max9296_i2c_driver);
++
++MODULE_DESCRIPTION("Maxim MAX9296 GMSL Deserializer Driver");
++MODULE_AUTHOR("Amit Verma <amit.verma@amd.com>");
++MODULE_LICENSE("GPL");
+diff --git a/drivers/media/i2c/max9296.h b/drivers/media/i2c/max9296.h
+new file mode 100644
+index 0000000..6cf456f
+--- /dev/null
++++ b/drivers/media/i2c/max9296.h
+@@ -0,0 +1,127 @@
++#ifndef	__MAX9296_H__
++#define __MAX9296_H__
++
++#include <linux/i2c.h>
++#include <linux/regmap.h>
++
++#define MAX929X_TABLE_END	(0xffff)
++#define MAX929X_TABLE_WAIT	(0xfffe)
++#define MAX929X_TABLE_WAIT_MS	(210)
++
++#define DSER_ADDR		(0x68)	/* 7bit */
++#define SER_ADDR		(0x40)	/* 7bit */
++
++struct reg_8 {
++	u16 addr;
++	u8 val;
++};
++
++struct reg_32 {
++	u32 addr;
++	u32 val;
++};
++
++static struct reg_t {
++	u16 addr;
++	u8 val;
++};
++
++static struct reg_16 {
++	u16 addr;
++	u8 val;
++};
++
++/* PORT-A */
++struct reg_8 deser_init_a[] = {
++	{0x0010, 0x21},
++	{MAX929X_TABLE_WAIT, MAX929X_TABLE_WAIT_MS},
++	{0x0050, 0x00},
++	{0x0051, 0x01},
++	{0x0052, 0x02},
++	{0x0053, 0x03},
++	{0x0320, 0x2F},
++	{0x0323, 0x20},
++	{0x0316, 0xAC},
++	{0x0317, 0xBC},
++	{0x0318, 0xB0},
++	{0x0319, 0x6C},
++	{0x0313, 0x62},
++	{0x031A, 0x30},
++	{0x0333, 0x1E},
++	{0x040A, 0x10},
++	{0x044A, 0xD0},
++	{0x048A, 0x10},
++	{0x04CA, 0x10},
++	{0x044B, 0x07},
++	{0x046D, 0x15},
++	{0x044D, 0x2C},
++	{0x044E, 0x2C},
++	{0x044F, 0x00},
++	{0x0450, 0x00},
++	{0x0451, 0x01},
++	{0x0452, 0x01},
++	{0x048B, 0x07},
++	{0x04AD, 0x15},
++	{0x048D, 0x2C},
++	{0x048E, 0x6C},
++	{0x048F, 0x00},
++	{0x0490, 0x40},
++	{0x0491, 0x01},
++	{0x0492, 0x41},
++	{MAX929X_TABLE_WAIT, MAX929X_TABLE_WAIT_MS},
++	{MAX929X_TABLE_END, 0}
++};
++
++/* PORT-B */
++struct reg_8 deser_init_b[] = {
++	{0x0010, 0x22},
++	{MAX929X_TABLE_WAIT, MAX929X_TABLE_WAIT_MS},
++	{0x0050, 0x00},
++	{0x0051, 0x01},
++	{0x0052, 0x02},
++	{0x0053, 0x03},
++
++	{0x0320, 0x2F},
++	{0x0323, 0x2F},
++
++	{0x0316, 0xAC},
++	{0x0317, 0xBC},
++	{0x0318, 0xB0},
++	{0x0319, 0x6C},
++	{0x0313, 0x62},
++	{0x031A, 0x30},
++
++	{0x0333, 0x1E},
++	{0x0334, 0xE1},
++
++	{0x040A, 0xD0},
++	{0x044A, 0xD0},
++	{0x048A, 0xD0},
++	{0x04CA, 0xD0},
++
++	{0x044B, 0x07},
++	{0x046D, 0x15},
++
++	{0x044D, 0x2C},
++	{0x044E, 0x2C},
++
++	{0x044F, 0x00},
++	{0x0450, 0x00},
++	{0x0451, 0x01},
++	{0x0452, 0x01},
++
++	{0x048B, 0x07},
++	{0x04AD, 0x2A},
++
++	{0x048D, 0x2C},
++	{0x048E, 0x2C},
++	{0x048F, 0x00},
++	{0x0490, 0x00},
++	{0x0491, 0x01},
++	{0x0492, 0x01},
++
++	{MAX929X_TABLE_WAIT, MAX929X_TABLE_WAIT_MS},
++	{MAX929X_TABLE_END, 0}
++};
++
++#endif /* __MAX9296_H__ */
+-- 
+1.8.3.1
+

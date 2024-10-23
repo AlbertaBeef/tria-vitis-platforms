@@ -1,0 +1,33 @@
+From 191edf073aab84df0edffda225769702da548e27 Mon Sep 17 00:00:00 2001
+From: Sai Krishna Musham <sai.krishna.musham@amd.com>
+Date: Mon, 31 Jul 2023 03:43:15 -0600
+Subject: [PATCH] v4l: xilinx: dma: Fix back pressure issue in multistream case
+
+Observing stream line buffer full error when stopping individual
+pipelines in multistream with single source. To fix this when
+first pipeline is disabled, then disable DMA, source and decrement
+stream_count to avoid this issue.
+
+Signed-off-by: Sai Krishna Musham <sai.krishna.musham@amd.com>
+---
+ drivers/media/platform/xilinx/xilinx-dma.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/media/platform/xilinx/xilinx-dma.c b/drivers/media/platform/xilinx/xilinx-dma.c
+index 169f05efb856..7f7aaae7099e 100644
+--- a/drivers/media/platform/xilinx/xilinx-dma.c
++++ b/drivers/media/platform/xilinx/xilinx-dma.c
+@@ -132,8 +132,9 @@ static int xvip_pipeline_set_stream(struct xvip_pipeline *pipe, bool on)
+ 		}
+ 		pipe->stream_count++;
+ 	} else {
+-		if (--pipe->stream_count == 0)
++		if (pipe->stream_count == pipe->num_dmas || xdev->atomic_streamon)
+ 			xvip_graph_pipeline_start_stop(xdev, pipe, false);
++		pipe->stream_count--;
+ 	}
+ 
+ done:
+-- 
+2.17.1
+
