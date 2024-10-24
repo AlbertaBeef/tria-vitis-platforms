@@ -16,6 +16,7 @@ PETA_FILES += $(CWD)/petalinux/images/linux/u-boot.elf
 PETA_FILES += $(CWD)/petalinux/images/linux/system.dtb
 PETA_FILES += $(CWD)/petalinux/images/linux/Image
 PETA_FILES += $(CWD)/petalinux/images/linux/rootfs.ext4
+BOOT_IMAGE = $(CWD)/petalinux/images/linux/BOOT.BIN
 
 XSA_DIR    = $(CWD)/../hw/project
 SW_DIR     = $(CWD)/build
@@ -81,6 +82,23 @@ $(SW_FILES): $(SYSTEM_XSA) $(PETA_FILES)
 
 .PHONY: all
 all:  linux spfm
+
+.PHONY: boot
+boot: $(BOOT_IMAGE)
+$(BOOT_IMAGE):
+	@cd petalinux
+	$(info "BOOT image for platforms")
+	@if [ -f project-spec/hw-description/*.pdi ]; then  \
+		echo "INFO: BOOT image generation started...";  \
+		petalinux-package --force --boot --u-boot --qemu-rootfs no --bif linux_bif/bootgen.bif;  \
+	else  \
+		echo "WARNING: "hw.bit" file not found. Skipping BOOT image generation.";  \
+	fi
+
+.PHONY: wic
+wic: $(BOOT_IMAGE) $(PETA_FILES)
+	@cd petalinux
+	petalinux-package --wic -w ./project-spec/configs/sdimage.wks --extra-bootfiles " system.dtb " --wic-extra-args "-c gzip"
 
 clean:
 	cd petalinux

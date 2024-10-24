@@ -1,7 +1,7 @@
 the_ROM_image:
 {
 image {
-	{ type=bootimage, file=../../hw/project/vek280_trd.runs/impl_1/vek280_trd_wrapper.pdi }
+	{ type=bootimage, file=../../hw/project/vek280_camerafmc.runs/impl_1/vek280_camerafmc_wrapper.pdi }
 	{ type=bootloader, file=images/linux/plm.elf }
 	{ core=psm, file=images/linux/psmfw.elf }
 }
