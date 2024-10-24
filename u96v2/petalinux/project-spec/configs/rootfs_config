@@ -4087,7 +4087,6 @@ CONFIG_packagegroup-petalinux-ros=y
 CONFIG_packagegroup-petalinux-ros-dev=y
 # CONFIG_peekpoke is not set
 CONFIG_simd=y
-# CONFIG_tappas-apps is not set
 CONFIG_tria-u96v2-base=y
 CONFIG_tria-u96v2-benchmark=y
 CONFIG_tria-u96v2-dualcam=y

@@ -56,3 +56,8 @@ wget https://github.com/AlbertaBeef/tria-vitis-platforms/releases/download/vitis
 wget https://github.com/AlbertaBeef/tria-vitis-platforms/releases/download/vitis-ai-3.5-binaries-v1.0/vitis-ai-3.5-models.c20b14.tar.gz
 wget https://github.com/AlbertaBeef/tria-vitis-platforms/releases/download/vitis-ai-3.5-binaries-v1.0/vitis-ai-3.5-models.c20b1.tar.gz
 
+
+# HailoRT 4.18 python wheel 
+# Download the following pip wheel using your Hailo developer zone credentials
+#   https://hailo.ai/?dl_dev=1&file=9da6aa7cfbd955830c837e3b73a1243e
+

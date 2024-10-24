@@ -4095,7 +4095,7 @@ CONFIG_packagegroup-petalinux-ros-dev=y
 # CONFIG_peekpoke is not set
 # CONFIG_pyhailort is not set
 CONFIG_simd=y
-# CONFIG_tappas-apps is not set
+CONFIG_tappas-apps=y
 CONFIG_tria-uz7ev-benchmark=y
 CONFIG_tria-uz7ev-nvme=y
 CONFIG_turtlesim=y

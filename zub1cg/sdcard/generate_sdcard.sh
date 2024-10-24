@@ -276,6 +276,14 @@ rootfs_cp () {
     sync
     ret="$?"
     report
+    
+    if [ -e ../../common/sdcard/content/hailort-4.18.0-cp311-cp311-linux_aarch64.whl ]; then
+      msg "HailoRT 4.18 python wheel "
+      cp ../../common/sdcard/content/hailort-4.18.0-cp311-cp311-linux_aarch64.whl binary.tmp/home/root/. 2>&1
+      sync
+      ret="$?"
+      report
+    fi
 
     msg "Finalizing ext4           "
     sync
