@@ -4093,7 +4093,7 @@ CONFIG_hailortcli=y
 CONFIG_packagegroup-petalinux-ros=y
 CONFIG_packagegroup-petalinux-ros-dev=y
 # CONFIG_peekpoke is not set
-# CONFIG_pyhailort is not set
+CONFIG_pyhailort=y
 CONFIG_simd=y
 CONFIG_tappas-apps=y
 CONFIG_tria-zub1cg-base=y

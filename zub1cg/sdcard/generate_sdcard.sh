@@ -277,14 +277,6 @@ rootfs_cp () {
     ret="$?"
     report
     
-    if [ -e ../../common/sdcard/content/hailort-4.18.0-cp311-cp311-linux_aarch64.whl ]; then
-      msg "HailoRT 4.18 python wheel "
-      cp ../../common/sdcard/content/hailort-4.18.0-cp311-cp311-linux_aarch64.whl binary.tmp/home/root/. 2>&1
-      sync
-      ret="$?"
-      report
-    fi
-
     msg "Finalizing ext4           "
     sync
     sync
@@ -327,11 +319,12 @@ main () {
 
     trap "echo; echo -n Removing work area...; clean_work_area; echo exit;exit" INT
 
-    if [ -e BOOT/platform_desc.txt ];then
-        IMG="tria-$(cat BOOT/platform_desc.txt)-v2023.2-$(date +%F).img"
-    else
-        IMG="tria-v2023.2-$(date +%F).img"
-    fi
+    #if [ -e BOOT/platform_desc.txt ];then
+    #    IMG="tria_$(cat BOOT/platform_desc.txt)_sdimage_2023_2_$(date +%F).img"
+    #else
+        IMG="tria_zub1cg_sdimage_2023_2_$(date +%F).img"
+    #fi
+
 
     privs
 

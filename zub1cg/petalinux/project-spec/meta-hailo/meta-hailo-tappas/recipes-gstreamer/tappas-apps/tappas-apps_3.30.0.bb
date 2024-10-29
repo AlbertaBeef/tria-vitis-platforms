@@ -7,7 +7,7 @@ SRC_URI = "git://git@github.com/hailo-ai/tappas.git;protocol=https;branch=master
 
 S = "${WORKDIR}/git/core/hailo"
 
-SRCREV = "6454e9b271191c752535e0eca9c4792180810eee"
+SRCREV = "986810e84c6bebac334d78a20eecf4addc0903b6"
 LICENSE = "LGPLv2.1"
 LIC_FILES_CHKSUM += "file://../../LICENSE;md5=4fbd65380cdd255951079008b364516c"
 
@@ -47,6 +47,7 @@ python () {
 }
 
 #IS_H15 = "${@ 'true' if 'hailo15' in d.getVar('MACHINE') else 'false'}"
+IS_H15 = "false"
 INSTALL_LPR = "true"
 
 CURRENT_APP_NAME = ""
@@ -96,10 +97,10 @@ do_install:append() {
     rm -rf ${D}/usr/lib/pkgconfig/gsthailometa.pc
     rm -rf ${D}/usr/lib/libhailo_tracker*
 
-    #if [ '${IS_H15}' = 'true' ]; then
-    #    install -d ${ROOTFS_APPS_DIR}/encoder_pipelines_new_api/configs/
-    #    install -m 0755 ${S}/apps/hailo15/encoder_pipelines_new_api/*.json ${ROOTFS_APPS_DIR}/encoder_pipelines_new_api/configs/
-    #fi
+    if [ '${IS_H15}' = 'true' ]; then
+        install -d ${ROOTFS_APPS_DIR}/encoder_pipelines_new_api/configs/
+        install -m 0755 ${S}/apps/hailo15/encoder_pipelines_new_api/*.json ${ROOTFS_APPS_DIR}/encoder_pipelines_new_api/configs/
+    fi
 }
 
 python do_set_requirements_src_uris() {
