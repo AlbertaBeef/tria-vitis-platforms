@@ -18,6 +18,19 @@ The following series of Hackster projects describe how this github repository wa
 
 The motivation of this series of projects is to enable users to create their own custom AI applications.
 
+# Pre-Built Images
+
+The pre-built petalinux BSPs and SD images are provided for convenience:
+
+| Pre-Built Image                            | Link                                                                                                     | md5sum                           | 
+| :----------------------------------------: | :------------------------------------------------------------------------------------------------------- | :------------------------------- |
+| tria_zub1cg_2023_2_petalinux_20241029.bsp  | [http://avnet.me/tria-vitis-2023.2-zub1cg-petalinux](http://avnet.me/tria-vitis-2023.2-zub1cg-petalinux) | b27a7b782c855b9f86fc6b9b8349b14a |
+| tria_zub1cg_2023_2_sdimage_20241029.img.gz | [http://avnet.me/tria-vitis-2023.2-zub1cg-sdimage](http://avnet.me/tria-vitis-2023.2-zub1cg-sdimage)     | 615c7603151ed52951ac3c6979b091b1 |
+| :----------------------------------------: | :------------------------------------------------------------------------------------------------------- | :------------------------------- |
+| tria_uz7ev_2023_2_petalinux_20241029.bsp   | [http://avnet.me/tria-vitis-2023.2-uz7ev-petalinux](http://avnet.me/tria-vitis-2023.2-uz7ev-petalinux)   | aac643f867133375bf4e6573791539c1 |
+| tria_uz7ev_2023_2_sdimage_20241029.img.gz  | [http://avnet.me/tria-vitis-2023.2-uz7ev-sdimage](http://avnet.me/tria-vitis-2023.2-uz7ev-sdimage)       | 07f5186de7047f74854b2007cfcfb0b5 |
+
+
 # Build Instructions
 
 ## Preparation
