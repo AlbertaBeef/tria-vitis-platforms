@@ -8,7 +8,7 @@ PFM_DIR = $(PWD)/platforms
 PFM_VER = 2023_2
 
 # valid platforms / overlays
-PFM_LIST = uz7ev_evcc_base uz7ev_evcc_nvme
+PFM_LIST = uz7ev_evcc_base uz7ev_evcc_nvme uz7ev_evcc_camerafmc
 OVERLAY_LIST =  benchmark
 
 # override platform name based on overlay
