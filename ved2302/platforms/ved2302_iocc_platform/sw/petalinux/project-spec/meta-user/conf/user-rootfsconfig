@@ -1,4 +1,29 @@
 #Note: Mention Each package in individual line
 #These packages will get added into rootfs menu entry
 
-CONFIG_packagegroup-base-trd
+CONFIG_gpio-demo
+CONFIG_peekpoke
+CONFIG_hdmi21-modules
+CONFIG_packagegroup-petalinux-jupyter
+CONFIG_openamp-demo-notebooks
+CONFIG_python3-ipywidgets
+CONFIG_pm-notebooks
+CONFIG_packagegroup-petalinux-gstreamer
+CONFIG_libvdu-omxil
+CONFIG_libvdu-ctrlsw
+CONFIG_kernel-module-vdu
+CONFIG_vdu-firmware
+CONFIG_aie-oob
+CONFIG_aie-notebooks
+CONFIG_unilog
+CONFIG_target-factory
+CONFIG_vart
+CONFIG_xir
+CONFIG_vitis-ai-library
+CONFIG_vvas-utils
+CONFIG_vvas-gst
+CONFIG_vvas-accel-libs
+CONFIG_vvas-core
+CONFIG_simd
+CONFIG_initcams
+CONFIG_auto-resize

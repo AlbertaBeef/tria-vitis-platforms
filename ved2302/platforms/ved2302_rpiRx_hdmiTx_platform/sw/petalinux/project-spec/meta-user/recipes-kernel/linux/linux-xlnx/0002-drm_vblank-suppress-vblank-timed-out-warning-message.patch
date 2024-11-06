@@ -1,0 +1,28 @@
+From e4c653bf172771c292200e1f4084982048807c90 Mon Sep 17 00:00:00 2001
+From: Sai Krishna Musham <sai.krishna.musham@amd.com>
+Date: Fri, 1 Sep 2023 09:49:52 +0530
+Subject: [PATCH 2/2] drm_vblank: suppress vblank timed out warning messages
+
+Signed-off-by: Sai Krishna Musham <sai.krishna.musham@amd.com>
+---
+ drivers/gpu/drm/drm_vblank.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/drm_vblank.c b/drivers/gpu/drm/drm_vblank.c
+index 2ff31717a3de..40078e29c4e0 100644
+--- a/drivers/gpu/drm/drm_vblank.c
++++ b/drivers/gpu/drm/drm_vblank.c
+@@ -501,8 +501,8 @@ static void drm_vblank_init_release(struct drm_device *dev, void *ptr)
+ {
+ 	struct drm_vblank_crtc *vblank = ptr;
+ 
+-	drm_WARN_ON(dev, READ_ONCE(vblank->enabled) &&
+-		    drm_core_check_feature(dev, DRIVER_MODESET));
++//	drm_WARN_ON(dev, READ_ONCE(vblank->enabled) &&
++//		    drm_core_check_feature(dev, DRIVER_MODESET));
+ 
+ 	drm_vblank_destroy_worker(vblank);
+ 	del_timer_sync(&vblank->disable_timer);
+-- 
+2.25.1
+

@@ -1,0 +1,209 @@
+&amba_pl {
+	mipi_1_rpi_gpio: gpio@a4110000 {
+		#gpio-cells = <2>;
+		clock-names = "s_axi_aclk";
+		clocks = <&versal_clk 65>;
+		compatible = "xlnx,axi-gpio-2.0", "xlnx,xps-gpio-1.00.a";
+		gpio-controller ;
+		reg = <0x0 0xa4110000 0x0 0x10000>;
+		xlnx,all-inputs = <0x0>;
+		xlnx,all-inputs-2 = <0x0>;
+		xlnx,all-outputs = <0x1>;
+		xlnx,all-outputs-2 = <0x0>;
+		xlnx,dout-default = <0x00000000>;
+		xlnx,dout-default-2 = <0x00000000>;
+		xlnx,gpio-width = <0x2>;
+		xlnx,gpio2-width = <0x20>;
+		xlnx,interrupt-present = <0x0>;
+		xlnx,is-dual = <0x0>;
+		xlnx,tri-default = <0xFFFFFFFF>;
+		xlnx,tri-default-2 = <0xFFFFFFFF>;
+	};
+
+	mipi_1_rpi_iic: i2c@a4160000 {
+		#address-cells = <1>;
+		#size-cells = <0>;
+		clock-names = "s_axi_aclk";
+		clocks = <&versal_clk 65>;
+		compatible = "xlnx,axi-iic-2.1", "xlnx,xps-iic-2.00.a";
+		interrupt-names = "iic2intc_irpt";
+		interrupt-parent = <&cips_ss_0_axi_intc_parent>;
+		interrupts = <5 2>;
+		reg = <0x0 0xa4160000 0x0 0x10000>;
+
+		imx219_cam1: sensor@10 {
+			compatible = "sony,imx219";
+			reg = <0x10>;
+			clocks = <&imx219_clk>;
+			VANA-supply = <&imx219_vana>;   /* 2.8v */
+			VDIG-supply = <&imx219_vdig>;   /* 1.8v */
+			VDDL-supply = <&imx219_vddl>;   /* 1.2v */
+
+			port {
+			     imx219_cam1_0: endpoint {
+				remote-endpoint = <&mipi_csi_inmipi_1_csirx_0>;
+				data-lanes = <1 2>;
+				link-frequencies = /bits/ 64 <456000000>;
+				};
+			};
+		};
+	};
+
+	mipi_1_csirx_0: mipi_csi2_rx_subsystem@a4030000 {
+		clock-names = "clkoutphy_in", "dphy_clk_200M", "lite_aclk", "video_aclk";
+		clocks = <&misc_clk_6>, <&misc_clk_5>, <&versal_clk 65>, <&misc_clk_0>;
+		//compatible = "xlnx,mipi-csi2-rx-subsystem-5.4", "xlnx,mipi-csi2-rx-subsystem-5.0";
+		compatible = "xlnx,mipi-csi2-rx-subsystem-5.2", "xlnx,mipi-csi2-rx-subsystem-5.0";
+		interrupt-names = "csirxss_csi_irq";
+		interrupt-parent = <&cips_ss_0_axi_intc_parent>;
+		interrupts = <3 2>;
+		reg = <0x0 0xa4030000 0x0 0x2000>;
+		xlnx,axis-tdata-width = <32>;
+		xlnx,csi-pxl-format = <0x2b>;
+		xlnx,dphy-present ;
+		xlnx,en-active-lanes ;
+		xlnx,en-csi-v2-0 ;
+		xlnx,max-lanes = <2>;
+		xlnx,ppc = <1>;
+		xlnx,vc = <4>;
+		xlnx,vfb ;
+		mipi_csi_portsmipi_1_csirx_0: ports {
+			#address-cells = <1>;
+			#size-cells = <0>;
+			mipi_csi_port1mipi_1_csirx_0: port@1 {
+				reg = <1>;
+				isppipeline_inmipi_1_ISPPipeline_accel_0: endpoint {
+					remote-endpoint = <&mipi_1_ISPPipeline_accel_0mipi_1_csirx_0>;
+				};
+			};
+			mipi_csi_port0mipi_1_csirx_0: port@0 {
+				/* User need to add something like remote-endpoint=<&out> under the node csiss_in:endpoint */
+				reg = <0>;
+				mipi_csi_inmipi_1_csirx_0: endpoint {
+					data-lanes = <1 2>;
+					remote-endpoint = <&imx219_cam1_0>;					
+				};
+			};
+		};
+	};
+
+	mipi_1_ISPPipeline_accel_0: ISPPipeline_accel@a4090000 {
+		clock-names = "ap_clk";
+		clocks = <&misc_clk_0>;
+		compatible = "xlnx,ISPPipeline-accel-1.0", "xlnx,isppipeline-1.0";
+		reg = <0x0 0xa4090000 0x0 0x10000>;
+		//reset-gpios = <&cips_ss_0_axi_gpio_1 4 0 1>;
+		reset-gpios = <&cips_ss_0_axi_gpio_1 4 1>;
+		//xlnx,max-height = /bits/ 16 <2160>;
+		//xlnx,max-width = /bits/ 16 <3840>;
+		xlnx,max-width = /bits/ 16 <1920>;	
+		xlnx,max-height = /bits/ 16 <1232>;
+		xlnx,mode-reg ;
+		xlnx,pawb = /bits/ 16 <350>;
+		xlnx,rgain = /bits/ 16 <128>;
+		xlnx,bgain = /bits/ 16 <210>;
+		isppipeline_portsmipi_1_ISPPipeline_accel_0: ports {
+			#address-cells = <1>;
+			#size-cells = <0>;
+			isppipeline_port0mipi_1_ISPPipeline_accel_0: port@0 {
+				reg = <0>;
+				mipi_1_ISPPipeline_accel_0mipi_1_csirx_0: endpoint {
+					remote-endpoint = <&isppipeline_inmipi_1_ISPPipeline_accel_0>;
+				};
+			};
+			isppipeline_port1mipi_1_ISPPipeline_accel_0: port@1 {
+				reg = <1>;
+				mipi_1_ISPPipeline_accel_0mipi_1_v_proc_csc: endpoint {
+					remote-endpoint = <&v_proc_ssmipi_1_ISPPipeline_accel_0>;
+				};
+			};
+		};
+	};
+
+	mipi_1_v_proc_csc: v_proc_ss@a41c0000 {
+		clock-names = "aclk_axis", "aclk_ctrl";
+		clocks = <&misc_clk_0>, <&versal_clk 65>;
+		//compatible = "xlnx,v-proc-ss-2.3", "xlnx,vpss-scaler-2.2", "xlnx,v-vpss-scaler-2.2", "xlnx,vpss-scaler";
+		compatible = "xlnx,v-vpss-scaler-2.2";
+		reg = <0x0 0xa41c0000 0x0 0x40000>;
+		reset-gpios = <&cips_ss_0_axi_gpio_1 6 1>;
+		xlnx,colorspace-support = <0>;
+		xlnx,csc-enable-window = "true";
+		xlnx,enable-csc = "true";
+		xlnx,h-scaler-phases = <64>;
+		xlnx,h-scaler-taps = <6>;
+		xlnx,max-height = <2160>;
+		xlnx,max-num-phases = <64>;
+		xlnx,max-width = <3840>;
+		xlnx,num-hori-taps = <6>;
+		xlnx,num-vert-taps = <6>;
+		xlnx,pix-per-clk = <1>;
+		xlnx,samples-per-clk = <1>;
+		xlnx,scaler-algorithm = <2>;
+		xlnx,topology = <0>;
+		xlnx,use-uram = <0>;
+		xlnx,v-scaler-phases = <64>;
+		xlnx,v-scaler-taps = <6>;
+		xlnx,video-width = <8>;
+		scaler_portsmipi_1_v_proc_csc: ports {
+			#address-cells = <1>;
+			#size-cells = <0>;
+			scaler_port1mipi_1_v_proc_csc: port@1 {
+				/* For xlnx,video-format user needs to fill as per their requirement */
+				reg = <1>;
+				xlnx,video-format = <3>;
+				xlnx,video-width = <8>;
+				sca_outmipi_1_v_proc_csc: endpoint {
+					remote-endpoint = <&mipi_1_vfbw_scaledmipi_1_v_proc_csc>;
+				};
+			};
+			scaler_port0mipi_1_v_proc_csc: port@0 {
+				/* For xlnx,video-format user needs to fill as per their requirement */
+				reg = <0>;
+				xlnx,video-format = <3>;
+				xlnx,video-width = <8>;
+				v_proc_ssmipi_1_ISPPipeline_accel_0: endpoint {
+					remote-endpoint = <&mipi_1_ISPPipeline_accel_0mipi_1_v_proc_csc>;
+				};
+			};
+		};
+	};
+	mipi_1_vfbw_scaled: v_frmbuf_wr@a40d0000 {
+		#dma-cells = <1>;
+		clock-names = "ap_clk";
+		clocks = <&misc_clk_0>;
+		//compatible = "xlnx,v-frmbuf-wr-2.5", "xlnx,axi-frmbuf-wr-v2.2";
+		compatible = "xlnx,v-frmbuf-wr-2.4", "xlnx,axi-frmbuf-wr-v2.2";
+		interrupt-names = "interrupt";
+		interrupt-parent = <&cips_ss_0_axi_intc_parent>;
+		interrupts = <4 2>;
+		reg = <0x0 0xa40d0000 0x0 0x10000>;
+		reset-gpios = <&cips_ss_0_axi_gpio_1 7 1>;
+		xlnx,dma-addr-width = <64>;
+		xlnx,dma-align = <8>;
+		xlnx,max-height = <2160>;
+		xlnx,max-width = <3840>;
+		xlnx,pixels-per-clock = <1>;
+		xlnx,s-axi-ctrl-addr-width = <0x7>;
+		xlnx,s-axi-ctrl-data-width = <0x20>;
+		xlnx,vid-formats = "rgb888", "bgr888", "xbgr8888", "xrgb8888", "uyvy", "y8", "vuy888", "xvuy8888", "yuyv", "nv16";
+		xlnx,video-width = <8>;
+	};
+
+	vcap_mipi_1_v_proc_csc {
+		compatible = "xlnx,video";
+		dma-names = "port0";
+		dmas = <&mipi_1_vfbw_scaled 0>;
+		vcap_portsmipi_1_v_proc_csc: ports {
+			#address-cells = <1>;
+			#size-cells = <0>;
+			vcap_portmipi_1_v_proc_csc: port@0 {
+				direction = "input";
+				reg = <0>;
+				mipi_1_vfbw_scaledmipi_1_v_proc_csc: endpoint {
+					remote-endpoint = <&sca_outmipi_1_v_proc_csc>;
+				};
+			};
+		};
+	};
+};

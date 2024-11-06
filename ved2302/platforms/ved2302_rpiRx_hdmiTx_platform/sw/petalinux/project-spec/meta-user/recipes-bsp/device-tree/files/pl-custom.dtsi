@@ -1,0 +1,85 @@
+/ {
+	amba_pl: amba_pl@0 {
+		#address-cells = <2>;
+		#size-cells = <2>;
+		compatible = "simple-bus";
+		ranges;
+
+		misc_clk_0: misc_clk_0 {
+			#clock-cells = <0>;
+			clock-frequency = <250000000>;
+			compatible = "fixed-clock";
+		};
+
+		misc_clk_1: misc_clk_1 {
+			#clock-cells = <0>;
+			clock-frequency = <300000000>;
+			compatible = "fixed-clock";
+		};
+
+		misc_clk_2: misc_clk_2 {
+			#clock-cells = <0>;
+			clock-frequency = <325000000>;
+			compatible = "fixed-clock";
+		};
+
+		misc_clk_3: misc_clk_3 {
+			#clock-cells = <0>;
+			clock-frequency = <100000000>;
+			compatible = "fixed-clock";
+		};
+
+		misc_clk_4: misc_clk_4 {
+			#clock-cells = <0>;
+			clock-frequency = <400000000>;
+			compatible = "fixed-clock";
+		};
+
+		misc_clk_5: misc_clk_5 {
+			#clock-cells = <0>;
+			clock-frequency = <200000000>;
+			compatible = "fixed-clock";
+		};
+
+		misc_clk_6: misc_clk_6 {
+			#clock-cells = <0>;
+			clock-frequency = <1500000000>;
+			compatible = "fixed-clock";
+		};
+
+		cips_ss_0_axi_gpio_1: gpio@a4020000 {
+			#gpio-cells = <2>;
+			clock-names = "s_axi_aclk";
+			clocks = <&misc_clk_0>;
+			compatible = "xlnx,axi-gpio-2.0", "xlnx,xps-gpio-1.00.a";
+			gpio-controller ;
+			reg = <0x0 0xa4020000 0x0 0x10000>;
+			xlnx,all-inputs = <0x0>;
+			xlnx,all-inputs-2 = <0x0>;
+			xlnx,all-outputs = <0x1>;
+			xlnx,all-outputs-2 = <0x0>;
+			xlnx,dout-default = <0xFFFFFFFF>;
+			xlnx,dout-default-2 = <0x00000000>;
+			xlnx,gpio-width = <0x20>;
+			xlnx,gpio2-width = <0x20>;
+			xlnx,interrupt-present = <0x0>;
+			xlnx,is-dual = <0x0>;
+			xlnx,tri-default = <0xFFFFFFFF>;
+			xlnx,tri-default-2 = <0xFFFFFFFF>;
+		};
+
+		cips_ss_0_axi_intc_parent: interrupt-controller@a40f0000 {
+			#interrupt-cells = <2>;
+			clock-names = "s_axi_aclk";
+			clocks = <&versal_clk 65>;
+			compatible = "xlnx,axi-intc-4.1", "xlnx,xps-intc-1.00.a";
+			interrupt-controller ;
+			interrupt-names = "irq";
+			interrupt-parent = <&gic>;
+			interrupts = <0 91 4>;
+			reg = <0x0 0xa40f0000 0x0 0x10000>;
+			xlnx,kind-of-intr = <0x0>;
+			xlnx,num-intr-inputs = <0x20>;
+		};
+	};
+};
