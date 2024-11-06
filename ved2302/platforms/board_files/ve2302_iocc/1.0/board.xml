@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Copyright (C) 2023, Advanced Micro Devices, Inc - All rights reserved
+<!--   ** **        **          **  ****      **  **********  ********** ®   
+      **   **        **        **   ** **     **  **              **
+     **     **        **      **    **  **    **  **              **
+    **       **        **    **     **   **   **  *********       **
+   **         **        **  **      **    **  **  **              **
+  **           **        ****       **     ** **  **              **
+ **  .........  **        **        **      ****  **********      **
+    ...........
+                                    Reach Further™
+ Copyright (C) 2021, Avnet Inc - All rights reserved
  Licensed under the Apache License, Version 2.0 (the "License"). You may
  not use this file except in compliance with the License. A copy of the
  License is located at
@@ -9,10 +18,11 @@
  WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
  License for the specific language governing permissions and limitations
  under the License. -->
-<board schema_version="2.2" vendor="avnet.com" name="ved2302_iocc" display_name="Versal VED2302 ES1 Evaluation Platform " url="http://www.avnet.me/ved2302" preset_file="preset.xml" supports_ced="true">
+ 
+<board schema_version="2.2" vendor="avnet.com" name="ve2302_iocc" display_name="Versal VE2302 IOCC Evaluation Platform " url="http://avnet.me/ve2302_iocc" preset_file="preset.xml" supports_ced="true">
 	<images>
-		<image name="ved2302_image.jpg" display_name="Versal VED2302 ES1 Evaluation Platform" sub_type="board" resolution="high">
-			<description>Versal VED2302 ES1 Evaluation Platform"</description>
+		<image name="ve2302_image.jpg" display_name="Versal VE2302 IOCC Evaluation Platform" sub_type="board" resolution="high">
+			<description>Versal VE2302 IOCC Evaluation Platform"</description>
 		</image>
 	</images>
 	
@@ -22,7 +32,7 @@
 	
 	<file_version>1.0</file_version>
 	
-	<description>Versal VED2302 ES1 Evaluation Platform</description>
+	<description>Versal VE2302 IOCC Evaluation Platform</description>
 	
 	<parameters>
 		<parameter name="heat_sink_type" value="medium" value_type="string" />
@@ -33,7 +43,7 @@
 	
 	<components>
 		
-		<component name="part0" display_name="xcve2302 FPGA" type="fpga" part_name="xcve2302-sfva784-1LP-e-S-es1" pin_map_file="part0_pins.xml" vendor="xilinx" spec_url="http://www.xilinx.com/ved2302">
+		<component name="part0" display_name="xcve2302 FPGA" type="fpga" part_name="xcve2302-sfva784-1LP-e-S-es1" pin_map_file="part0_pins.xml" vendor="avnet" spec_url="http://avnet.me/ve2302_iocc">
 			<description>XCVE2302 FPGA</description>
 			<interfaces>
 				<interface mode="master" name="ps_pmc_fixed_io" type="xilinx.com:interface:fixed_io_rtl:1.0" of_component="ps_pmc_fixed_io" preset_proc="ps_pmc_fixed_io_preset">
@@ -48,7 +58,7 @@
 					</port_maps>
 				</interface>
 				
-				<interface mode="master" name="ch0_lpddr4" type="xilinx.com:interface:lpddr4_rtl:1.0" of_component="LPDDR4_Controller0" preset_proc="LPDDR4_Controller0_preset">
+				<interface mode="master" name="ch0_lpddr4_trip1" type="xilinx.com:interface:lpddr4_rtl:1.0" of_component="LPDDR4_Controller0" preset_proc="LPDDR4_Controller0_preset">
 					<description>LPDDR4 board interface, it can use AXI_NoC IP for connection.</description>
 					<parameters>
 						<parameter name="TYPE" value="CH0_LPDDR4" />
@@ -218,7 +228,7 @@
 					</port_maps>
 				</interface>
 				
-				<interface mode="master" name="ch1_lpddr4" type="xilinx.com:interface:lpddr4_rtl:1.0" of_component="LPDDR4_Controller0" preset_proc="LPDDR4_Controller0_preset">
+				<interface mode="master" name="ch1_lpddr4_trip1" type="xilinx.com:interface:lpddr4_rtl:1.0" of_component="LPDDR4_Controller0" preset_proc="LPDDR4_Controller0_preset">
 					<description>LPDDR4 board interface, it can use AXI_NoC IP for connection.</description>
 					<parameters>
 						<parameter name="TYPE" value="CH1_LPDDR4" />
@@ -546,9 +556,9 @@
 						<interface name="ps_pmc_fixed_io" />
 					</interfaces>
 				</component_mode>
-				<!-- <component_mode name="ps_pmc_fixed_io_Rev_B01" display_name="ps_pmc_fixed_io_Rev_B01"> -->
+				<!-- <component_mode name="ps_pmc_fixed_io_Rev_A01" display_name="ps_pmc_fixed_io_Rev_A01"> -->
 				<!-- <interfaces> -->
-				<!-- <interface name="ps_pmc_fixed_io_Rev_B01"/> -->
+				<!-- <interface name="ps_pmc_fixed_io_Rev_A01"/> -->
 				<!-- </interfaces> -->
 				<!-- </component_mode> -->
 			</component_modes>
