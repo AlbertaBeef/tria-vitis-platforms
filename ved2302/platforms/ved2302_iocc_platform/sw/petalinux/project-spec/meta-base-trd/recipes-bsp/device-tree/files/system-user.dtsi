@@ -1,0 +1,28 @@
+/include/ "system-conf.dtsi"
+/ {
+
+   chosen {
+       bootargs = "console=ttyAMA0  earlycon=pl011,mmio32,0xFF000000,115200n8 clk_ignore_unused root=/dev/mmcblk0p2 rw rootwait cma=6G";
+       stdout-path = "serial0:115200n8";
+   };
+
+	iio_hwmon {
+        compatible = "iio-hwmon";
+        io-channels = <&sysmon0 7>, <&sysmon0 8>, <&sysmon0 9>, <&sysmon0 10>;
+    };
+};
+
+&cpu_opp_table {
+    // add cpu freq 1.35GHz
+    opp04 {
+       opp-hz = /bits/ 64 <1349986450>;
+        opp-microvolt = <1000000>;
+        clock-latency-ns = <500000>;
+    };
+};
+
+&sysmon0 {
+    #io-channel-cells = <1>;
+};
+
+#include "i2c0_mux_conf.dtsi"
