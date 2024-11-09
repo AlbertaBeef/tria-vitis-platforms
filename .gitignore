@@ -6,6 +6,9 @@ common/overlays/DPUCV2DX8G*
 */platforms/vivado/*/project
 */platforms/vivado/*/*.jou
 */platforms/vivado/*/*.log
+*/platforms/vivado/*/ip/*/*.prj/
+*/platforms/vivado/*/ip/*/settings.tcl
+*/platforms/vivado/*/ip/*/vitis_hls.log
 */platforms/xsct
 
 */overlays/examples/*/*binary_container_*

@@ -4067,7 +4067,31 @@ CONFIG_Init-manager-systemd=y
 #
 # user packages 
 #
-CONFIG_packagegroup-base-trd=y
+# CONFIG_libvdu-ctrlsw is not set
+# CONFIG_libvdu-omxil is not set
+# CONFIG_aie-notebooks is not set
+# CONFIG_aie-oob is not set
+# CONFIG_auto-resize is not set
+# CONFIG_gpio-demo is not set
+# CONFIG_hdmi21-modules is not set
+# CONFIG_initcams is not set
+# CONFIG_kernel-module-vdu is not set
+# CONFIG_openamp-demo-notebooks is not set
+# CONFIG_packagegroup-petalinux-jupyter is not set
+# CONFIG_peekpoke is not set
+# CONFIG_pm-notebooks is not set
+# CONFIG_python3-ipywidgets is not set
+# CONFIG_simd is not set
+# CONFIG_target-factory is not set
+# CONFIG_unilog is not set
+# CONFIG_vart is not set
+# CONFIG_vdu-firmware is not set
+# CONFIG_vitis-ai-library is not set
+# CONFIG_vvas-accel-libs is not set
+# CONFIG_vvas-core is not set
+# CONFIG_vvas-gst is not set
+# CONFIG_vvas-utils is not set
+# CONFIG_xir is not set
 
 #
 # PetaLinux RootFS Settings
