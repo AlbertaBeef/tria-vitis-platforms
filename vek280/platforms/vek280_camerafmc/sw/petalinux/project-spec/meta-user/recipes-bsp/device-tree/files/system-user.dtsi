@@ -45,7 +45,6 @@
 		compatible = "fixed-clock";
 	};
 
-
 	imx219_vana: fixedregulator@3 {
 		compatible = "regulator-fixed";
 		regulator-name = "imx219_vana";
@@ -110,10 +109,9 @@
 		
 
 #include "pl-custom.dtsi"
-#include "mipi-0.dtsi"
-#include "mipi-1.dtsi"
-//#include "mipi-2.dtsi"
-#include "mipi-3.dtsi"
+#include "mipi-0-imx219.dtsi"
+#include "mipi-1-imx219.dtsi"
+#include "mipi-3-imx219.dtsi"
 #include "display.dtsi"
 
 
