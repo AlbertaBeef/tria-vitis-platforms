@@ -1,0 +1,23 @@
+From f45ddae23f55c328249ceba88ed5521ccbd37980 Mon Sep 17 00:00:00 2001
+From: Mario Bergeron <grouby177@gmail.com>
+Date: Mon, 18 Nov 2024 11:03:05 -0500
+Subject: [PATCH] media: i2c: Patch imx500 driver for linux kernel 6.1.
+
+---
+ drivers/media/i2c/imx500.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/media/i2c/imx500.c b/drivers/media/i2c/imx500.c
+index 15e7d3f7dccd..d482313e298c 100644
+--- a/drivers/media/i2c/imx500.c
++++ b/drivers/media/i2c/imx500.c
+@@ -3160,7 +3160,8 @@ static struct i2c_driver imx500_i2c_driver = {
+ 		.of_match_table	= imx500_dt_ids,
+ 		.pm = &imx500_pm_ops,
+ 	},
+-	.probe = imx500_probe,
++	//.probe = imx500_probe,
++	.probe_new = imx500_probe,
+ 	.remove = imx500_remove,
+ };
+ 

@@ -1,0 +1,27 @@
+From 5d5b1e76cdc685854490edb155973b8e9e436fc5 Mon Sep 17 00:00:00 2001
+From: Mario Bergeron <grouby177@gmail.com>
+Date: Mon, 18 Nov 2024 11:00:58 -0500
+Subject: [PATCH] uapi: v4l2-controls: add new offset for imx500
+ (V4L2_CID_USER_IMX500_BASE) based on rpi-6.6.y souce.
+
+---
+ include/uapi/linux/v4l2-controls.h | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
+index b5e7d082b8ad..814a245af9d5 100644
+--- a/include/uapi/linux/v4l2-controls.h
++++ b/include/uapi/linux/v4l2-controls.h
+@@ -231,6 +231,12 @@ enum v4l2_colorfx {
+  */
+ #define V4L2_CID_USER_DW100_BASE		(V4L2_CID_USER_BASE + 0x1190)
+ 
++/*
++ * The base for IMX500 driver controls.
++ * We reserve 16 controls for this driver.
++ */
++#define V4L2_CID_USER_IMX500_BASE		(V4L2_CID_USER_BASE + 0x2000)
++
+ /* MPEG-class control IDs */
+ /* The MPEG controls are applicable to all codec controls
+  * and the 'MPEG' part of the define is historical */

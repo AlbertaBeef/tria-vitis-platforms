@@ -1,0 +1,35 @@
+From 1fe16fe874ca67bee042d10de99e04ec8620578d Mon Sep 17 00:00:00 2001
+From: Sai Krishna Musham <sai.krishna.musham@amd.com>
+Date: Wed, 2 Aug 2023 06:31:56 -0600
+Subject: [PATCH] gpu: drm: hdmi: Disable HDCP2X and FRL mode
+
+Signed-off-by: Sai Krishna Musham <sai.krishna.musham@amd.com>
+---
+ drivers/gpu/drm/xlnx/xlnx_hdmi.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/xlnx/xlnx_hdmi.c b/drivers/gpu/drm/xlnx/xlnx_hdmi.c
+index bbb8e756cd74..2c93f9e04fb8 100644
+--- a/drivers/gpu/drm/xlnx/xlnx_hdmi.c
++++ b/drivers/gpu/drm/xlnx/xlnx_hdmi.c
+@@ -2633,7 +2633,7 @@ xlnx_hdmi_set_frl_tmds_mode(struct drm_connector *connector)
+ 
+ 	if (connector->display_info.hdmi.max_lanes != 0 &&
+ 	    connector->display_info.hdmi.max_frl_rate_per_lane != 0) {
+-		hdmi->stream.is_frl = 1;
++		hdmi->stream.is_frl = 0;
+ 		switch (connector->display_info.hdmi.max_frl_rate_per_lane) {
+ 		case 3:
+ 			if (connector->display_info.hdmi.max_lanes == 3)
+@@ -3282,7 +3282,7 @@ static int xlnx_hdmi_parse_of(struct xlnx_hdmi *hdmi)
+ 	}
+ 	config->bpc = bpc;
+ 
+-	config->hdcp2x_enable = of_property_read_bool(node, "xlnx,include-hdcp-2-2");
++	config->hdcp2x_enable = 0;
+ 
+ 	ret = of_property_read_u32(node, "xlnx,vid-interface", &vid);
+ 	if (ret || (vid != HDMI_TX_AXI_STREAM && vid != HDMI_TX_NATIVE &&
+-- 
+2.17.1
+
