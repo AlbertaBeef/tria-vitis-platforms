@@ -1,6 +1,6 @@
 
 ################################################################
-# This is a generated script based on design: vek280_trd
+# This is a generated script based on design: vek280_camerafmc
 #
 # Though there are limitations about the generated script,
 # the main purpose of this utility is to make learning
@@ -35,7 +35,7 @@ if { [string first $scripts_vivado_version $current_vivado_version] == -1 } {
 ################################################################
 
 # To test this script, run the following commands from Vivado Tcl console:
-# source vek280_trd_script.tcl
+# source vek280_camerafmc_script.tcl
 
 # If there is no project opened, this script will create a
 # project, but make sure you do not have an existing project
@@ -472,7 +472,7 @@ proc create_hier_cell_mipi_3 { parentCell nameHier } {
     CONFIG.C_HS_LINE_RATE {1500} \
     CONFIG.C_HS_SETTLE_NS {157} \
     CONFIG.DPY_EN_REG_IF {true} \
-    CONFIG.DPY_LINE_RATE {450} \
+    CONFIG.DPY_LINE_RATE {444} \
     CONFIG.SupportLevel {1} \
   ] $csirx_0
 
@@ -862,9 +862,9 @@ proc create_hier_cell_mipi_0 { parentCell nameHier } {
     CONFIG.C_DPHY_LANES {2} \
     CONFIG.C_EN_CSI_V2_0 {true} \
     CONFIG.C_HS_LINE_RATE {1500} \
-    CONFIG.C_HS_SETTLE_NS {157} \
+    CONFIG.C_HS_SETTLE_NS {156} \
     CONFIG.DPY_EN_REG_IF {true} \
-    CONFIG.DPY_LINE_RATE {450} \
+    CONFIG.DPY_LINE_RATE {456} \
     CONFIG.SupportLevel {1} \
   ] $csirx_0
 
