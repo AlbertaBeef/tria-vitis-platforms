@@ -1,4 +1,4 @@
-# (C) Copyright 2022 Avnet, Inc.
+# (C) Copyright 2025 Tria Technologies, Inc.
 # SPDX-License-Identifier: Apache-2.0
 
 RM = rm -rf
