@@ -1,7 +1,7 @@
 
 set proj_name zub1cg_sbc_dualcam1
 set proj_dir ./project
-set proj_board avnet.com:zuboard_1cg:part0:1.1
+set proj_board avnet-tria:zuboard_1cg:part0:1.2
 set bd_tcl_dir ./scripts
 set board xboard_zu1
 set rev None

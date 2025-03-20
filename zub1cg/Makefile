@@ -1,3 +1,5 @@
+# (C) Copyright 2025 Tria Technologies, Inc.
+# SPDX-License-Identifier: Apache-2.0
 
 CP = cp -f
 
@@ -5,7 +7,7 @@ PWD = $(shell readlink -f .)
 
 # the platform directory has to be an absolute path when passed to v++
 PFM_DIR = $(PWD)/platforms
-PFM_VER = 2023_2
+PFM_VER = 2024_2
 
 # valid platforms / overlays
 PFM_LIST = zub1cg_sbc_base zub1cg_sbc_dualcam zub1cg_sbc_minimal zub1cg_sbc_dualcam1 zub1cg_sbc_dualcam2
@@ -54,7 +56,7 @@ petalinux:
 	else \
 	  echo 'Creating new .petalinux files ...'; \
 	  mkdir -p petalinux/.petalinux; \
-	  echo PETALINUX=2023.2 > petalinux/.petalinux/metadata; \
+	  echo PETALINUX=2024.2 > petalinux/.petalinux/metadata; \
 	fi
 	@if [ -d petalinux/project-spec/hw-description ]; then  \
 	  echo 'Reusing existing petalinux/project-spec/hw-description files ...'; \

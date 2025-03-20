@@ -20,7 +20,7 @@ set script_folder [_tcl::get_script_folder]
 ################################################################
 # Check if script is running in correct Vivado version.
 ################################################################
-set scripts_vivado_version 2023.2
+set scripts_vivado_version 2024.2
 set current_vivado_version [version -short]
 
 if { [string first $scripts_vivado_version $current_vivado_version] == -1 } {
@@ -947,7 +947,7 @@ Port;FD4A0000;FD4AFFFF;1|FPD;DPDMA;FD4C0000;FD4CFFFF;1|FPD;DDR_XMPU5_CFG;FD05000
   current_bd_instance $oldCurInst
 
   # Create PFM attributes
-  set_property PFM_NAME {tria-technologies.com:zub1cg:zub1cg_sbc_base:1.0} [get_files [current_bd_design].bd]
+  set_property PFM_NAME {avnet-tria:zub1cg:zub1cg_sbc_base:1.0} [get_files [current_bd_design].bd]
   set_property PFM.IRQ {intr {id 0 range 32}} [get_bd_cells /axi_intc_0]
   set_property PFM.CLOCK {  clk_out1 {id "0" is_default "true" proc_sys_reset "proc_sys_reset_1" status "fixed"}  clk_out2 {id "1" is_default "false" proc_sys_reset "proc_sys_reset_2" status "fixed"}  clk_out3 {id "2" is_default "false" proc_sys_reset "/proc_sys_reset_3" status "fixed"}  clk_out4 {id "3" is_default "false" proc_sys_reset "/proc_sys_reset_4" status "fixed"}  clk_out5 {id "4" is_default "false" proc_sys_reset "/proc_sys_reset_5" status "fixed"}  clk_out6 {id "5" is_default "false" proc_sys_reset "/proc_sys_reset_6" status "fixed"}  clk_out7 {id "6" is_default "false" proc_sys_reset "/proc_sys_reset_7" status "fixed"}  } [get_bd_cells /clk_wiz_0]
   set_property PFM.AXI_PORT {  M_AXI_HPM1_FPD {memport "M_AXI_GP"}  S_AXI_HPC0_FPD {memport "S_AXI_HPC" sptag "HPC0" memory "zynq_ultra_ps_e_0 HPC0_DDR_LOW"}  S_AXI_HPC1_FPD {memport "S_AXI_HPC" sptag "HPC1" memory "zynq_ultra_ps_e_0 HPC1_DDR_LOW"}  S_AXI_HP0_FPD {memport "S_AXI_HP" sptag "HP0" memory "zynq_ultra_ps_e_0 HP0_DDR_LOW"}  S_AXI_HP1_FPD {memport "S_AXI_HP" sptag "HP1" memory "zynq_ultra_ps_e_0 HP1_DDR_LOW"}  S_AXI_HP2_FPD {memport "S_AXI_HP" sptag "HP2" memory "zynq_ultra_ps_e_0 HP2_DDR_LOW"}  S_AXI_HP3_FPD {memport "S_AXI_HP" sptag "HP3" memory "zynq_ultra_ps_e_0 HP3_DDR_LOW"}  } [get_bd_cells /zynq_ultra_ps_e_0]

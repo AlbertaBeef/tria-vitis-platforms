@@ -1,4 +1,4 @@
-# (C) Copyright 2023 Tria Technologies, Inc.
+# (C) Copyright 2025 Tria Technologies, Inc.
 # SPDX-License-Identifier: Apache-2.0
 
 CP = cp -rf
@@ -8,7 +8,7 @@ XSCT = $(XILINX_VITIS)/bin/xsct
 JOBS ?= 8
 
 PLATFORM ?= zub1cg_sbc_minimal
-VERSION ?= 2023_2
+VERSION ?= 2024_2
 
 PFM_DIR = tria_$(PLATFORM)_$(VERSION)
 PFM_PRJ_DIR = xsct/$(PLATFORM)/$(PLATFORM)/export/$(PLATFORM)

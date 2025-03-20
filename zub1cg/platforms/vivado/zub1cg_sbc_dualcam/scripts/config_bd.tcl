@@ -20,7 +20,7 @@ set script_folder [_tcl::get_script_folder]
 ################################################################
 # Check if script is running in correct Vivado version.
 ################################################################
-set scripts_vivado_version 2023.2
+set scripts_vivado_version 2024.2
 set current_vivado_version [version -short]
 
 if { [string first $scripts_vivado_version $current_vivado_version] == -1 } {
@@ -1291,7 +1291,7 @@ Port;FD4A0000;FD4AFFFF;1|FPD;DPDMA;FD4C0000;FD4CFFFF;1|FPD;DDR_XMPU5_CFG;FD05000
   current_bd_instance $oldCurInst
 
   # Create PFM attributes
-  set_property PFM_NAME {tria-technologies.com:zub1cg:zub1cg_sbc_dualcam:1.0} [get_files [current_bd_design].bd]
+  set_property PFM_NAME {avnet-tria:zub1cg:zub1cg_sbc_dualcam:1.0} [get_files [current_bd_design].bd]
   set_property PFM.IRQ {intr {id 0 range 32}} [get_bd_cells /axi_intc_0]
   set_property PFM.AXI_PORT {  M04_AXI {memport "M_AXI_GP" sptag "HPM0_FPD" memory ""}  M05_AXI {memport "M_AXI_GP" sptag "HPM0_FPD" memory ""}  M06_AXI {memport "M_AXI_GP" sptag "HPM0_FPD" memory ""}  M07_AXI {memport "M_AXI_GP" sptag "HPM0_FPD" memory ""}  M08_AXI {memport "M_AXI_GP" sptag "HPM0_FPD" memory ""}  M09_AXI {memport "M_AXI_GP" sptag "HPM0_FPD" memory ""}  M10_AXI {memport "M_AXI_GP" sptag "HPM0_FPD" memory ""}  M11_AXI {memport "M_AXI_GP" sptag "HPM0_FPD" memory ""}  M12_AXI {memport "M_AXI_GP" sptag "HPM0_FPD" memory ""}  M13_AXI {memport "M_AXI_GP" sptag "HPM0_FPD" memory ""}  M14_AXI {memport "M_AXI_GP" sptag "HPM0_FPD" memory ""}  M15_AXI {memport "M_AXI_GP" sptag "HPM0_FPD" memory ""}  M16_AXI {memport "M_AXI_GP" sptag "HPM0_FPD" memory ""}  } [get_bd_cells /axi_interconnect_0]
   set_property PFM.CLOCK {  clk_out1 {id "0" is_default "true" proc_sys_reset "proc_sys_reset_0" status "fixed"}  clk_out2 {id "1" is_default "false" proc_sys_reset "proc_sys_reset_1" status "fixed"}  clk_out3 {id "2" is_default "false" proc_sys_reset "/proc_sys_reset_2" status "fixed"}  clk_out4 {id "3" is_default "false" proc_sys_reset "/proc_sys_reset_3" status "fixed"}  clk_out5 {id "4" is_default "false" proc_sys_reset "/proc_sys_reset_4" status "fixed"}  clk_out6 {id "5" is_default "false" proc_sys_reset "/proc_sys_reset_5" status "fixed"}  clk_out7 {id "6" is_default "false" proc_sys_reset "/proc_sys_reset_6" status "fixed"}  } [get_bd_cells /clk_wiz_0]
