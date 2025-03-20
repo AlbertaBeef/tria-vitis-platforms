@@ -1,7 +1,7 @@
 
 set proj_name u96v2_sbc_dualcam
 set proj_dir ./project
-set proj_board avnet-tria:ultra96v2:part0:1.2
+set proj_board avnet-tria:ultra96v2:part0:1.3
 set bd_tcl_dir ./scripts
 set board ultra96v2
 set rev None
