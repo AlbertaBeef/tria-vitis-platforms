@@ -20,7 +20,7 @@ set script_folder [_tcl::get_script_folder]
 ################################################################
 # Check if script is running in correct Vivado version.
 ################################################################
-set scripts_vivado_version 2023.2
+set scripts_vivado_version 2024.2
 set current_vivado_version [version -short]
 
 if { [string first $scripts_vivado_version $current_vivado_version] == -1 } {
@@ -1424,7 +1424,7 @@ Port;FD4A0000;FD4AFFFF;1|FPD;DPDMA;FD4C0000;FD4CFFFF;1|FPD;DDR_XMPU5_CFG;FD05000
   current_bd_instance $oldCurInst
 
   # Create PFM attributes
-  set_property PFM_NAME {tria-technologies.com:uz7ev:uz7ev_evcc_hdmi_v:1.0} [get_files [current_bd_design].bd]
+  set_property PFM_NAME {avnet-tria:uz7ev:uz7ev_evcc_hdmi_v:1.0} [get_files [current_bd_design].bd]
   set_property PFM.AXI_PORT {  M_AXI_HPM0_LPD {memport "M_AXI_GP" sptag "HPM0_LPD"}  S_AXI_HPC1_FPD {memport "S_AXI_HP" sptag "HPC1" memory "zynq_ultra_ps_e_0 HPC1_DDR_LOW"}  S_AXI_HP1_FPD {memport "S_AXI_HP" sptag "HP1" memory "zynq_ultra_ps_e_0 HP1_DDR_LOW"}  } [get_bd_cells /zynq_ultra_ps_e_0]
   set_property PFM.AXI_PORT {  M10_AXI {memport "M_AXI_GP" sptag "HPM0_FPD" memory ""}  M11_AXI {memport "M_AXI_GP" sptag "HPM0_FPD" memory ""}  M12_AXI {memport "M_AXI_GP" sptag "HPM0_FPD" memory ""}  M13_AXI {memport "M_AXI_GP" sptag "HPM0_FPD" memory ""}  M14_AXI {memport "M_AXI_GP" sptag "HPM0_FPD" memory ""}  M15_AXI {memport "M_AXI_GP" sptag "HPM0_FPD" memory ""}  M16_AXI {memport "M_AXI_GP" sptag "HPM0_FPD" memory ""}  } [get_bd_cells /ps8_0_axi_periph]
   set_property PFM.IRQ {intr {id 0 range 32}} [get_bd_cells /axi_intc_0]

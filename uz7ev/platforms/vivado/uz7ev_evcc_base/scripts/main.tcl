@@ -1,7 +1,7 @@
 
 set proj_name uz7ev_evcc_base
 set proj_dir ./project
-set proj_board avnet.com:ultrazed_7ev_cc:part0:1.5
+set proj_board avnet-tria:ultrazed_7ev_cc:part0:1.6
 set bd_tcl_dir ./scripts
 set board ultrazed_7ev_cc
 set rev None

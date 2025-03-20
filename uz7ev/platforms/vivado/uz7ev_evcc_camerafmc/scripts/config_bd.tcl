@@ -20,7 +20,7 @@ set script_folder [_tcl::get_script_folder]
 ################################################################
 # Check if script is running in correct Vivado version.
 ################################################################
-set scripts_vivado_version 2023.2
+set scripts_vivado_version 2024.2
 set current_vivado_version [version -short]
 
 if { [string first $scripts_vivado_version $current_vivado_version] == -1 } {
@@ -2722,7 +2722,7 @@ Port;FD4A0000;FD4AFFFF;1|FPD;DPDMA;FD4C0000;FD4CFFFF;1|FPD;DDR_XMPU5_CFG;FD05000
   current_bd_instance $oldCurInst
 
   # Create PFM attributes
-  set_property PFM_NAME {tria-technologies.com:uz7ev:uz7ev_evcc_camerafmc:1.0} [get_files [current_bd_design].bd]
+  set_property PFM_NAME {avnet-tria:uz7ev:uz7ev_evcc_camerafmc:1.0} [get_files [current_bd_design].bd]
   set_property PFM.AXI_PORT {M09_AXI {memport "M_AXI_GP"} M10_AXI {memport "M_AXI_GP"} M11_AXI {memport "M_AXI_GP"} M12_AXI {memport "M_AXI_GP"} M13_AXI {memport "M_AXI_GP"} M14_AXI {memport "M_AXI_GP"} M15_AXI {memport "M_AXI_GP"}} [get_bd_cells /axi_ic_ctrl_100]
   set_property PFM.CLOCK {  clk_100M {id "3" is_default "false" proc_sys_reset "/rst_ps_axi_100M" status "fixed" freq_hz "149985000"}  clk_300M {id "4" is_default "false" proc_sys_reset "/rst_video_300M" status "fixed" freq_hz "299970000"}  clk_250M {id "9" is_default "true" proc_sys_reset "/rst_video_250M" status "fixed" freq_hz "249975000"}  } [get_bd_cells /clk_wiz_0]
   set_property PFM.IRQ {  In6 {id "0" is_range "true"}  In7 {id "1" is_range "true"}  } [get_bd_cells /p_intr_concat]
