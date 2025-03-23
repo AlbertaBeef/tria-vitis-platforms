@@ -4080,28 +4080,28 @@ CONFIG_Init-manager-systemd=y
 # user packages 
 #
 CONFIG_auto-resize=y
-CONFIG_cv-bridge=y
-CONFIG_cv-bridge-dev=y
+# CONFIG_cv-bridge is not set
+# CONFIG_cv-bridge-dev is not set
 # CONFIG_gpio-demo is not set
-CONFIG_packagegroup-petalinux-ros=y
-CONFIG_packagegroup-petalinux-ros-dev=y
+# CONFIG_packagegroup-petalinux-ros is not set
+# CONFIG_packagegroup-petalinux-ros-dev is not set
 # CONFIG_peekpoke is not set
 CONFIG_simd=y
 CONFIG_tria-u96v2-base=y
 CONFIG_tria-u96v2-benchmark=y
 CONFIG_tria-u96v2-dualcam=y
 CONFIG_tria-u96v2-dualcam-dpu=y
-CONFIG_turtlesim=y
-CONFIG_turtlesim-dev=y
-CONFIG_v4l2-camera=y
-CONFIG_v4l2-camera-dev=y
-CONFIG_vitis-ai-library=y
+# CONFIG_turtlesim is not set
+# CONFIG_turtlesim-dev is not set
+# CONFIG_v4l2-camera is not set
+# CONFIG_v4l2-camera-dev is not set
+# CONFIG_vitis-ai-library is not set
 # CONFIG_vitis-ai-library-dbg is not set
-CONFIG_vitis-ai-library-dev=y
-CONFIG_vvas-accel-libs=y
-CONFIG_vvas-core=y
-CONFIG_vvas-gst=y
-CONFIG_vvas-utils=y
+# CONFIG_vitis-ai-library-dev is not set
+# CONFIG_vvas-accel-libs is not set
+# CONFIG_vvas-core is not set
+# CONFIG_vvas-gst is not set
+# CONFIG_vvas-utils is not set
 CONFIG_xmutil=y
 
 #

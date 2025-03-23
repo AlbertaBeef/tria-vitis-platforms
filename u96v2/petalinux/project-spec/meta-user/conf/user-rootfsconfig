@@ -12,22 +12,22 @@ CONFIG_tria-u96v2-dualcam
 CONFIG_tria-u96v2-benchmark
 CONFIG_tria-u96v2-dualcam-dpu
 
-CONFIG_vitis-ai-library
-CONFIG_vitis-ai-library-dev
-CONFIG_vitis-ai-library-dbg
+#CONFIG_vitis-ai-library
+#CONFIG_vitis-ai-library-dev
+#CONFIG_vitis-ai-library-dbg
 
-CONFIG_vvas-utils
-CONFIG_vvas-gst
-CONFIG_vvas-accel-libs
-CONFIG_vvas-core
+#CONFIG_vvas-utils
+#CONFIG_vvas-gst
+#CONFIG_vvas-accel-libs
+#CONFIG_vvas-core
 CONFIG_simd
 
-CONFIG_packagegroup-petalinux-ros
-CONFIG_packagegroup-petalinux-ros-dev
-CONFIG_cv-bridge
-CONFIG_cv-bridge-dev
-CONFIG_v4l2-camera
-CONFIG_v4l2-camera-dev
-CONFIG_turtlesim
-CONFIG_turtlesim-dev
+#CONFIG_packagegroup-petalinux-ros
+#CONFIG_packagegroup-petalinux-ros-dev
+#CONFIG_cv-bridge
+#CONFIG_cv-bridge-dev
+#CONFIG_v4l2-camera
+#CONFIG_v4l2-camera-dev
+#CONFIG_turtlesim
+#CONFIG_turtlesim-dev
 
