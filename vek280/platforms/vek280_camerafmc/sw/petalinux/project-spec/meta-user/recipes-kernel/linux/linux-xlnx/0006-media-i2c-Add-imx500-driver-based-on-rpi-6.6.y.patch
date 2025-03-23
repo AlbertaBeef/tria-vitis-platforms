@@ -1,20 +1,21 @@
-From 24612d1e4147f20a6dd2fc76cf9936b81d169f50 Mon Sep 17 00:00:00 2001
+From a16e70b53b0e88ed31e7396b1a8e9b215b859923 Mon Sep 17 00:00:00 2001
 From: Mario Bergeron <grouby177@gmail.com>
-Date: Sun, 17 Nov 2024 12:51:50 -0500
+Date: Sat, 14 Dec 2024 15:10:37 +0000
 Subject: [PATCH] media: i2c: Add imx500 driver based on rpi-6.6.y source.
 
 ---
- drivers/media/i2c/Kconfig  |   12 +
- drivers/media/i2c/Makefile |    1 +
- drivers/media/i2c/imx500.c | 3227 ++++++++++++++++++++++++++++++++++++
- 3 files changed, 3240 insertions(+)
+ drivers/media/i2c/Kconfig          |   12 +
+ drivers/media/i2c/Makefile         |    1 +
+ drivers/media/i2c/imx500.c         | 3227 ++++++++++++++++++++++++++++
+ include/uapi/linux/v4l2-controls.h |    6 +
+ 4 files changed, 3246 insertions(+)
  create mode 100644 drivers/media/i2c/imx500.c
 
 diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-index ce344e0af977..d3301bc770e6 100644
+index bc1dd0e6af84..9af121206c35 100644
 --- a/drivers/media/i2c/Kconfig
 +++ b/drivers/media/i2c/Kconfig
-@@ -250,6 +250,18 @@ config VIDEO_IMX477
+@@ -214,6 +214,18 @@ config VIDEO_IMX477
  	  To compile this driver as a module, choose M here: the
  	  module will be called imx477.
  
@@ -34,12 +35,12 @@ index ce344e0af977..d3301bc770e6 100644
  	tristate "Sony IMX708 sensor support"
  	depends on I2C && VIDEO_DEV
 diff --git a/drivers/media/i2c/Makefile b/drivers/media/i2c/Makefile
-index 99967502f020..9754ff9f3abc 100644
+index 414299adb67b..905d515610fc 100644
 --- a/drivers/media/i2c/Makefile
 +++ b/drivers/media/i2c/Makefile
-@@ -50,6 +50,7 @@ obj-$(CONFIG_VIDEO_IMX335) += imx335.o
- obj-$(CONFIG_VIDEO_IMX355) += imx355.o
+@@ -55,6 +55,7 @@ obj-$(CONFIG_VIDEO_IMX355) += imx355.o
  obj-$(CONFIG_VIDEO_IMX412) += imx412.o
+ obj-$(CONFIG_VIDEO_IMX415) += imx415.o
  obj-$(CONFIG_VIDEO_IMX477) += imx477.o
 +obj-$(CONFIG_VIDEO_IMX500) += imx500.o
  obj-$(CONFIG_VIDEO_IMX708) += imx708.o
@@ -3278,3 +3279,20 @@ index 000000000000..15e7d3f7dccd
 +MODULE_AUTHOR("Naushir Patuck <naush@raspberrypi.com>");
 +MODULE_DESCRIPTION("Sony IMX500 sensor driver");
 +MODULE_LICENSE("GPL");
+diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
+index c3604a0a3e30..c1230d5ea907 100644
+--- a/include/uapi/linux/v4l2-controls.h
++++ b/include/uapi/linux/v4l2-controls.h
+@@ -203,6 +203,12 @@ enum v4l2_colorfx {
+  */
+ #define V4L2_CID_USER_ASPEED_BASE		(V4L2_CID_USER_BASE + 0x11a0)
+ 
++/*
++ * The base for IMX500 driver controls.
++ * We reserve 16 controls for this driver.
++ */
++#define V4L2_CID_USER_IMX500_BASE		(V4L2_CID_USER_BASE + 0x2000)
++
+ /* MPEG-class control IDs */
+ /* The MPEG controls are applicable to all codec controls
+  * and the 'MPEG' part of the define is historical */

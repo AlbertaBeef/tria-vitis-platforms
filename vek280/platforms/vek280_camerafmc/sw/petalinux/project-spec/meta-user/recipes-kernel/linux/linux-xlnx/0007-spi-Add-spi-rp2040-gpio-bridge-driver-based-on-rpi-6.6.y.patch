@@ -1,7 +1,7 @@
-From cace9f5f25fd6b1d8b53d952b0c2cf64d9cbf359 Mon Sep 17 00:00:00 2001
+From 2bcaf5d4baf054b9535f62a475a049132dc404f3 Mon Sep 17 00:00:00 2001
 From: Mario Bergeron <grouby177@gmail.com>
-Date: Sun, 17 Nov 2024 15:13:09 -0500
-Subject: [PATCH] spi: Add spi-rp2040-gpio-bridge driver based on rpi-6.6-y
+Date: Sat, 14 Dec 2024 15:11:27 +0000
+Subject: [PATCH] spi: Add spi-rp2040-gpio-bridge driver based on rpi-6.6.y
  source.
 
 ---
@@ -12,10 +12,10 @@ Subject: [PATCH] spi: Add spi-rp2040-gpio-bridge driver based on rpi-6.6-y
  create mode 100644 drivers/spi/spi-rp2040-gpio-bridge.c
 
 diff --git a/drivers/spi/Kconfig b/drivers/spi/Kconfig
-index 15ea11ebcbe0..24b00b6d5364 100644
+index bcbf840cd41c..25140a0e8188 100644
 --- a/drivers/spi/Kconfig
 +++ b/drivers/spi/Kconfig
-@@ -780,6 +780,18 @@ config SPI_RB4XX
+@@ -846,6 +846,18 @@ config SPI_RB4XX
  	help
  	  SPI controller driver for the Mikrotik RB4xx series boards.
  
@@ -35,17 +35,17 @@ index 15ea11ebcbe0..24b00b6d5364 100644
  	tristate "Renesas RPC-IF SPI driver"
  	depends on RENESAS_RPCIF
 diff --git a/drivers/spi/Makefile b/drivers/spi/Makefile
-index 4b34e855c841..54d593b71b19 100644
+index 6af54842b9fa..aefd4b4920a3 100644
 --- a/drivers/spi/Makefile
 +++ b/drivers/spi/Makefile
-@@ -108,6 +108,7 @@ obj-$(CONFIG_SPI_ROCKCHIP)		+= spi-rockchip.o
+@@ -115,6 +115,7 @@ obj-$(CONFIG_SPI_ROCKCHIP)		+= spi-rockchip.o
  obj-$(CONFIG_SPI_ROCKCHIP_SFC)		+= spi-rockchip-sfc.o
  obj-$(CONFIG_SPI_RB4XX)			+= spi-rb4xx.o
  obj-$(CONFIG_MACH_REALTEK_RTL)		+= spi-realtek-rtl.o
 +obj-$(CONFIG_SPI_RP2040_GPIO_BRIDGE)	+= spi-rp2040-gpio-bridge.o
  obj-$(CONFIG_SPI_RPCIF)			+= spi-rpc-if.o
  obj-$(CONFIG_SPI_RSPI)			+= spi-rspi.o
- obj-$(CONFIG_SPI_S3C24XX)		+= spi-s3c24xx-hw.o
+ obj-$(CONFIG_SPI_RZV2M_CSI)		+= spi-rzv2m-csi.o
 diff --git a/drivers/spi/spi-rp2040-gpio-bridge.c b/drivers/spi/spi-rp2040-gpio-bridge.c
 new file mode 100644
 index 000000000000..418bd0ebb0c0

@@ -1,15 +1,15 @@
-From 11a1844164f72ce0027bea0538fb82927478ee7d Mon Sep 17 00:00:00 2001
+From 0e3d2dd9dc5f0aef8a7a949138b7965058c53e46 Mon Sep 17 00:00:00 2001
 From: Mario Bergeron <grouby177@gmail.com>
-Date: Fri, 15 Nov 2024 11:19:49 -0500
-Subject: [PATCH] media: i2c: Update dw9807-vcm driver (for dw9817 support) based on
- rpi-6.1.y source.
+Date: Fri, 13 Dec 2024 18:52:44 +0000
+Subject: [PATCH] media: i2c: Update dw9817 driver based on rpi-6.6.y source.
 
 ---
- drivers/media/i2c/dw9807-vcm.c | 227 ++++++++++++++++++++++++++-------
- 1 file changed, 182 insertions(+), 45 deletions(-)
 
+ drivers/media/i2c/dw9807-vcm.c |  227 +++-
+ 1 files changed, 272 insertions(+), 45 deletions(-)
+ 
 diff --git a/drivers/media/i2c/dw9807-vcm.c b/drivers/media/i2c/dw9807-vcm.c
-index 3599720db7e9..85412361e991 100644
+index 4148009e0e01..2362c4813f5e 100644
 --- a/drivers/media/i2c/dw9807-vcm.c
 +++ b/drivers/media/i2c/dw9807-vcm.c
 @@ -1,12 +1,21 @@
