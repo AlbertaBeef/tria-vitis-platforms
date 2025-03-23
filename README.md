@@ -1,10 +1,10 @@
 # Overview
 
-Tria Vitis 2023.2 platforms and overlays.
+Tria Vitis 2024.2 platforms and overlays.
 
 # Documentation
 
-The following series of Hackster projects describe how this github repository was created and serves as documentation:
+The following series of Hackster projects describe how the 2023.2 version of this github repository was created, but still serves as documentation for the 2024.2 version:
 
 [Part 1](https://avnet.me/tria-vitis-2023.2-part1) : Tria Vitis Platforms - Building the Foundational Designs
 
@@ -40,7 +40,7 @@ The pre-built petalinux BSPs and SD images are provided for convenience:
 ## Preparation
 
 Clone repository:
-- git clone --recursive --branch 2023.2 https://github.com/AlbertaBeef/tria-vitis-platforms
+- git clone --recursive --branch 2024.2 https://github.com/AlbertaBeef/tria-vitis-platforms
 - cd tria-vitis-platforms
 
 Download DPU IP:
@@ -65,7 +65,7 @@ Build (all) the zub1cg vitis platforms:
 - make platform PFM=zub1cg_sbc_dualcam1
 - make platform PFM=zub1cg_sbc_dualcam2
 
-Build (all) the  zub1cg vitis overlays:
+Build (all) the zub1cg vitis overlays:
 - make overlay OVERLAY=benchmark
 - make overlay OVERLAY=dualcam_dpu
 
