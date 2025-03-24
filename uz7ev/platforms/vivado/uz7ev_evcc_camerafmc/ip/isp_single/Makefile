@@ -1,10 +1,10 @@
-# (C) Copyright 2023 Advanced Micro Devices, Inc. All rights reserved.
+# (C) Copyright 2020 - 2022 Xilinx, Inc.
 # SPDX-License-Identifier: Apache-2.0
 
 RM = rm -rf
 HLS = vitis_hls
-CLKP ?= 3.3333
-XPART ?= xczu7ev-fbvb900-1-i
+CLKP ?= 3.3
+XPART ?= xck26-sfvc784-2LV-c
 
 
 .PHONY: help
@@ -18,12 +18,12 @@ help:
 .PHONY: all
 all: ip
 
-ip:
+ip:  
 	@echo 'set CLKP $(CLKP)' >> ./settings.tcl
 	@echo 'set XPART $(XPART)' >> ./settings.tcl
-	$(HLS) -f run_hls_isp.tcl
+	$(HLS) -f run_hls.tcl
 
 .PHONY: clean
 clean:
-	$(RM) settings.tcl *.prj *.log .crashReporter/
+	$(RM) settings.tcl *.prj *.log
 
