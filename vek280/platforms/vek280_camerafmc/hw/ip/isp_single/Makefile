@@ -22,9 +22,9 @@ all: ip
 ip:
 	@echo 'set CLKP $(CLKP)' >> ./settings.tcl
 	@echo 'set XPART $(XPART)' >> ./settings.tcl
-	$(HLS) -f run_hls_isp.tcl
+	$(HLS) -f run_hls.tcl
 
 .PHONY: clean
 clean:
-	$(RM) settings.tcl *.prj *.log .crashReporter/
+	$(RM) settings.tcl *.prj *.log
 

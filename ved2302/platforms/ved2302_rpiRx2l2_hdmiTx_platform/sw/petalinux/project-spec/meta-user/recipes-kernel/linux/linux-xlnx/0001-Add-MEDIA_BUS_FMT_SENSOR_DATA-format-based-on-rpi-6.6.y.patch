@@ -1,0 +1,22 @@
+From 7228ea0eb5e4bb1c2a5a4f2c920ae65922e848e6 Mon Sep 17 00:00:00 2001
+From: Mario Bergeron <grouby177@gmail.com>
+Date: Fri, 13 Dec 2024 18:05:13 +0000
+Subject: [PATCH] media: include/uapi/linux/media-bus-format.h : Add
+ MEDIA_BUS_FMT_SENSOR_DATA format based on rpi-6.6.y source.
+
+---
+ include/uapi/linux/media-bus-format.h | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/include/uapi/linux/media-bus-format.h b/include/uapi/linux/media-bus-format.h
+index 2534d538e18d..cef51a82020c 100644
+--- a/include/uapi/linux/media-bus-format.h
++++ b/include/uapi/linux/media-bus-format.h
+@@ -188,4 +188,7 @@
+  */
+ #define MEDIA_BUS_FMT_METADATA_FIXED		0x7001
+ 
++/* Sensor ancillary metadata formats - next is 0x7002 */
++#define MEDIA_BUS_FMT_SENSOR_DATA		0x7002
++
+ #endif /* __LINUX_MEDIA_BUS_FORMAT_H */

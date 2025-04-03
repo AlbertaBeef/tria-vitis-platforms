@@ -7,7 +7,7 @@ VIVADO = $(XILINX_VIVADO)/bin/vivado
 #JOBS ?= 12
 JOBS ?= 4
 
-VIV_DESIGN = vek280_trd
+VIV_DESIGN = vek280_camerafmc
 
 VIV_PRJ_DIR = project
 VIV_SCRIPTS_DIR = scripts

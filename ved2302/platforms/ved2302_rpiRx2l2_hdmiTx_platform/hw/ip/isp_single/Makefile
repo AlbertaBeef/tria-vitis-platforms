@@ -4,7 +4,11 @@
 RM = rm -rf
 HLS = vitis_hls
 CLKP ?= 3.3333
-XPART ?= xcve2302-sfva784-1LP-e-S-es1
+#XPART ?= xcve2802-vsvh1760-2MP-e-S-es1
+#XPART ?= xcve2802-vsvh1760-2MP-e-S
+#XPART ?= xcve2302-sfva784-1LP-e-S-es1
+XPART ?= xcve2302-sfva784-1LP-e-S
+
 
 .PHONY: help
 help:
@@ -20,9 +24,9 @@ all: ip
 ip:
 	@echo 'set CLKP $(CLKP)' >> ./settings.tcl
 	@echo 'set XPART $(XPART)' >> ./settings.tcl
-	$(HLS) -f run_hls_isp.tcl
+	$(HLS) -f run_hls.tcl
 
 .PHONY: clean
 clean:
-	$(RM) settings.tcl *.prj *.log .crashReporter/
+	$(RM) settings.tcl *.prj *.log
 

@@ -118,12 +118,12 @@ CONFIG_system-versal=y
 #
 # dnf
 #
-# CONFIG_dnf is not set
+CONFIG_dnf=y
 
 #
 # e2fsprogs 
 #
-# CONFIG_e2fsprogs is not set
+CONFIG_e2fsprogs=y
 # CONFIG_e2fsprogs-dev is not set
 CONFIG_e2fsprogs-mke2fs=y
 # CONFIG_e2fsprogs-dbg is not set
@@ -134,7 +134,7 @@ CONFIG_e2fsprogs-mke2fs=y
 # CONFIG_libext2fs is not set
 # CONFIG_libe2p is not set
 # CONFIG_e2fsprogs-e2fsck is not set
-# CONFIG_e2fsprogs-badblocks is not set
+CONFIG_e2fsprogs-badblocks=y
 
 #
 # ed 
@@ -370,7 +370,7 @@ CONFIG_mtd-utils=y
 #
 # util-linux 
 #
-# CONFIG_util-linux is not set
+CONFIG_util-linux=y
 # CONFIG_util-linux-sulogin is not set
 # CONFIG_util-linux-losetup is not set
 # CONFIG_util-linux-hwclock is not set
@@ -382,21 +382,21 @@ CONFIG_mtd-utils=y
 # CONFIG_util-linux-umount is not set
 # CONFIG_util-linux-findfs is not set
 # CONFIG_util-linux-agetty is not set
-# CONFIG_util-linux-mount is not set
+CONFIG_util-linux-mount=y
 # CONFIG_util-linux-sfdisk is not set
 # CONFIG_util-linux-swaponoff is not set
 # CONFIG_util-linux-fsck.cramfs is not set
 # CONFIG_util-linux-prlimit is not set
 # CONFIG_util-linux-mcookie is not set
 # CONFIG_util-linux-getopt is not set
-# CONFIG_util-linux-blkid is not set
+CONFIG_util-linux-blkid=y
 # CONFIG_util-linux-dev is not set
 # CONFIG_util-linux-partx is not set
-# CONFIG_util-linux-mkfs is not set
+CONFIG_util-linux-mkfs=y
 # CONFIG_util-linux-readprofile is not set
 # CONFIG_util-linux-mountpoint is not set
-# CONFIG_util-linux-fdisk is not set
-# CONFIG_util-linux-lscpu is not set
+CONFIG_util-linux-fdisk=y
+CONFIG_util-linux-lscpu=y
 # CONFIG_util-linux-dbg is not set
 # CONFIG_util-linux-uuidd is not set
 # CONFIG_util-linux-mkfs.cramfs is not set
@@ -708,7 +708,7 @@ CONFIG_nfs-utils=y
 #
 # git 
 #
-# CONFIG_git is not set
+CONFIG_git=y
 # CONFIG_git-bash-completion is not set
 # CONFIG_git-perltools is not set
 # CONFIG_gitweb is not set
@@ -1863,7 +1863,7 @@ CONFIG_libdfx=y
 #
 CONFIG_ai-engine-driver=y
 # CONFIG_ai-engine-driver-dbg is not set
-# CONFIG_ai-engine-driver-dev is not set
+CONFIG_ai-engine-driver-dev=y
 
 #
 # mtdev 
@@ -2014,7 +2014,7 @@ CONFIG_ai-engine-driver=y
 CONFIG_opencv=y
 # CONFIG_opencv-dbg is not set
 # CONFIG_opencv-apps is not set
-# CONFIG_opencv-dev is not set
+CONFIG_opencv-dev=y
 # CONFIG_opencv-samples is not set
 
 #
@@ -2232,7 +2232,7 @@ CONFIG_protobuf=y
 #
 # coreutils 
 #
-# CONFIG_coreutils is not set
+CONFIG_coreutils=y
 # CONFIG_coreutils-dbg is not set
 # CONFIG_coreutils-dev is not set
 
@@ -2415,6 +2415,7 @@ CONFIG_libstdcPLUSPLUS=y
 # hdmi-module
 #
 # CONFIG_kernel-module-hdmi is not set
+# CONFIG_kernel-module-hdmi21 is not set
 
 #
 # icu 
@@ -2662,13 +2663,6 @@ CONFIG_packagegroup-core-boot=y
 # CONFIG_packagegroup-core-x11-dbg is not set
 
 #
-# packagegroup-core-x11-base 
-#
-# CONFIG_packagegroup-core-x11-base is not set
-# CONFIG_packagegroup-core-x11-base-dev is not set
-# CONFIG_packagegroup-core-x11-base-dbg is not set
-
-#
 # packagegroup-core-x11-xserver 
 #
 # CONFIG_packagegroup-core-x11-xserver is not set
@@ -2678,7 +2672,7 @@ CONFIG_packagegroup-core-boot=y
 #
 # packagegroup-self-hosted 
 #
-# CONFIG_packagegroup-self-hosted is not set
+CONFIG_packagegroup-self-hosted=y
 # CONFIG_packagegroup-self-hosted-debug-dbg is not set
 # CONFIG_packagegroup-self-hosted-dev is not set
 # CONFIG_packagegroup-self-hosted-debug is not set
@@ -2774,10 +2768,10 @@ CONFIG_python3=y
 # CONFIG_python3-html is not set
 # CONFIG_python3-image is not set
 # CONFIG_python3-difflib is not set
-# CONFIG_python3-dev is not set
+CONFIG_python3-dev=y
 # CONFIG_python3-syslog is not set
 # CONFIG_python3-curses is not set
-# CONFIG_libpython3 is not set
+CONFIG_libpython3=y
 # CONFIG_python3-logging is not set
 # CONFIG_python3-profile is not set
 # CONFIG_python3-xmlrpc is not set
@@ -3152,7 +3146,7 @@ CONFIG_tcf-agent=y
 #
 # v4l-utils 
 #
-# CONFIG_v4l-utils is not set
+CONFIG_v4l-utils=y
 # CONFIG_libv4l is not set
 # CONFIG_ir-keytable is not set
 # CONFIG_media-ctl is not set
@@ -3526,7 +3520,7 @@ CONFIG_bridge-utils=y
 #
 # dosfstools 
 #
-# CONFIG_dosfstools is not set
+CONFIG_dosfstools=y
 # CONFIG_dosfstools-dev is not set
 # CONFIG_dosfstools-dbg is not set
 
@@ -3888,166 +3882,97 @@ CONFIG_libdrm-dev=y
 #
 
 #
-# packagegroup-petalinux 
+# packagegroup-xilinx-audio 
 #
-# CONFIG_packagegroup-petalinux is not set
-# CONFIG_packagegroup-petalinux-dbg is not set
-# CONFIG_packagegroup-petalinux-dev is not set
+# CONFIG_packagegroup-xilinx-audio is not set
+# CONFIG_packagegroup-xilinx-audio-dbg is not set
+# CONFIG_packagegroup-xilinx-audio-dev is not set
 
 #
-# packagegroup-petalinux-audio 
+# packagegroup-xilinx-benchmarks 
 #
-# CONFIG_packagegroup-petalinux-audio is not set
-# CONFIG_packagegroup-petalinux-audio-dbg is not set
-# CONFIG_packagegroup-petalinux-audio-dev is not set
+# CONFIG_packagegroup-xilinx-benchmarks is not set
+# CONFIG_packagegroup-xilinx-benchmarks-dbg is not set
+# CONFIG_packagegroup-xilinx-benchmarks-dev is not set
 
 #
-# packagegroup-petalinux-benchmarks 
+# packagegroup-xilinx-gstreamer 
 #
-# CONFIG_packagegroup-petalinux-benchmarks is not set
-# CONFIG_packagegroup-petalinux-benchmarks-dbg is not set
-# CONFIG_packagegroup-petalinux-benchmarks-dev is not set
+CONFIG_packagegroup-xilinx-gstreamer=y
+CONFIG_packagegroup-xilinx-gstreamer-dev=y
+# CONFIG_packagegroup-xilinx-gstreamer-dbg is not set
 
 #
-# packagegroup-petalinux-display-debug 
+# packagegroup-lmsensors 
 #
-# CONFIG_packagegroup-petalinux-display-debug is not set
-# CONFIG_packagegroup-petalinux-display-debug-dbg is not set
-# CONFIG_packagegroup-petalinux-display-debug-dev is not set
+# CONFIG_packagegroup-lmsensors is not set
+# CONFIG_packagegroup-lmsensors-dbg is not set
+# CONFIG_packagegroup-lmsensors-dev is not set
 
 #
-# packagegroup-petalinux-gstreamer 
+# packagegroup-xilinx-matchbox 
 #
-CONFIG_packagegroup-petalinux-gstreamer=y
-# CONFIG_packagegroup-petalinux-gstreamer-dev is not set
-# CONFIG_packagegroup-petalinux-gstreamer-dbg is not set
+# CONFIG_packagegroup-xilinx-matchbox is not set
+# CONFIG_packagegroup-xilinx-matchbox-dbg is not set
+# CONFIG_packagegroup-xilinx-matchbox-dev is not set
 
 #
-# packagegroup-petalinux-lmsensors 
+# packagegroup-xilinx-multimedia 
 #
-# CONFIG_packagegroup-petalinux-lmsensors is not set
-# CONFIG_packagegroup-petalinux-lmsensors-dbg is not set
-# CONFIG_packagegroup-petalinux-lmsensors-dev is not set
+CONFIG_packagegroup-xilinx-multimedia=y
+# CONFIG_packagegroup-xilinx-multimedia-dbg is not set
+CONFIG_packagegroup-xilinx-multimedia-dev=y
 
 #
-# packagegroup-petalinux-matchbox 
+# packagegroup-networking-stack 
 #
-# CONFIG_packagegroup-petalinux-matchbox is not set
-# CONFIG_packagegroup-petalinux-matchbox-dbg is not set
-# CONFIG_packagegroup-petalinux-matchbox-dev is not set
+# CONFIG_packagegroup-networking-stack is not set
+# CONFIG_packagegroup-networking-stack-dbg is not set
+# CONFIG_packagegroup-networking-stack-dev is not set
 
 #
-# packagegroup-petalinux-mraa 
+# packagegroup-openamp 
 #
-# CONFIG_packagegroup-petalinux-mraa is not set
-# CONFIG_packagegroup-petalinux-mraa-dbg is not set
-# CONFIG_packagegroup-petalinux-mraa-dev is not set
+# CONFIG_packagegroup-openamp is not set
+# CONFIG_packagegroup-openamp-dev is not set
+# CONFIG_packagegroup-openamp-dbg is not set
 
 #
-# packagegroup-petalinux-multimedia 
+# packagegroup-opencv 
 #
-# CONFIG_packagegroup-petalinux-multimedia is not set
-# CONFIG_packagegroup-petalinux-multimedia-dbg is not set
-# CONFIG_packagegroup-petalinux-multimedia-dev is not set
+CONFIG_packagegroup-opencv=y
+CONFIG_packagegroup-opencv-dev=y
+# CONFIG_packagegroup-opencv-dbg is not set
 
 #
-# packagegroup-petalinux-networking-debug
+# packagegroup-xilinx-qt 
 #
-# CONFIG_packagegroup-petalinux-networking-debug is not set
-# CONFIG_packagegroup-petalinux-networking-debug-dbg is not set
-# CONFIG_packagegroup-petalinux-networking-debug-dev is not set
-
-#
-# packagegroup-petalinux-networking-stack 
-#
-# CONFIG_packagegroup-petalinux-networking-stack is not set
-# CONFIG_packagegroup-petalinux-networking-stack-dbg is not set
-# CONFIG_packagegroup-petalinux-networking-stack-dev is not set
-
-#
-# packagegroup-petalinux-ocicontainers 
-#
-# CONFIG_packagegroup-petalinux-ocicontainers is not set
-# CONFIG_packagegroup-petalinux-ocicontainers-dev is not set
-# CONFIG_packagegroup-petalinux-ocicontainers-dbg is not set
-
-#
-# packagegroup-petalinux-openamp 
-#
-# CONFIG_packagegroup-petalinux-openamp is not set
-# CONFIG_packagegroup-petalinux-openamp-dev is not set
-# CONFIG_packagegroup-petalinux-openamp-dbg is not set
-
-#
-# packagegroup-petalinux-opencv 
-#
-CONFIG_packagegroup-petalinux-opencv=y
-# CONFIG_packagegroup-petalinux-opencv-dev is not set
-# CONFIG_packagegroup-petalinux-opencv-dbg is not set
-
-#
-# packagegroup-petalinux-python-modules 
-#
-# CONFIG_packagegroup-petalinux-python-modules is not set
-# CONFIG_packagegroup-petalinux-python-modules-dbg is not set
-# CONFIG_packagegroup-petalinux-python-modules-dev is not set
-
-#
-# packagegroup-petalinux-qt 
-#
-# CONFIG_packagegroup-petalinux-qt is not set
-# CONFIG_packagegroup-petalinux-qt-dev is not set
-# CONFIG_packagegroup-petalinux-qt-dbg is not set
+# CONFIG_packagegroup-xilinx-qt is not set
+# CONFIG_packagegroup-xilinx-qt-dev is not set
+# CONFIG_packagegroup-xilinx-qt-dbg is not set
 # CONFIG_imageclass-populate-sdk-qt5 is not set
 
 #
-# packagegroup-petalinux-qt-extended 
+# packagegroup-xilinx-qt-extended 
 #
-# CONFIG_packagegroup-petalinux-qt-extended is not set
-# CONFIG_packagegroup-petalinux-qt-extended-dbg is not set
-# CONFIG_packagegroup-petalinux-qt-extended-dev is not set
+# CONFIG_packagegroup-xilinx-qt-extended is not set
+# CONFIG_packagegroup-xilinx-qt-extended-dbg is not set
+# CONFIG_packagegroup-xilinx-qt-extended-dev is not set
 
 #
-# packagegroup-petalinux-self-hosted 
+# packagegroup-self-hosted 
 #
-# CONFIG_packagegroup-petalinux-self-hosted is not set
-# CONFIG_packagegroup-petalinux-self-hosted-dbg is not set
-# CONFIG_packagegroup-petalinux-self-hosted-dev is not set
 
 #
-# packagegroup-petalinux-utils 
+# packagegroup-core-x11 
 #
-# CONFIG_packagegroup-petalinux-utils is not set
-# CONFIG_packagegroup-petalinux-utils-dbg is not set
-# CONFIG_packagegroup-petalinux-utils-dev is not set
 
 #
-# packagegroup-petalinux-v4lutils 
+# packagegroup-xen 
 #
-CONFIG_packagegroup-petalinux-v4lutils=y
-# CONFIG_packagegroup-petalinux-v4lutils-dbg is not set
-# CONFIG_packagegroup-petalinux-v4lutils-dev is not set
-
-#
-# packagegroup-petalinux-vitis-acceleration-essential 
-#
-# CONFIG_packagegroup-petalinux-vitis-acceleration-essential is not set
-# CONFIG_packagegroup-petalinux-vitis-acceleration-essential-dbg is not set
-# CONFIG_packagegroup-petalinux-vitis-acceleration-essential-dev is not set
-
-#
-# packagegroup-petalinux-x11 
-#
-# CONFIG_packagegroup-petalinux-x11 is not set
-# CONFIG_packagegroup-petalinux-x11-dev is not set
-# CONFIG_packagegroup-petalinux-x11-dbg is not set
-
-#
-# packagegroup-petalinux-xen 
-#
-# CONFIG_packagegroup-petalinux-xen is not set
-# CONFIG_packagegroup-petalinux-xen-dev is not set
-# CONFIG_packagegroup-petalinux-xen-dbg is not set
+# CONFIG_packagegroup-xen is not set
+# CONFIG_packagegroup-xen-dev is not set
+# CONFIG_packagegroup-xen-dbg is not set
 
 #
 # Image Features
@@ -4067,21 +3992,23 @@ CONFIG_Init-manager-systemd=y
 #
 # user packages 
 #
+CONFIG_libcamera=y
+CONFIG_libcamera-dev=y
+CONFIG_libcamera-gst=y
+CONFIG_libcamera-pycamera=y
 # CONFIG_libvdu-ctrlsw is not set
 # CONFIG_libvdu-omxil is not set
 # CONFIG_aie-notebooks is not set
 # CONFIG_aie-oob is not set
-# CONFIG_auto-resize is not set
+CONFIG_auto-resize=y
 # CONFIG_gpio-demo is not set
-CONFIG_hdmi21-modules=y
-# CONFIG_initcams is not set
+CONFIG_initcams=y
 # CONFIG_kernel-module-vdu is not set
 # CONFIG_openamp-demo-notebooks is not set
-# CONFIG_packagegroup-petalinux-jupyter is not set
 # CONFIG_peekpoke is not set
 # CONFIG_pm-notebooks is not set
 # CONFIG_python3-ipywidgets is not set
-# CONFIG_simd is not set
+CONFIG_simd=y
 # CONFIG_target-factory is not set
 # CONFIG_unilog is not set
 # CONFIG_vart is not set

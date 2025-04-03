@@ -19,11 +19,10 @@
  License for the specific language governing permissions and limitations
  under the License. -->
  
-<part_info part_name="xcve2302-sfva784-1LP-e-S-es1">
+<part_info part_name="xcve2302-sfva784-1LP-e-S">
 	<pins>
 		<!-- <pin index="0" name="lpddr4_clk1_p" iostandard="DIFF_SSTL15" loc="N23" /> -->
 		<!-- <pin index="1" name="lpddr4_clk1_n" iostandard="DIFF_SSTL15" loc="N24" /> -->
-		<!-- LPDDR4_CH0_CLK1 is in BANK 702, which conflicts with MIPI I/O -->
 		<!-- Refer to https://support.xilinx.com/s/article/55734 for resolution  -->
 		<pin index="0" name="lpddr4_clk1_p" iostandard="LVDS15" loc="N23" />
 		<pin index="1" name="lpddr4_clk1_n" iostandard="LVDS15" loc="N24" />

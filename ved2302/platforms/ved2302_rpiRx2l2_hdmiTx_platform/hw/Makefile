@@ -32,7 +32,8 @@ help:
 all: xsa
 
 $(ISP_IP): $(IP_SRC)
-	make -C $(ISP_DIR) ip XPART=xcve2302-sfva784-1LP-e-S-es1
+	#make -C $(ISP_DIR) ip XPART=xcve2302-sfva784-1LP-e-S-es1
+	make -C $(ISP_DIR) ip XPART=xcve2302-sfva784-1LP-e-S
 
 xsa: $(ISP_IP) $(VIV_XSA)
 

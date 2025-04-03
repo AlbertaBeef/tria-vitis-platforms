@@ -80,7 +80,7 @@ set_property platform.uses_pr  "false" [current_project]
 set_property platform.full_pdi_file "$proj_dir/${proj_name}.runs/impl_1/${proj_name}_wrapper.pdi" [current_project]
 set_property platform.name $proj_name [current_project]
 #set_property platform.vendor "xilinx" [current_project]
-set_property platform.vendor "avnet" [current_project]
+set_property platform.vendor "avnet-tria" [current_project]
 set_property platform.version "1.0" [current_project]
 set_property strategy Performance_ExploreWithRemap [get_runs impl_1] 
 

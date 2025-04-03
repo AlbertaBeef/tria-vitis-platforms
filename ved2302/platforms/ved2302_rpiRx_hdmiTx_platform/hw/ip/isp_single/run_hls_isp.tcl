@@ -14,7 +14,8 @@ if {![info exists CLKP]} {
 }
 
 if {![info exists XPART]} {
-  set xcve2302-sfva784-1LP-e-S-es1
+  #set xcve2302-sfva784-1LP-e-S-es1
+  set xcve2302-sfva784-1LP-e-S
 }
 
 open_project -reset $PROJ

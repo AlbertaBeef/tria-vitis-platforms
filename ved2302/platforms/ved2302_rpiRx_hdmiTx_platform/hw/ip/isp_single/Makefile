@@ -4,7 +4,8 @@
 RM = rm -rf
 HLS = vitis_hls
 CLKP ?= 3.3333
-XPART ?= xcve2302-sfva784-1LP-e-S-es1
+#XPART ?= xcve2302-sfva784-1LP-e-S-es1
+XPART ?= xcve2302-sfva784-1LP-e-S
 
 .PHONY: help
 help:

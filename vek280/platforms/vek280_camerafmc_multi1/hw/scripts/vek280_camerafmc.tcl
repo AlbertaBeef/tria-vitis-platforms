@@ -21,7 +21,7 @@ set script_folder [_tcl::get_script_folder]
 # Check if script is running in correct Vivado version.
 ################################################################
 #set scripts_vivado_version 2023.1
-set scripts_vivado_version 2023.2
+set scripts_vivado_version 2024.2
 set current_vivado_version [version -short]
 
 if { [string first $scripts_vivado_version $current_vivado_version] == -1 } {
@@ -1091,6 +1091,7 @@ refclk_PROT0_R2_400_MHz_unique1} \
   set_property -dict [list \
     CONFIG.C_FOR_UPGRADE_PART {xcve2802-vsvh1760-2LP-e-S-es1} \
     CONFIG.C_FOR_UPGRADE_SPEEDGRADE {-2LP} \
+    CONFIG.C_NEW_WIZ {0} \
     CONFIG.C_Rx_Protocol {HDMI 2.1} \
     CONFIG.C_SPEEDGRADE {-2LP} \
     CONFIG.C_Tx_Protocol {HDMI 2.1} \
@@ -2512,7 +2513,7 @@ proc create_root_design { parentCell } {
   current_bd_instance $oldCurInst
 
   # Create PFM attributes
-  set_property PFM_NAME {tria-technologies.com:xd:vek280_camerafmc:1.0} [get_files [current_bd_design].bd]
+  set_property PFM_NAME {avnet-tria:xd:vek280_camerafmc:1.0} [get_files [current_bd_design].bd]
   set_property PFM.AXI_PORT {S10_AXI { memport "S_AXI_NOC" sptag "NOC_S10" memory "" is_range "true" }  S11_AXI { memport "S_AXI_NOC" sptag "NOC_S11" memory "" is_range "true" }  S12_AXI { memport "S_AXI_NOC" sptag "NOC_S12" memory "" is_range "true" }  S13_AXI { memport "S_AXI_NOC" sptag "NOC_S13" memory "" is_range "true" }  S14_AXI { memport "S_AXI_NOC" sptag "NOC_S14" memory "" is_range "true" }  S15_AXI { memport "S_AXI_NOC" sptag "NOC_S15" memory "" is_range "true" }  S16_AXI { memport "S_AXI_NOC" sptag "NOC_S16" memory "" is_range "true" }  S17_AXI { memport "S_AXI_NOC" sptag "NOC_S17" memory "" is_range "true" }  S18_AXI { memport "S_AXI_NOC" sptag "NOC_S18" memory "" is_range "true" }  S19_AXI { memport "S_AXI_NOC" sptag "NOC_S19" memory "" is_range "true" }  S20_AXI { memport "S_AXI_NOC" sptag "NOC_S20" memory "" is_range "true" }  S21_AXI { memport "S_AXI_NOC" sptag "NOC_S21" memory "" is_range "true" }  S22_AXI { memport "S_AXI_NOC" sptag "NOC_S22" memory "" is_range "true" }  S23_AXI { memport "S_AXI_NOC" sptag "NOC_S23" memory "" is_range "true" }  S24_AXI { memport "S_AXI_NOC" sptag "NOC_S24" memory "" is_range "true" }  S25_AXI { memport "S_AXI_NOC" sptag "NOC_S25" memory "" is_range "true" }  S26_AXI { memport "S_AXI_NOC" sptag "NOC_S26" memory "" is_range "true" }  S27_AXI { memport "S_AXI_NOC" sptag "NOC_S27" memory "" is_range "true" }  S28_AXI { memport "S_AXI_NOC" sptag "NOC_S28" memory "" is_range "true" }  S29_AXI { memport "S_AXI_NOC" sptag "NOC_S29" memory "" is_range "true" }  S30_AXI { memport "S_AXI_NOC" sptag "NOC_S30" memory "" is_range "true" }  S31_AXI { memport "S_AXI_NOC" sptag "NOC_S31" memory "" is_range "true" }  S32_AXI { memport "S_AXI_NOC" sptag "NOC_S32" memory "" is_range "true" }  S33_AXI { memport "S_AXI_NOC" sptag "NOC_S33" memory "" is_range "true" } } [get_bd_cells /cips_noc]
   set_property PFM.AXI_PORT {S00_AXI { memport "S_AXI_NOC" sptag "DDR" memory "" is_range "true" } } [get_bd_cells /noc_ddr4]
   set_property PFM.AXI_PORT {S00_AXI { memport "S_AXI_NOC" sptag "LPDDR" memory "" is_range "true" } } [get_bd_cells /noc_lpddr4]

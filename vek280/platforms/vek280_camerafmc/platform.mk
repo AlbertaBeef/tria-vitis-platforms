@@ -21,8 +21,8 @@ CORE     = psv_cortexa72_0
 #versioning
 #VERSION          ?= 202310_1
 #VER              ?= 202310.1
-VERSION          ?= 202320_1
-VER              ?= 202320.1
+VERSION          ?= 2024_2
+VER              ?= 2024.2
 
 #common
 TOP_DIR         ?= $(shell readlink -f .)
@@ -47,9 +47,9 @@ PLATFORM_SW_SRC  = $(TOP_DIR)/platform
 PLATFORM_DIR     = $(TOP_DIR)/platform_repo
 
 #flow related
-PREBUILT_LINUX_PATH ?= /opt/xilinx/platform/xilinx-versal-common-v2023.1
-ifneq ($(wildcard $(TOP_DIR)/xilinx-versal-common-v2023.1),)
-PREBUILT_LINUX_PATH ?= $(TOP_DIR)/xilinx-versal-common-v2023.1
+PREBUILT_LINUX_PATH ?= /opt/xilinx/platform/xilinx-versal-common-v2024.2
+ifneq ($(wildcard $(TOP_DIR)/xilinx-versal-common-v2024.2),)
+PREBUILT_LINUX_PATH ?= $(TOP_DIR)/xilinx-versal-common-v2024.2
 endif
 # Getting Absolute paths
 ifneq ("$(wildcard $(XSA))","")

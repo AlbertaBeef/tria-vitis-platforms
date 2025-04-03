@@ -20,7 +20,7 @@ set script_folder [_tcl::get_script_folder]
 ################################################################
 # Check if script is running in correct Vivado version.
 ################################################################
-set scripts_vivado_version 2023.2
+set scripts_vivado_version 2024.2
 set current_vivado_version [version -short]
 
 if { [string first $scripts_vivado_version $current_vivado_version] == -1 } {
@@ -42,7 +42,8 @@ if { [string first $scripts_vivado_version $current_vivado_version] == -1 } {
 
 set list_projs [get_projects -quiet]
 if { $list_projs eq "" } {
-   create_project project_1 myproj -part xcve2302-sfva784-1LP-e-S-es1
+   #create_project project_1 myproj -part xcve2302-sfva784-1LP-e-S-es1
+   create_project project_1 myproj -part xcve2302-sfva784-1LP-e-S
    set_property BOARD_PART avnet.com:ve2302_iocc:part0:1.0 [current_project]
 }
 
@@ -1389,6 +1390,7 @@ refclk_PROT0_R2_400_MHz_unique1} \
   set_property -dict [list \
     CONFIG.C_FOR_UPGRADE_PART {xcve2802-vsvh1760-2LP-e-S-es1} \
     CONFIG.C_FOR_UPGRADE_SPEEDGRADE {-2LP} \
+    CONFIG.C_NEW_WIZ {0} \
     CONFIG.C_Rx_Protocol {HDMI 2.1} \
     CONFIG.C_SPEEDGRADE {-2LP} \
     CONFIG.C_Tx_Protocol {HDMI 2.1} \
@@ -1999,18 +2001,6 @@ proc create_hier_cell_cips_ss_0 { parentCell nameHier } {
       SMON_ALARMS {Set_Alarms_On} \
       SMON_ENABLE_TEMP_AVERAGING {0} \
       SMON_INTERFACE_TO_USE {None} \
-      SMON_MEAS20 {{ALARM_ENABLE 1} {ALARM_LOWER 0.00} {ALARM_UPPER 2.00} {AVERAGE_EN 0} {ENABLE 1} {MODE {2 V unipolar}} {NAME VCC_PMC} {SUPPLY_NUM 2}} \
-      SMON_MEAS21 {{ALARM_ENABLE 1} {ALARM_LOWER 0.00} {ALARM_UPPER 2.00} {AVERAGE_EN 0} {ENABLE 1} {MODE {2 V unipolar}} {NAME VCC_PSFP} {SUPPLY_NUM 3}} \
-      SMON_MEAS22 {{ALARM_ENABLE 1} {ALARM_LOWER 0.00} {ALARM_UPPER 2.00} {AVERAGE_EN 0} {ENABLE 1} {MODE {2 V unipolar}} {NAME VCC_PSLP} {SUPPLY_NUM 4}} \
-      SMON_MEAS24 {{ALARM_ENABLE 1} {ALARM_LOWER 0.00} {ALARM_UPPER 2.00} {AVERAGE_EN 0} {ENABLE 1} {MODE {2 V unipolar}} {NAME VCC_SOC} {SUPPLY_NUM 0}} \
-      SMON_MEAS25 {{ALARM_ENABLE 1} {ALARM_LOWER 0.00} {ALARM_UPPER 2.00} {AVERAGE_EN 0} {ENABLE 1} {MODE {2 V unipolar}} {NAME VP_VN} {SUPPLY_NUM 1}} \
-      SMON_MEAS44 {{ALARM_ENABLE 1} {ALARM_LOWER 0.00} {ALARM_UPPER 2.00} {AVERAGE_EN 0} {ENABLE 1} {MODE {2 V unipolar}} {NAME VCC_PMC} {SUPPLY_NUM 2}} \
-      SMON_MEAS45 {{ALARM_ENABLE 1} {ALARM_LOWER 0.00} {ALARM_UPPER 2.00} {AVERAGE_EN 0} {ENABLE 1} {MODE {2 V unipolar}} {NAME VCC_PSFP} {SUPPLY_NUM 3}} \
-      SMON_MEAS46 {{ALARM_ENABLE 1} {ALARM_LOWER 0.00} {ALARM_UPPER 2.00} {AVERAGE_EN 0} {ENABLE 1} {MODE {2 V unipolar}} {NAME VCC_PSLP} {SUPPLY_NUM 4}} \
-      SMON_MEAS48 {{ALARM_ENABLE 1} {ALARM_LOWER 0.00} {ALARM_UPPER 2.00} {AVERAGE_EN 0} {ENABLE 1} {MODE {2 V unipolar}} {NAME VCC_SOC} {SUPPLY_NUM 5}} \
-      SMON_MEAS49 {{ALARM_ENABLE 1} {ALARM_LOWER 0.00} {ALARM_UPPER 2.00} {AVERAGE_EN 0} {ENABLE 1} {MODE {2 V unipolar}} {NAME VP_VN} {SUPPLY_NUM 6}} \
-      SMON_MEAS6 {{ALARM_ENABLE 1} {ALARM_LOWER 0.00} {ALARM_UPPER 2.00} {AVERAGE_EN 0} {ENABLE 1} {MODE {2 V unipolar}} {NAME VCCAUX} {SUPPLY_NUM 5}} \
-      SMON_MEAS7 {{ALARM_ENABLE 1} {ALARM_LOWER 0.00} {ALARM_UPPER 2.00} {AVERAGE_EN 0} {ENABLE 1} {MODE {2 V unipolar}} {NAME VCCAUX_PMC} {SUPPLY_NUM 6}} \
       SMON_TEMP_AVERAGING_SAMPLES {0} \
     } \
     CONFIG.PS_PMC_CONFIG_APPLIED {1} \
@@ -2681,7 +2671,7 @@ proc create_root_design { parentCell } {
   current_bd_instance $oldCurInst
 
   # Create PFM attributes
-  set_property PFM_NAME {tria-technologies.com:xd:ved2302_rpiRx2l2_hdmiTx:1.0} [get_files [current_bd_design].bd]
+  set_property PFM_NAME {avnet-tria:ved2302_iocc:ved2302_rpiRx2l2_hdmiTx:1.0} [get_files [current_bd_design].bd]
   set_property PFM.AXI_PORT {S10_AXI { memport "S_AXI_NOC" sptag "NOC_S10" memory "" is_range "true" }  S11_AXI { memport "S_AXI_NOC" sptag "NOC_S11" memory "" is_range "true" }  S12_AXI { memport "S_AXI_NOC" sptag "NOC_S12" memory "" is_range "true" }  S13_AXI { memport "S_AXI_NOC" sptag "NOC_S13" memory "" is_range "true" }  S14_AXI { memport "S_AXI_NOC" sptag "NOC_S14" memory "" is_range "true" }  S15_AXI { memport "S_AXI_NOC" sptag "NOC_S15" memory "" is_range "true" }  S16_AXI { memport "S_AXI_NOC" sptag "NOC_S16" memory "" is_range "true" }  S17_AXI { memport "S_AXI_NOC" sptag "NOC_S17" memory "" is_range "true" }  S18_AXI { memport "S_AXI_NOC" sptag "NOC_S18" memory "" is_range "true" }  S19_AXI { memport "S_AXI_NOC" sptag "NOC_S19" memory "" is_range "true" }  S20_AXI { memport "S_AXI_NOC" sptag "NOC_S20" memory "" is_range "true" }  S21_AXI { memport "S_AXI_NOC" sptag "NOC_S21" memory "" is_range "true" }  S22_AXI { memport "S_AXI_NOC" sptag "NOC_S22" memory "" is_range "true" }  S23_AXI { memport "S_AXI_NOC" sptag "NOC_S23" memory "" is_range "true" }  S24_AXI { memport "S_AXI_NOC" sptag "NOC_S24" memory "" is_range "true" }  S25_AXI { memport "S_AXI_NOC" sptag "NOC_S25" memory "" is_range "true" }  S26_AXI { memport "S_AXI_NOC" sptag "NOC_S26" memory "" is_range "true" }  S27_AXI { memport "S_AXI_NOC" sptag "NOC_S27" memory "" is_range "true" }  S28_AXI { memport "S_AXI_NOC" sptag "NOC_S28" memory "" is_range "true" }  S29_AXI { memport "S_AXI_NOC" sptag "NOC_S29" memory "" is_range "true" }  S30_AXI { memport "S_AXI_NOC" sptag "NOC_S30" memory "" is_range "true" }  S31_AXI { memport "S_AXI_NOC" sptag "NOC_S31" memory "" is_range "true" }  S32_AXI { memport "S_AXI_NOC" sptag "NOC_S32" memory "" is_range "true" }  S33_AXI { memport "S_AXI_NOC" sptag "NOC_S33" memory "" is_range "true" } } [get_bd_cells /cips_noc]
   set_property PFM.AXI_PORT {S00_AXI { memport "S_AXI_NOC" sptag "DDR" memory "" is_range "true" } } [get_bd_cells /noc_ddr4]
   set_property PFM.IRQ {intr { id 0 range 32 }} [get_bd_cells /cips_ss_0/axi_intc_0]
