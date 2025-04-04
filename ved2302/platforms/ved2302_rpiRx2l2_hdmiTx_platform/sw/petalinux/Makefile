@@ -100,15 +100,14 @@ $(BOOT_IMAGE):
 	$(info "BOOT image for platforms")
 	@if [ -f project-spec/hw-description/*.pdi ]; then  \
 		echo "INFO: BOOT image generation started...";  \
-		petalinux-package --force --boot --u-boot --qemu-rootfs no --bif linux_bif/bootgen.bif;  \
+		petalinux-package boot --force --u-boot --qemu-rootfs no --bif linux_bif/bootgen.bif;  \
 	else  \
 		echo "WARNING: "hw.bit" file not found. Skipping BOOT image generation.";  \
 	fi
 
 .PHONY: wic
 wic: $(BOOT_IMAGE) $(PETA_FILES)
-	petalinux-package --wic -w ./project-spec/configs/sdimage.wks --extra-bootfiles " system.dtb " --wic-extra-args "-c gzip"
-		
+	petalinux-package wic -w ./project-spec/configs/sdimage.wks --extra-bootfiles=" system.dtb" --wic-extra-args="-c gzip"
 clean:
 	petalinux-build -x mrproper
 	-@$(RM) project-spec/hw-description/*.xsa project-spec/hw-description/*.pdi
