@@ -43,7 +43,7 @@
 	
 	<components>
 		
-		<component name="part0" display_name="xcve2302 FPGA" type="fpga" part_name="xcve2302-sfva784-1LP-e-S-es1" pin_map_file="part0_pins.xml" vendor="avnet" spec_url="http://avnet.me/ve2302_iocc">
+		<component name="part0" display_name="xcve2302 FPGA" type="fpga" part_name="xcve2302-sfva784-1LP-e-S" pin_map_file="part0_pins.xml" vendor="avnet" spec_url="http://avnet.me/ve2302_iocc">
 			<description>XCVE2302 FPGA</description>
 			<interfaces>
 				<interface mode="master" name="ps_pmc_fixed_io" type="xilinx.com:interface:fixed_io_rtl:1.0" of_component="ps_pmc_fixed_io" preset_proc="ps_pmc_fixed_io_preset">

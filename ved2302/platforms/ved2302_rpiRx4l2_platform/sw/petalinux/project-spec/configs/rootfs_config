@@ -396,7 +396,7 @@ CONFIG_mtd-utils=y
 # CONFIG_util-linux-readprofile is not set
 # CONFIG_util-linux-mountpoint is not set
 # CONFIG_util-linux-fdisk is not set
-# CONFIG_util-linux-lscpu is not set
+CONFIG_util-linux-lscpu=y
 # CONFIG_util-linux-dbg is not set
 # CONFIG_util-linux-uuidd is not set
 # CONFIG_util-linux-mkfs.cramfs is not set
@@ -708,7 +708,7 @@ CONFIG_nfs-utils=y
 #
 # git 
 #
-# CONFIG_git is not set
+CONFIG_git=y
 # CONFIG_git-bash-completion is not set
 # CONFIG_git-perltools is not set
 # CONFIG_gitweb is not set
@@ -2774,10 +2774,10 @@ CONFIG_python3=y
 # CONFIG_python3-html is not set
 # CONFIG_python3-image is not set
 # CONFIG_python3-difflib is not set
-# CONFIG_python3-dev is not set
+CONFIG_python3-dev=y
 # CONFIG_python3-syslog is not set
 # CONFIG_python3-curses is not set
-# CONFIG_libpython3 is not set
+CONFIG_libpython3=y
 # CONFIG_python3-logging is not set
 # CONFIG_python3-profile is not set
 # CONFIG_python3-xmlrpc is not set
@@ -3383,7 +3383,7 @@ CONFIG_tcf-agent=y
 #
 # yavta 
 #
-# CONFIG_yavta is not set
+CONFIG_yavta=y
 # CONFIG_yavta-dbg is not set
 # CONFIG_yavta-dev is not set
 
@@ -3526,7 +3526,7 @@ CONFIG_bridge-utils=y
 #
 # dosfstools 
 #
-# CONFIG_dosfstools is not set
+CONFIG_dosfstools=y
 # CONFIG_dosfstools-dev is not set
 # CONFIG_dosfstools-dbg is not set
 
@@ -3919,7 +3919,7 @@ CONFIG_libdrm-dev=y
 # packagegroup-petalinux-gstreamer 
 #
 CONFIG_packagegroup-petalinux-gstreamer=y
-# CONFIG_packagegroup-petalinux-gstreamer-dev is not set
+CONFIG_packagegroup-petalinux-gstreamer-dev=y
 # CONFIG_packagegroup-petalinux-gstreamer-dbg is not set
 
 #
@@ -3946,7 +3946,7 @@ CONFIG_packagegroup-petalinux-gstreamer=y
 #
 # packagegroup-petalinux-multimedia 
 #
-# CONFIG_packagegroup-petalinux-multimedia is not set
+CONFIG_packagegroup-petalinux-multimedia=y
 # CONFIG_packagegroup-petalinux-multimedia-dbg is not set
 # CONFIG_packagegroup-petalinux-multimedia-dev is not set
 
@@ -3982,7 +3982,7 @@ CONFIG_packagegroup-petalinux-gstreamer=y
 # packagegroup-petalinux-opencv 
 #
 CONFIG_packagegroup-petalinux-opencv=y
-# CONFIG_packagegroup-petalinux-opencv-dev is not set
+CONFIG_packagegroup-petalinux-opencv-dev=y
 # CONFIG_packagegroup-petalinux-opencv-dbg is not set
 
 #
@@ -4010,7 +4010,7 @@ CONFIG_packagegroup-petalinux-opencv=y
 #
 # packagegroup-petalinux-self-hosted 
 #
-# CONFIG_packagegroup-petalinux-self-hosted is not set
+CONFIG_packagegroup-petalinux-self-hosted=y
 # CONFIG_packagegroup-petalinux-self-hosted-dbg is not set
 # CONFIG_packagegroup-petalinux-self-hosted-dev is not set
 
@@ -4071,27 +4071,27 @@ CONFIG_Init-manager-systemd=y
 # CONFIG_libvdu-omxil is not set
 # CONFIG_aie-notebooks is not set
 # CONFIG_aie-oob is not set
-# CONFIG_auto-resize is not set
+CONFIG_auto-resize=y
 # CONFIG_gpio-demo is not set
 CONFIG_hdmi21-modules=y
-# CONFIG_initcams is not set
+CONFIG_initcams=y
 # CONFIG_kernel-module-vdu is not set
 # CONFIG_openamp-demo-notebooks is not set
 # CONFIG_packagegroup-petalinux-jupyter is not set
 # CONFIG_peekpoke is not set
 # CONFIG_pm-notebooks is not set
 # CONFIG_python3-ipywidgets is not set
-# CONFIG_simd is not set
-# CONFIG_target-factory is not set
-# CONFIG_unilog is not set
-# CONFIG_vart is not set
+CONFIG_simd=y
+CONFIG_target-factory=y
+CONFIG_unilog=y
+CONFIG_vart=y
 # CONFIG_vdu-firmware is not set
-# CONFIG_vitis-ai-library is not set
-# CONFIG_vvas-accel-libs is not set
-# CONFIG_vvas-core is not set
-# CONFIG_vvas-gst is not set
-# CONFIG_vvas-utils is not set
-# CONFIG_xir is not set
+CONFIG_vitis-ai-library=y
+CONFIG_vvas-accel-libs=y
+CONFIG_vvas-core=y
+CONFIG_vvas-gst=y
+CONFIG_vvas-utils=y
+CONFIG_xir=y
 
 #
 # PetaLinux RootFS Settings

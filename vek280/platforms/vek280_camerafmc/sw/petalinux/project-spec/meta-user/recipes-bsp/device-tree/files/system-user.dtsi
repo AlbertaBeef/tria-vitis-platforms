@@ -106,7 +106,7 @@
 		};
 	};
 };
-		
+
 
 #include "pl-custom.dtsi"
 #include "mipi-0-imx219.dtsi"
