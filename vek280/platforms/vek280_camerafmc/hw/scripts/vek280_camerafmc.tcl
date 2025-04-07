@@ -1060,6 +1060,15 @@ proc create_hier_cell_hdmiphy_ss { parentCell nameHier } {
   create_bd_pin -dir I -type rst vid_phy_sb_aresetn
   create_bd_pin -dir I -type rst vid_phy_tx_axi4s_aresetn
 
+  # Create instance: gt_refclk_buf_ss_0
+  create_hier_cell_gt_refclk_buf_ss_0 $hier_obj gt_refclk_buf_ss_0
+
+  # Create instance: gt_refclk_buf_ss_1
+  create_hier_cell_gt_refclk_buf_ss_1 $hier_obj gt_refclk_buf_ss_1
+
+  # Create instance: gt_refclk_buf_ss_2
+  create_hier_cell_gt_refclk_buf_ss_2 $hier_obj gt_refclk_buf_ss_2
+
   # Create instance: bufg_gt_rx, and set properties
   set bufg_gt_rx [ create_bd_cell -type ip -vlnv xilinx.com:ip:bufg_gt bufg_gt_rx ]
 
@@ -1076,15 +1085,6 @@ refclk_PROT0_R2_400_MHz_unique1 HSCLK1_LCPLLGTREFCLK1 refclk_PROT1_R1_multiple_e
 refclk_PROT0_R2_400_MHz_unique1} \
   ] $gt_quad_base
 
-
-  # Create instance: gt_refclk_buf_ss_0
-  create_hier_cell_gt_refclk_buf_ss_0 $hier_obj gt_refclk_buf_ss_0
-
-  # Create instance: gt_refclk_buf_ss_1
-  create_hier_cell_gt_refclk_buf_ss_1 $hier_obj gt_refclk_buf_ss_1
-
-  # Create instance: gt_refclk_buf_ss_2
-  create_hier_cell_gt_refclk_buf_ss_2 $hier_obj gt_refclk_buf_ss_2
 
   # Create instance: hdmi_gt_controller_0, and set properties
   set hdmi_gt_controller_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:hdmi_gt_controller hdmi_gt_controller_0 ]
@@ -1292,6 +1292,8 @@ proc create_hier_cell_hdmi { parentCell nameHier } {
   # Create instance: v_hdmi_txss1_0, and set properties
   set v_hdmi_txss1_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:v_hdmi_txss1 v_hdmi_txss1_0 ]
   set_property -dict [list \
+    CONFIG.C_EXDES_RX_PLL_SELECTION {8} \
+    CONFIG.C_EXDES_TX_PLL_SELECTION {7} \
     CONFIG.C_HPD_INVERT {true} \
     CONFIG.C_INPUT_PIXELS_PER_CLOCK {4} \
     CONFIG.C_MAX_BITS_PER_COMPONENT {8} \
@@ -1303,6 +1305,11 @@ proc create_hier_cell_hdmi { parentCell nameHier } {
   set v_mix_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:v_mix v_mix_0 ]
   set_property -dict [list \
     CONFIG.AXIMM_ADDR_WIDTH {64} \
+    CONFIG.AXIMM_DATA_WIDTH {256} \
+    CONFIG.C_M_AXI_MM_VIDEO1_DATA_WIDTH {256} \
+    CONFIG.C_M_AXI_MM_VIDEO2_DATA_WIDTH {256} \
+    CONFIG.C_M_AXI_MM_VIDEO3_DATA_WIDTH {256} \
+    CONFIG.C_M_AXI_MM_VIDEO4_DATA_WIDTH {256} \
     CONFIG.LAYER1_ALPHA {true} \
     CONFIG.LAYER1_VIDEO_FORMAT {29} \
     CONFIG.LAYER2_ALPHA {true} \
@@ -1977,6 +1984,7 @@ proc create_root_design { parentCell } {
     CONFIG.FIFO_TYPE_MI_AXIS {} \
     CONFIG.FIFO_TYPE_SI_AXIS {} \
     CONFIG.NAME_MI_AXIS {} \
+    CONFIG.NAME_SI_AXI {S00_AXI,S01_AXI,S02_AXI,S03_AXI,S04_AXI,} \
     CONFIG.NAME_SI_AXIS {} \
     CONFIG.NUM_CLKS {0} \
     CONFIG.NUM_MI_AXI {0} \
@@ -2184,11 +2192,168 @@ proc create_root_design { parentCell } {
   set_property -dict [list \
     CONFIG.CH0_LPDDR4_0_BOARD_INTERFACE {ch0_lpddr4_trip1} \
     CONFIG.CH1_LPDDR4_0_BOARD_INTERFACE {ch1_lpddr4_trip1} \
+    CONFIG.MC1_CONFIG_NUM {config23} \
+    CONFIG.MC2_CONFIG_NUM {config23} \
+    CONFIG.MC3_CONFIG_NUM {config23} \
+    CONFIG.MC_ADDR_WIDTH {6} \
+    CONFIG.MC_BOARD_INTRF_EN {true} \
+    CONFIG.MC_BURST_LENGTH {16} \
+    CONFIG.MC_CASLATENCY {32} \
+    CONFIG.MC_CH0_LP4_CHA_ENABLE {true} \
+    CONFIG.MC_CH0_LP4_CHB_ENABLE {true} \
+    CONFIG.MC_CH1_LP4_CHA_ENABLE {true} \
+    CONFIG.MC_CH1_LP4_CHB_ENABLE {true} \
     CONFIG.MC_CHANNEL_INTERLEAVING {true} \
     CONFIG.MC_CHAN_REGION0 {DDR_LOW0} \
     CONFIG.MC_CHAN_REGION1 {DDR_LOW1} \
     CONFIG.MC_CH_INTERLEAVING_SIZE {256_Bytes} \
+    CONFIG.MC_CKE_WIDTH {0} \
+    CONFIG.MC_CK_WIDTH {0} \
+    CONFIG.MC_DM_WIDTH {4} \
+    CONFIG.MC_DQS_WIDTH {4} \
+    CONFIG.MC_DQ_WIDTH {32} \
+    CONFIG.MC_ECC_SCRUB_SIZE {4096} \
+    CONFIG.MC_F1_CASLATENCY {32} \
+    CONFIG.MC_F1_CASWRITELATENCY {16} \
+    CONFIG.MC_F1_LPDDR4_MR13 {0x00C0} \
+    CONFIG.MC_F1_TCCD_L {0} \
+    CONFIG.MC_F1_TCCD_L_MIN {0} \
+    CONFIG.MC_F1_TFAW {40000} \
+    CONFIG.MC_F1_TFAWMIN {40000} \
+    CONFIG.MC_F1_TMOD {0} \
+    CONFIG.MC_F1_TMOD_MIN {0} \
+    CONFIG.MC_F1_TMRD {14000} \
+    CONFIG.MC_F1_TMRDMIN {14000} \
+    CONFIG.MC_F1_TMRW {10000} \
+    CONFIG.MC_F1_TMRWMIN {10000} \
+    CONFIG.MC_F1_TRAS {42000} \
+    CONFIG.MC_F1_TRASMIN {42000} \
+    CONFIG.MC_F1_TRCD {18000} \
+    CONFIG.MC_F1_TRCDMIN {18000} \
+    CONFIG.MC_F1_TRPAB {21000} \
+    CONFIG.MC_F1_TRPABMIN {21000} \
+    CONFIG.MC_F1_TRPPB {18000} \
+    CONFIG.MC_F1_TRPPBMIN {18000} \
+    CONFIG.MC_F1_TRRD {10000} \
+    CONFIG.MC_F1_TRRDMIN {10000} \
+    CONFIG.MC_F1_TRRD_L {0} \
+    CONFIG.MC_F1_TRRD_L_MIN {0} \
+    CONFIG.MC_F1_TRRD_S {0} \
+    CONFIG.MC_F1_TRRD_S_MIN {0} \
+    CONFIG.MC_F1_TWR {18000} \
+    CONFIG.MC_F1_TWRMIN {18000} \
+    CONFIG.MC_F1_TWTR {10000} \
+    CONFIG.MC_F1_TWTRMIN {10000} \
+    CONFIG.MC_F1_TWTR_L {0} \
+    CONFIG.MC_F1_TWTR_L_MIN {0} \
+    CONFIG.MC_F1_TWTR_S {0} \
+    CONFIG.MC_F1_TWTR_S_MIN {0} \
+    CONFIG.MC_F1_TZQLAT {30000} \
+    CONFIG.MC_F1_TZQLATMIN {30000} \
+    CONFIG.MC_LP4_CA_A_WIDTH {6} \
+    CONFIG.MC_LP4_CA_B_WIDTH {6} \
+    CONFIG.MC_LP4_CKE_A_WIDTH {1} \
+    CONFIG.MC_LP4_CKE_B_WIDTH {1} \
+    CONFIG.MC_LP4_CKT_A_WIDTH {1} \
+    CONFIG.MC_LP4_CKT_B_WIDTH {1} \
+    CONFIG.MC_LP4_CS_A_WIDTH {1} \
+    CONFIG.MC_LP4_CS_B_WIDTH {1} \
+    CONFIG.MC_LP4_DMI_A_WIDTH {2} \
+    CONFIG.MC_LP4_DMI_B_WIDTH {2} \
+    CONFIG.MC_LP4_DQS_A_WIDTH {2} \
+    CONFIG.MC_LP4_DQS_B_WIDTH {2} \
+    CONFIG.MC_LP4_DQ_A_WIDTH {16} \
+    CONFIG.MC_LP4_DQ_B_WIDTH {16} \
     CONFIG.MC_LP4_OVERWRITE_IO_PROP {true} \
+    CONFIG.MC_LP4_PIN_EFFICIENT {true} \
+    CONFIG.MC_LP4_RESETN_WIDTH {1} \
+    CONFIG.MC_ODTLon {6} \
+    CONFIG.MC_ODT_WIDTH {0} \
+    CONFIG.MC_OP_TIMEPERIOD1 {541} \
+    CONFIG.MC_PER_RD_INTVL {0} \
+    CONFIG.MC_PRE_DEF_ADDR_MAP_SEL {ROW_BANK_COLUMN} \
+    CONFIG.MC_TCCD {8} \
+    CONFIG.MC_TCCD_L {0} \
+    CONFIG.MC_TCCD_L_MIN {0} \
+    CONFIG.MC_TCKE {14} \
+    CONFIG.MC_TCKEMIN {14} \
+    CONFIG.MC_TDQS2DQ_MAX {800} \
+    CONFIG.MC_TDQS2DQ_MIN {200} \
+    CONFIG.MC_TDQSCK_MAX {3500} \
+    CONFIG.MC_TFAW {40000} \
+    CONFIG.MC_TFAWMIN {40000} \
+    CONFIG.MC_TMOD {0} \
+    CONFIG.MC_TMOD_MIN {0} \
+    CONFIG.MC_TMRD {14000} \
+    CONFIG.MC_TMRDMIN {14000} \
+    CONFIG.MC_TMRD_div4 {10} \
+    CONFIG.MC_TMRD_nCK {26} \
+    CONFIG.MC_TMRW {10000} \
+    CONFIG.MC_TMRWMIN {10000} \
+    CONFIG.MC_TMRW_div4 {10} \
+    CONFIG.MC_TMRW_nCK {19} \
+    CONFIG.MC_TODTon_MIN {3} \
+    CONFIG.MC_TOSCO {40000} \
+    CONFIG.MC_TOSCOMIN {40000} \
+    CONFIG.MC_TOSCO_nCK {74} \
+    CONFIG.MC_TPBR2PBR {90000} \
+    CONFIG.MC_TPBR2PBRMIN {90000} \
+    CONFIG.MC_TRAS {42000} \
+    CONFIG.MC_TRASMIN {42000} \
+    CONFIG.MC_TRAS_nCK {78} \
+    CONFIG.MC_TRC {63000} \
+    CONFIG.MC_TRCD {18000} \
+    CONFIG.MC_TRCDMIN {18000} \
+    CONFIG.MC_TRCD_nCK {34} \
+    CONFIG.MC_TRCMIN {0} \
+    CONFIG.MC_TREFI {3904000} \
+    CONFIG.MC_TREFIPB {488000} \
+    CONFIG.MC_TRFC {0} \
+    CONFIG.MC_TRFCAB {280000} \
+    CONFIG.MC_TRFCABMIN {280000} \
+    CONFIG.MC_TRFCMIN {0} \
+    CONFIG.MC_TRFCPB {140000} \
+    CONFIG.MC_TRFCPBMIN {140000} \
+    CONFIG.MC_TRP {0} \
+    CONFIG.MC_TRPAB {21000} \
+    CONFIG.MC_TRPABMIN {21000} \
+    CONFIG.MC_TRPAB_nCK {39} \
+    CONFIG.MC_TRPMIN {0} \
+    CONFIG.MC_TRPPB {18000} \
+    CONFIG.MC_TRPPBMIN {18000} \
+    CONFIG.MC_TRPPB_nCK {34} \
+    CONFIG.MC_TRPRE {1.8} \
+    CONFIG.MC_TRRD {10000} \
+    CONFIG.MC_TRRDMIN {10000} \
+    CONFIG.MC_TRRD_L {0} \
+    CONFIG.MC_TRRD_L_MIN {0} \
+    CONFIG.MC_TRRD_S {0} \
+    CONFIG.MC_TRRD_S_MIN {0} \
+    CONFIG.MC_TRRD_nCK {19} \
+    CONFIG.MC_TWPRE {1.8} \
+    CONFIG.MC_TWPST {0.4} \
+    CONFIG.MC_TWR {18000} \
+    CONFIG.MC_TWRMIN {18000} \
+    CONFIG.MC_TWR_nCK {34} \
+    CONFIG.MC_TWTR {10000} \
+    CONFIG.MC_TWTRMIN {10000} \
+    CONFIG.MC_TWTR_L {0} \
+    CONFIG.MC_TWTR_S {0} \
+    CONFIG.MC_TWTR_S_MIN {0} \
+    CONFIG.MC_TWTR_nCK {19} \
+    CONFIG.MC_TXP {14} \
+    CONFIG.MC_TXPMIN {14} \
+    CONFIG.MC_TXPR {0} \
+    CONFIG.MC_TZQCAL {1000000} \
+    CONFIG.MC_TZQCAL_div4 {463} \
+    CONFIG.MC_TZQCS_ITVL {0} \
+    CONFIG.MC_TZQLAT {30000} \
+    CONFIG.MC_TZQLATMIN {30000} \
+    CONFIG.MC_TZQLAT_div4 {14} \
+    CONFIG.MC_TZQLAT_nCK {56} \
+    CONFIG.MC_TZQ_START_ITVL {1000000000} \
+    CONFIG.MC_USER_DEFINED_ADDRESS_MAP {16RA-3BA-10CA} \
+    CONFIG.MC_XPLL_CLKOUT1_PERIOD {1082} \
     CONFIG.NUM_CLKS {0} \
     CONFIG.NUM_MC {1} \
     CONFIG.NUM_MCP {4} \
@@ -2226,12 +2391,170 @@ proc create_root_design { parentCell } {
     CONFIG.CH0_LPDDR4_1_BOARD_INTERFACE {ch0_lpddr4_trip3} \
     CONFIG.CH1_LPDDR4_0_BOARD_INTERFACE {ch1_lpddr4_trip2} \
     CONFIG.CH1_LPDDR4_1_BOARD_INTERFACE {ch1_lpddr4_trip3} \
+    CONFIG.MC2_CONFIG_NUM {config23} \
+    CONFIG.MC2_FLIPPED_PINOUT {true} \
+    CONFIG.MC3_CONFIG_NUM {config23} \
+    CONFIG.MC_ADDR_WIDTH {6} \
+    CONFIG.MC_BOARD_INTRF_EN {true} \
+    CONFIG.MC_BURST_LENGTH {16} \
+    CONFIG.MC_CASLATENCY {32} \
+    CONFIG.MC_CH0_LP4_CHA_ENABLE {true} \
+    CONFIG.MC_CH0_LP4_CHB_ENABLE {true} \
+    CONFIG.MC_CH1_LP4_CHA_ENABLE {true} \
+    CONFIG.MC_CH1_LP4_CHB_ENABLE {true} \
     CONFIG.MC_CHANNEL_INTERLEAVING {true} \
     CONFIG.MC_CHAN_REGION0 {DDR_CH1} \
     CONFIG.MC_CH_INTERLEAVING_SIZE {256_Bytes} \
+    CONFIG.MC_CKE_WIDTH {0} \
+    CONFIG.MC_CK_WIDTH {0} \
+    CONFIG.MC_DM_WIDTH {4} \
+    CONFIG.MC_DQS_WIDTH {4} \
+    CONFIG.MC_DQ_WIDTH {32} \
+    CONFIG.MC_ECC_SCRUB_SIZE {4096} \
+    CONFIG.MC_F1_CASLATENCY {32} \
+    CONFIG.MC_F1_CASWRITELATENCY {16} \
+    CONFIG.MC_F1_LPDDR4_MR13 {0x00C0} \
+    CONFIG.MC_F1_TCCD_L {0} \
+    CONFIG.MC_F1_TCCD_L_MIN {0} \
+    CONFIG.MC_F1_TFAW {40000} \
+    CONFIG.MC_F1_TFAWMIN {40000} \
+    CONFIG.MC_F1_TMOD {0} \
+    CONFIG.MC_F1_TMOD_MIN {0} \
+    CONFIG.MC_F1_TMRD {14000} \
+    CONFIG.MC_F1_TMRDMIN {14000} \
+    CONFIG.MC_F1_TMRW {10000} \
+    CONFIG.MC_F1_TMRWMIN {10000} \
+    CONFIG.MC_F1_TRAS {42000} \
+    CONFIG.MC_F1_TRASMIN {42000} \
+    CONFIG.MC_F1_TRCD {18000} \
+    CONFIG.MC_F1_TRCDMIN {18000} \
+    CONFIG.MC_F1_TRPAB {21000} \
+    CONFIG.MC_F1_TRPABMIN {21000} \
+    CONFIG.MC_F1_TRPPB {18000} \
+    CONFIG.MC_F1_TRPPBMIN {18000} \
+    CONFIG.MC_F1_TRRD {10000} \
+    CONFIG.MC_F1_TRRDMIN {10000} \
+    CONFIG.MC_F1_TRRD_L {0} \
+    CONFIG.MC_F1_TRRD_L_MIN {0} \
+    CONFIG.MC_F1_TRRD_S {0} \
+    CONFIG.MC_F1_TRRD_S_MIN {0} \
+    CONFIG.MC_F1_TWR {18000} \
+    CONFIG.MC_F1_TWRMIN {18000} \
+    CONFIG.MC_F1_TWTR {10000} \
+    CONFIG.MC_F1_TWTRMIN {10000} \
+    CONFIG.MC_F1_TWTR_L {0} \
+    CONFIG.MC_F1_TWTR_L_MIN {0} \
+    CONFIG.MC_F1_TWTR_S {0} \
+    CONFIG.MC_F1_TWTR_S_MIN {0} \
+    CONFIG.MC_F1_TZQLAT {30000} \
+    CONFIG.MC_F1_TZQLATMIN {30000} \
     CONFIG.MC_INTERLEAVE_SIZE {4096} \
+    CONFIG.MC_LP4_CA_A_WIDTH {6} \
+    CONFIG.MC_LP4_CA_B_WIDTH {6} \
+    CONFIG.MC_LP4_CKE_A_WIDTH {1} \
+    CONFIG.MC_LP4_CKE_B_WIDTH {1} \
+    CONFIG.MC_LP4_CKT_A_WIDTH {1} \
+    CONFIG.MC_LP4_CKT_B_WIDTH {1} \
+    CONFIG.MC_LP4_CS_A_WIDTH {1} \
+    CONFIG.MC_LP4_CS_B_WIDTH {1} \
+    CONFIG.MC_LP4_DMI_A_WIDTH {2} \
+    CONFIG.MC_LP4_DMI_B_WIDTH {2} \
+    CONFIG.MC_LP4_DQS_A_WIDTH {2} \
+    CONFIG.MC_LP4_DQS_B_WIDTH {2} \
+    CONFIG.MC_LP4_DQ_A_WIDTH {16} \
+    CONFIG.MC_LP4_DQ_B_WIDTH {16} \
+    CONFIG.MC_LP4_OVERWRITE_IO_PROP {true} \
     CONFIG.MC_LP4_PIN_EFFICIENT {true} \
+    CONFIG.MC_LP4_RESETN_WIDTH {1} \
+    CONFIG.MC_ODTLon {6} \
+    CONFIG.MC_ODT_WIDTH {0} \
+    CONFIG.MC_OP_TIMEPERIOD1 {541} \
+    CONFIG.MC_PER_RD_INTVL {0} \
+    CONFIG.MC_PRE_DEF_ADDR_MAP_SEL {ROW_BANK_COLUMN} \
+    CONFIG.MC_TCCD {8} \
+    CONFIG.MC_TCCD_L {0} \
+    CONFIG.MC_TCCD_L_MIN {0} \
+    CONFIG.MC_TCKE {14} \
+    CONFIG.MC_TCKEMIN {14} \
+    CONFIG.MC_TDQS2DQ_MAX {800} \
+    CONFIG.MC_TDQS2DQ_MIN {200} \
+    CONFIG.MC_TDQSCK_MAX {3500} \
+    CONFIG.MC_TFAW {40000} \
+    CONFIG.MC_TFAWMIN {40000} \
+    CONFIG.MC_TMOD {0} \
+    CONFIG.MC_TMOD_MIN {0} \
+    CONFIG.MC_TMRD {14000} \
+    CONFIG.MC_TMRDMIN {14000} \
+    CONFIG.MC_TMRD_div4 {10} \
+    CONFIG.MC_TMRD_nCK {26} \
+    CONFIG.MC_TMRW {10000} \
+    CONFIG.MC_TMRWMIN {10000} \
+    CONFIG.MC_TMRW_div4 {10} \
+    CONFIG.MC_TMRW_nCK {19} \
+    CONFIG.MC_TODTon_MIN {3} \
+    CONFIG.MC_TOSCO {40000} \
+    CONFIG.MC_TOSCOMIN {40000} \
+    CONFIG.MC_TOSCO_nCK {74} \
+    CONFIG.MC_TPBR2PBR {90000} \
+    CONFIG.MC_TPBR2PBRMIN {90000} \
+    CONFIG.MC_TRAS {42000} \
+    CONFIG.MC_TRASMIN {42000} \
+    CONFIG.MC_TRAS_nCK {78} \
+    CONFIG.MC_TRC {63000} \
+    CONFIG.MC_TRCD {18000} \
+    CONFIG.MC_TRCDMIN {18000} \
+    CONFIG.MC_TRCD_nCK {34} \
+    CONFIG.MC_TRCMIN {0} \
+    CONFIG.MC_TREFI {3904000} \
+    CONFIG.MC_TREFIPB {488000} \
+    CONFIG.MC_TRFC {0} \
+    CONFIG.MC_TRFCAB {280000} \
+    CONFIG.MC_TRFCABMIN {280000} \
+    CONFIG.MC_TRFCMIN {0} \
+    CONFIG.MC_TRFCPB {140000} \
+    CONFIG.MC_TRFCPBMIN {140000} \
+    CONFIG.MC_TRP {0} \
+    CONFIG.MC_TRPAB {21000} \
+    CONFIG.MC_TRPABMIN {21000} \
+    CONFIG.MC_TRPAB_nCK {39} \
+    CONFIG.MC_TRPMIN {0} \
+    CONFIG.MC_TRPPB {18000} \
+    CONFIG.MC_TRPPBMIN {18000} \
+    CONFIG.MC_TRPPB_nCK {34} \
+    CONFIG.MC_TRPRE {1.8} \
+    CONFIG.MC_TRRD {10000} \
+    CONFIG.MC_TRRDMIN {10000} \
+    CONFIG.MC_TRRD_L {0} \
+    CONFIG.MC_TRRD_L_MIN {0} \
+    CONFIG.MC_TRRD_S {0} \
+    CONFIG.MC_TRRD_S_MIN {0} \
+    CONFIG.MC_TRRD_nCK {19} \
+    CONFIG.MC_TWPRE {1.8} \
+    CONFIG.MC_TWPST {0.4} \
+    CONFIG.MC_TWR {18000} \
+    CONFIG.MC_TWRMIN {18000} \
+    CONFIG.MC_TWR_nCK {34} \
+    CONFIG.MC_TWTR {10000} \
+    CONFIG.MC_TWTRMIN {10000} \
+    CONFIG.MC_TWTR_L {0} \
+    CONFIG.MC_TWTR_S {0} \
+    CONFIG.MC_TWTR_S_MIN {0} \
+    CONFIG.MC_TWTR_nCK {19} \
+    CONFIG.MC_TXP {14} \
+    CONFIG.MC_TXPMIN {14} \
+    CONFIG.MC_TXPR {0} \
+    CONFIG.MC_TZQCAL {1000000} \
+    CONFIG.MC_TZQCAL_div4 {463} \
+    CONFIG.MC_TZQCS_ITVL {0} \
+    CONFIG.MC_TZQLAT {30000} \
+    CONFIG.MC_TZQLATMIN {30000} \
+    CONFIG.MC_TZQLAT_div4 {14} \
+    CONFIG.MC_TZQLAT_nCK {56} \
+    CONFIG.MC_TZQ_START_ITVL {1000000000} \
+    CONFIG.MC_USER_DEFINED_ADDRESS_MAP {16RA-3BA-10CA} \
+    CONFIG.MC_XPLL_CLKOUT1_PERIOD {1082} \
     CONFIG.NUM_CLKS {0} \
+    CONFIG.NUM_MC {2} \
     CONFIG.NUM_MCP {4} \
     CONFIG.NUM_MI {0} \
     CONFIG.NUM_NSI {4} \
@@ -2512,7 +2835,7 @@ proc create_root_design { parentCell } {
   current_bd_instance $oldCurInst
 
   # Create PFM attributes
-  set_property PFM_NAME {tria-technologies.com:xd:vek280_camerafmc:1.0} [get_files [current_bd_design].bd]
+  set_property PFM_NAME {avnet-tria:vek280:vek280_camerafmc:1.0} [get_files [current_bd_design].bd]
   set_property PFM.AXI_PORT {S10_AXI { memport "S_AXI_NOC" sptag "NOC_S10" memory "" is_range "true" }  S11_AXI { memport "S_AXI_NOC" sptag "NOC_S11" memory "" is_range "true" }  S12_AXI { memport "S_AXI_NOC" sptag "NOC_S12" memory "" is_range "true" }  S13_AXI { memport "S_AXI_NOC" sptag "NOC_S13" memory "" is_range "true" }  S14_AXI { memport "S_AXI_NOC" sptag "NOC_S14" memory "" is_range "true" }  S15_AXI { memport "S_AXI_NOC" sptag "NOC_S15" memory "" is_range "true" }  S16_AXI { memport "S_AXI_NOC" sptag "NOC_S16" memory "" is_range "true" }  S17_AXI { memport "S_AXI_NOC" sptag "NOC_S17" memory "" is_range "true" }  S18_AXI { memport "S_AXI_NOC" sptag "NOC_S18" memory "" is_range "true" }  S19_AXI { memport "S_AXI_NOC" sptag "NOC_S19" memory "" is_range "true" }  S20_AXI { memport "S_AXI_NOC" sptag "NOC_S20" memory "" is_range "true" }  S21_AXI { memport "S_AXI_NOC" sptag "NOC_S21" memory "" is_range "true" }  S22_AXI { memport "S_AXI_NOC" sptag "NOC_S22" memory "" is_range "true" }  S23_AXI { memport "S_AXI_NOC" sptag "NOC_S23" memory "" is_range "true" }  S24_AXI { memport "S_AXI_NOC" sptag "NOC_S24" memory "" is_range "true" }  S25_AXI { memport "S_AXI_NOC" sptag "NOC_S25" memory "" is_range "true" }  S26_AXI { memport "S_AXI_NOC" sptag "NOC_S26" memory "" is_range "true" }  S27_AXI { memport "S_AXI_NOC" sptag "NOC_S27" memory "" is_range "true" }  S28_AXI { memport "S_AXI_NOC" sptag "NOC_S28" memory "" is_range "true" }  S29_AXI { memport "S_AXI_NOC" sptag "NOC_S29" memory "" is_range "true" }  S30_AXI { memport "S_AXI_NOC" sptag "NOC_S30" memory "" is_range "true" }  S31_AXI { memport "S_AXI_NOC" sptag "NOC_S31" memory "" is_range "true" }  S32_AXI { memport "S_AXI_NOC" sptag "NOC_S32" memory "" is_range "true" }  S33_AXI { memport "S_AXI_NOC" sptag "NOC_S33" memory "" is_range "true" } } [get_bd_cells /cips_noc]
   set_property PFM.AXI_PORT {S00_AXI { memport "S_AXI_NOC" sptag "DDR" memory "" is_range "true" } } [get_bd_cells /noc_ddr4]
   set_property PFM.AXI_PORT {S00_AXI { memport "S_AXI_NOC" sptag "LPDDR" memory "" is_range "true" } } [get_bd_cells /noc_lpddr4]
