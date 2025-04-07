@@ -4073,6 +4073,7 @@ CONFIG_Init-manager-systemd=y
 # CONFIG_aie-oob is not set
 CONFIG_auto-resize=y
 # CONFIG_gpio-demo is not set
+CONFIG_gstmarkerdetect=y
 CONFIG_hdmi21-modules=y
 CONFIG_initcams=y
 # CONFIG_kernel-module-vdu is not set
@@ -4083,6 +4084,7 @@ CONFIG_initcams=y
 # CONFIG_python3-ipywidgets is not set
 CONFIG_simd=y
 CONFIG_target-factory=y
+CONFIG_tria-cam-python-examples=y
 CONFIG_unilog=y
 CONFIG_vart=y
 # CONFIG_vdu-firmware is not set
