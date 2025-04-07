@@ -6,8 +6,4 @@ SRC_URI:append = " file://bsp.cfg \
 	file://0002-drm_vblank-suppress-vblank-timed-out-warning-message.patch \
 	file://0001-gpu-drm-hdmi-Disable-HDCP2X-and-FRL-mode.patch \
 "
-
 KERNEL_FEATURES:append = " bsp.cfg"
-SRC_URI += "file://user-2024-04-add-xilinx-drivers.cfg \
-            file://user-2024-04-add-imx219-driver.cfg \
-            "

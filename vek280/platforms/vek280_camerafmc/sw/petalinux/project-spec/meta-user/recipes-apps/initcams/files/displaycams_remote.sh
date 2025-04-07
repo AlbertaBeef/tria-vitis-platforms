@@ -142,8 +142,6 @@ for media in "${!media_to_video_mapping[@]}"; do
 
         ((index++))
 done
-#        full_command+=" ! video/x-raw, width=${OUT_RES_W}, height=${OUT_RES_H}, format=YUY2, framerate=${FRM_RATE}/1"
-
 
 # Display the command being run
 echo "GStreamer command:"

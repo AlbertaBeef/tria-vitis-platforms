@@ -113,7 +113,7 @@
 		//xlnx,max-width = /bits/ 16 <3840>;
 		xlnx,max-width = /bits/ 16 <1920>;	
 		xlnx,max-height = /bits/ 16 <1232>;
-		xlnx,mode-reg ;
+		xlnx,mode-reg = <1>;
 		xlnx,pawb = /bits/ 16 <350>;
 		xlnx,rgain = /bits/ 16 <128>;
 		xlnx,bgain = /bits/ 16 <210>;

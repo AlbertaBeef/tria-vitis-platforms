@@ -1,4 +1,4 @@
-#include <dt-bindings/media/xilinx-vip.h>
+//#include <dt-bindings/media/xilinx-vip.h>
 /include/ "system-conf.dtsi"
 / {
 	chosen {
@@ -69,43 +69,6 @@
 
 };
 
-&mipi_1_rpi_iic {
-	imx219_cam1: sensor@10 {
-		compatible = "sony,imx219";
-		reg = <0x10>;
-		clocks = <&imx219_clk>;
-		VANA-supply = <&imx219_vana>;   /* 2.8v */
-		VDIG-supply = <&imx219_vdig>;   /* 1.8v */
-		VDDL-supply = <&imx219_vddl>;   /* 1.2v */
-
-		port {
-		     imx219_cam1_0: endpoint {
-			remote-endpoint = <&mipi_csi_inmipi_1_csirx_0>;
-			data-lanes = <1 2>;
-			link-frequencies = /bits/ 64 <456000000>;
-			};
-		};
-	};
-};
-
-&mipi_3_rpi_iic {
-	imx219_cam3: sensor@10 {
-		compatible = "sony,imx219";
-		reg = <0x10>;
-		clocks = <&imx219_clk>;
-		VANA-supply = <&imx219_vana>;   /* 2.8v */
-		VDIG-supply = <&imx219_vdig>;   /* 1.8v */
-		VDDL-supply = <&imx219_vddl>;   /* 1.2v */
-
-		port {
-		     imx219_cam3_0: endpoint {
-			remote-endpoint = <&mipi_csi_inmipi_3_csirx_0>;
-			data-lanes = <1 2>;
-			link-frequencies = /bits/ 64 <456000000>;
-			};
-		};
-	};
-};
 
 
 #include "pl-custom.dtsi"
