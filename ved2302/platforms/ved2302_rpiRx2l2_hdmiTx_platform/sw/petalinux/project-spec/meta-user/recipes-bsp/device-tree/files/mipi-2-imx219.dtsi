@@ -27,7 +27,7 @@
 		compatible = "xlnx,mipi-csi2-rx-subsystem-5.2", "xlnx,mipi-csi2-rx-subsystem-5.0";
 		interrupt-names = "csirxss_csi_irq";
 		interrupt-parent = <&cips_ss_0_axi_intc_parent>;
-		interrupts = <3 2>;
+		interrupts = <4 2>;
 		reg = <0x0 0xa4032000 0x0 0x2000>;
 		xlnx,axis-tdata-width = <32>;
 		xlnx,csi-pxl-format = <0x2b>;
@@ -52,7 +52,7 @@
 				reg = <0>;
 				mipi_csi_inmipi_2_csirx_0: endpoint {
 					data-lanes = <1 2>;
-					remote-endpoint = <&imx219_cam1_0>;					
+					remote-endpoint = <&imx219_cam2_0>;					
 				};
 			};
 		};
@@ -103,9 +103,9 @@
 		xlnx,enable-csc = "true";
 		xlnx,h-scaler-phases = <64>;
 		xlnx,h-scaler-taps = <6>;
-		xlnx,max-height = <2160>;
+		xlnx,max-height = <1232>;
 		xlnx,max-num-phases = <64>;
-		xlnx,max-width = <3840>;
+		xlnx,max-width = <1920>;
 		xlnx,num-hori-taps = <6>;
 		xlnx,num-vert-taps = <6>;
 		xlnx,pix-per-clk = <1>;
@@ -147,13 +147,13 @@
 		compatible = "xlnx,v-frmbuf-wr-2.4", "xlnx,axi-frmbuf-wr-v2.2";
 		interrupt-names = "interrupt";
 		interrupt-parent = <&cips_ss_0_axi_intc_parent>;
-		interrupts = <4 2>;
+		interrupts = <5 2>;
 		reg = <0x0 0xa40e0000 0x0 0x10000>;
 		reset-gpios = <&cips_ss_0_axi_gpio_1 11 1>;
 		xlnx,dma-addr-width = <64>;
 		xlnx,dma-align = <8>;
-		xlnx,max-height = <2160>;
-		xlnx,max-width = <3840>;
+		xlnx,max-height = <1232>;
+		xlnx,max-width = <1920>;
 		xlnx,pixels-per-clock = <1>;
 		xlnx,s-axi-ctrl-addr-width = <0x7>;
 		xlnx,s-axi-ctrl-data-width = <0x20>;

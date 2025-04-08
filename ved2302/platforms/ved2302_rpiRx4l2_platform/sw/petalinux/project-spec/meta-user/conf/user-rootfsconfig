@@ -28,7 +28,15 @@ CONFIG_simd
 
 CONFIG_auto-resize
 
+# RPICAM scripts/utilities
+
 CONFIG_initcams
 CONFIG_gstmarkerdetect
 CONFIG_tria-cam-python-examples
 
+# LIBCAMERA
+
+CONFIG_libcamera
+CONFIG_libcamera-dev
+CONFIG_libcamera-gst
+CONFIG_libcamera-pycamera

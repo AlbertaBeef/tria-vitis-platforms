@@ -103,9 +103,9 @@
 		xlnx,enable-csc = "true";
 		xlnx,h-scaler-phases = <64>;
 		xlnx,h-scaler-taps = <6>;
-		xlnx,max-height = <2160>;
+		xlnx,max-height = <1232>;
 		xlnx,max-num-phases = <64>;
-		xlnx,max-width = <3840>;
+		xlnx,max-width = <1920>;
 		xlnx,num-hori-taps = <6>;
 		xlnx,num-vert-taps = <6>;
 		xlnx,pix-per-clk = <1>;
@@ -153,8 +153,8 @@
 		reset-gpios = <&cips_ss_0_axi_gpio_1 15 1>;
 		xlnx,dma-addr-width = <64>;
 		xlnx,dma-align = <8>;
-		xlnx,max-height = <2160>;
-		xlnx,max-width = <3840>;
+		xlnx,max-height = <1232>;
+		xlnx,max-width = <1920>;
 		xlnx,pixels-per-clock = <1>;
 		xlnx,s-axi-ctrl-addr-width = <0x7>;
 		xlnx,s-axi-ctrl-data-width = <0x20>;

@@ -4067,6 +4067,10 @@ CONFIG_Init-manager-systemd=y
 #
 # user packages 
 #
+CONFIG_libcamera=y
+CONFIG_libcamera-dev=y
+CONFIG_libcamera-gst=y
+CONFIG_libcamera-pycamera=y
 # CONFIG_libvdu-ctrlsw is not set
 # CONFIG_libvdu-omxil is not set
 # CONFIG_aie-notebooks is not set
