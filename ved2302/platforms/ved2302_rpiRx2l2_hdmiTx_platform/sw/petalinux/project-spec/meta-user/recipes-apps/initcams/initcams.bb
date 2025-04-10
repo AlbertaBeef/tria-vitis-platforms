@@ -10,6 +10,7 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda
 SRC_URI = "file://init_cams.sh \
 	   file://displaycams_bgr.sh \
 	   file://displaycams_remote.sh \
+	   file://capture_frames.sh \
 		  "
 
 S = "${WORKDIR}"
@@ -21,4 +22,5 @@ do_install() {
         install -m 0755 ${WORKDIR}/init_cams.sh ${D}${bindir}/
         install -m 0755 ${WORKDIR}/displaycams_bgr.sh ${D}${bindir}/
         install -m 0755 ${WORKDIR}/displaycams_remote.sh ${D}${bindir}/
+        install -m 0755 ${WORKDIR}/capture_frames.sh ${D}${bindir}/
 }

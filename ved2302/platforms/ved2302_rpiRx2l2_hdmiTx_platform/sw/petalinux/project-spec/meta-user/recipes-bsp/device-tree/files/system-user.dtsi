@@ -177,7 +177,7 @@
 			#size-cells = <0>;
 			reg = <1>;
 		};
-		i2c@2 { /* MIPI4 - RPI-CAM2 */
+		i2c@2 { /* MIPI4 */
 			#address-cells = <1>;
 			#size-cells = <0>;
 			reg = <2>;
@@ -225,7 +225,7 @@
 				};
 			};
 		};
-		i2c@5 { /* MIPI5 - RPI-CAM3 */
+		i2c@5 { /* MIPI5 */
 			#address-cells = <1>;
 			#size-cells = <0>;
 			reg = <5>;

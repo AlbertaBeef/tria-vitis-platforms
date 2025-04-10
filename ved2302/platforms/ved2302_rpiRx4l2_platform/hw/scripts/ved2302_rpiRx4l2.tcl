@@ -1185,29 +1185,41 @@ proc create_hier_cell_cips_ss_0 { parentCell nameHier } {
   # Create instance: versal_cips, and set properties
   set versal_cips [ create_bd_cell -type ip -vlnv xilinx.com:ip:versal_cips versal_cips ]
   set_property -dict [list \
+    CONFIG.BOOT_MODE {Custom} \
     CONFIG.DDR_MEMORY_MODE {Custom} \
     CONFIG.DEBUG_MODE {JTAG} \
     CONFIG.DESIGN_MODE {1} \
     CONFIG.DEVICE_INTEGRITY_MODE {Custom} \
+    CONFIG.IO_CONFIG_MODE {Custom} \
     CONFIG.PS_BOARD_INTERFACE {Custom} \
     CONFIG.PS_PL_CONNECTIVITY_MODE {Custom} \
     CONFIG.PS_PMC_CONFIG { \
+      BOOT_MODE {Custom} \
       DDR_MEMORY_MODE {Connectivity to DDR via NOC} \
       DEBUG_MODE {JTAG} \
       DESIGN_MODE {1} \
       DEVICE_INTEGRITY_MODE {Custom} \
+      IO_CONFIG_MODE {Custom} \
       PMC_CRP_HSM0_REF_CTRL_FREQMHZ {33.334} \
       PMC_CRP_HSM1_REF_CTRL_FREQMHZ {133.334} \
       PMC_CRP_PL0_REF_CTRL_FREQMHZ {100} \
       PMC_GPIO0_MIO_PERIPHERAL {{ENABLE 1} {IO {PMC_MIO 0 .. 25}}} \
       PMC_GPIO1_MIO_PERIPHERAL {{ENABLE 0} {IO {PMC_MIO 26 .. 51}}} \
+      PMC_GPIO_EMIO_PERIPHERAL_ENABLE {0} \
       PMC_I2CPMC_PERIPHERAL {{ENABLE 1} {IO {PMC_MIO 50 .. 51}}} \
+      PMC_MIO11 {{AUX_IO 0} {DIRECTION in} {DRIVE_STRENGTH 8mA} {OUTPUT_DATA default} {PULL disable} {SCHMITT 0} {SLEW slow} {USAGE GPIO}} \
+      PMC_MIO12 {{AUX_IO 0} {DIRECTION out} {DRIVE_STRENGTH 8mA} {OUTPUT_DATA high} {PULL pullup} {SCHMITT 0} {SLEW slow} {USAGE GPIO}} \
+      PMC_MIO28 {{AUX_IO 0} {DIRECTION out} {DRIVE_STRENGTH 8mA} {OUTPUT_DATA high} {PULL pullup} {SCHMITT 0} {SLEW slow} {USAGE GPIO}} \
+      PMC_MIO37 {{AUX_IO 0} {DIRECTION in} {DRIVE_STRENGTH 8mA} {OUTPUT_DATA default} {PULL pullup} {SCHMITT 0} {SLEW slow} {USAGE GPIO}} \
+      PMC_MIO46 {{AUX_IO 0} {DIRECTION in} {DRIVE_STRENGTH 8mA} {OUTPUT_DATA default} {PULL disable} {SCHMITT 0} {SLEW slow} {USAGE GPIO}} \
+      PMC_MIO47 {{AUX_IO 0} {DIRECTION out} {DRIVE_STRENGTH 8mA} {OUTPUT_DATA low} {PULL pulldown} {SCHMITT 0} {SLEW slow} {USAGE GPIO}} \
+      PMC_MIO48 {{AUX_IO 0} {DIRECTION out} {DRIVE_STRENGTH 8mA} {OUTPUT_DATA low} {PULL pulldown} {SCHMITT 0} {SLEW slow} {USAGE GPIO}} \
       PMC_OSPI_PERIPHERAL {{ENABLE 1} {IO {PMC_MIO 0 .. 11}} {MODE Single}} \
       PMC_REF_CLK_FREQMHZ {33.3333} \
-      PMC_SD0 {{CD_ENABLE 0} {CD_IO {PMC_MIO 24}} {POW_ENABLE 1} {POW_IO {PMC_MIO 49}} {RESET_ENABLE 0} {RESET_IO {PMC_MIO 17}} {WP_ENABLE 1} {WP_IO {PMC_MIO 37}}} \
+      PMC_SD0 {{CD_ENABLE 1} {CD_IO {PMC_MIO 39}} {POW_ENABLE 1} {POW_IO {PMC_MIO 49}} {RESET_ENABLE 0} {RESET_IO {PMC_MIO 17}} {WP_ENABLE 0} {WP_IO {PMC_MIO 25}}} \
       PMC_SD0_PERIPHERAL {{CLK_100_SDR_OTAP_DLY 0x3} {CLK_200_SDR_OTAP_DLY 0x2} {CLK_50_DDR_ITAP_DLY 0x36} {CLK_50_DDR_OTAP_DLY 0x3} {CLK_50_SDR_ITAP_DLY 0x2C} {CLK_50_SDR_OTAP_DLY 0x4} {ENABLE 1} {IO\
 {PMC_MIO 37 .. 49}}} \
-      PMC_SD0_SLOT_TYPE {SD 3.0} \
+      PMC_SD0_SLOT_TYPE {SD 3.0 AUTODIR} \
       PMC_SD1_DATA_TRANSFER_MODE {8Bit} \
       PMC_SD1_PERIPHERAL {{CLK_100_SDR_OTAP_DLY 0x00} {CLK_200_SDR_OTAP_DLY 0x2} {CLK_50_DDR_ITAP_DLY 0x1E} {CLK_50_DDR_OTAP_DLY 0x5} {CLK_50_SDR_ITAP_DLY 0x2C} {CLK_50_SDR_OTAP_DLY 0x5} {ENABLE 1} {IO\
 {PMC_MIO 26 .. 36}}} \
@@ -1216,6 +1228,7 @@ proc create_hier_cell_cips_ss_0 { parentCell nameHier } {
       PS_BOARD_INTERFACE {Custom} \
       PS_CAN0_PERIPHERAL {{ENABLE 1} {IO {PS_MIO 14 .. 15}}} \
       PS_CAN1_PERIPHERAL {{ENABLE 1} {IO {PS_MIO 20 .. 21}}} \
+      PS_ENET0_MDIO {{ENABLE 1} {IO {PS_MIO 24 .. 25}}} \
       PS_ENET0_PERIPHERAL {{ENABLE 1} {IO {PS_MIO 0 .. 11}}} \
       PS_ENET1_PERIPHERAL {{ENABLE 0} {IO {PMC_MIO 38 .. 49}}} \
       PS_GEN_IPI0_ENABLE {1} \
@@ -1226,10 +1239,11 @@ proc create_hier_cell_cips_ss_0 { parentCell nameHier } {
       PS_GEN_IPI4_ENABLE {1} \
       PS_GEN_IPI5_ENABLE {1} \
       PS_GEN_IPI6_ENABLE {1} \
+      PS_GPIO_EMIO_PERIPHERAL_ENABLE {0} \
       PS_HSDP_EGRESS_TRAFFIC {JTAG} \
       PS_HSDP_INGRESS_TRAFFIC {JTAG} \
       PS_HSDP_MODE {NONE} \
-      PS_I2C0_PERIPHERAL {{ENABLE 1} {IO {PS_MIO 18 .. 19}}} \
+      PS_I2C0_PERIPHERAL {{ENABLE 1} {IO {PS_MIO 22 .. 23}}} \
       PS_I2C1_PERIPHERAL {{ENABLE 0} {IO {PS_MIO 0 .. 1}}} \
       PS_IRQ_USAGE {{CH0 1} {CH1 1} {CH10 0} {CH11 0} {CH12 0} {CH13 0} {CH14 0} {CH15 0} {CH2 1} {CH3 1} {CH4 1} {CH5 1} {CH6 1} {CH7 1} {CH8 0} {CH9 0}} \
       PS_LPDMA0_ROUTE_THROUGH_FPD {1} \
@@ -1240,14 +1254,18 @@ proc create_hier_cell_cips_ss_0 { parentCell nameHier } {
       PS_LPDMA5_ROUTE_THROUGH_FPD {1} \
       PS_LPDMA6_ROUTE_THROUGH_FPD {1} \
       PS_LPDMA7_ROUTE_THROUGH_FPD {1} \
+      PS_MIO12 {{AUX_IO 0} {DIRECTION out} {DRIVE_STRENGTH 8mA} {OUTPUT_DATA low} {PULL pulldown} {SCHMITT 1} {SLEW slow} {USAGE GPIO}} \
+      PS_MIO13 {{AUX_IO 0} {DIRECTION out} {DRIVE_STRENGTH 8mA} {OUTPUT_DATA low} {PULL pulldown} {SCHMITT 0} {SLEW slow} {USAGE GPIO}} \
       PS_MIO7 {{AUX_IO 0} {DIRECTION in} {DRIVE_STRENGTH 8mA} {OUTPUT_DATA default} {PULL disable} {SCHMITT 0} {SLEW slow} {USAGE Reserved}} \
       PS_MIO9 {{AUX_IO 0} {DIRECTION in} {DRIVE_STRENGTH 8mA} {OUTPUT_DATA default} {PULL disable} {SCHMITT 0} {SLEW slow} {USAGE Reserved}} \
       PS_NUM_FABRIC_RESETS {1} \
       PS_PCIE_EP_RESET1_IO {None} \
       PS_PCIE_EP_RESET2_IO {None} \
-      PS_PCIE_RESET {{ENABLE 1}} \
+      PS_PCIE_RESET {{ENABLE 0}} \
+      PS_TTC0_PERIPHERAL_ENABLE {1} \
       PS_UART0_PERIPHERAL {{ENABLE 1} {IO {PS_MIO 16 .. 17}}} \
-      PS_UART1_PERIPHERAL {{ENABLE 1} {IO {PS_MIO 12 .. 13}}} \
+      PS_UART0_RTS_CTS {{ENABLE 1} {IO {PS_MIO 18 .. 19}}} \
+      PS_UART1_PERIPHERAL {{ENABLE 0} {IO {PMC_MIO 4 .. 5}}} \
       PS_USB3_PERIPHERAL {{ENABLE 1} {IO {PMC_MIO 13 .. 25}}} \
       PS_USE_FPD_AXI_NOC0 {0} \
       PS_USE_FPD_AXI_NOC1 {0} \

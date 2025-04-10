@@ -327,11 +327,11 @@ set_property IOSTANDARD LVCMOS12 [get_ports TX_DDC_OUT_scl_io]
 set_property PACKAGE_PIN P22 [get_ports TX_DDC_OUT_sda_io]
 set_property IOSTANDARD LVCMOS12 [get_ports TX_DDC_OUT_sda_io]
 
-# HDMI_CTRL_SCL -> XPIO_702_L22_N_HCTL_SCL
+# HDMI_CTRL_SCL -> XPIO_702_L22_N_HCTL_SCL - JX1A-A34 - L22
 set_property PACKAGE_PIN L22 [get_ports HDMI_CTRL_scl_io]
 set_property IOSTANDARD LVCMOS12 [get_ports HDMI_CTRL_scl_io]
 
-# HDMI_CTRL_SDA -> XPIO_702_L22_P_HCTL_SDA
+# HDMI_CTRL_SDA -> XPIO_702_L22_P_HCTL_SDA - JX1A-A33 - K21
 set_property PACKAGE_PIN K21 [get_ports HDMI_CTRL_sda_io]
 set_property IOSTANDARD LVCMOS12 [get_ports HDMI_CTRL_sda_io]
 
