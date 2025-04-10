@@ -262,12 +262,14 @@ CONFIG_YOCTO_PARALLEL_MAKE=""
 #
 # Add pre-mirror url 
 #
-CONFIG_PRE_MIRROR_URL="file:///home/albertabeef/petalinux_cache/downloads_2023.2/"
+#CONFIG_PRE_MIRROR_URL="file:///home/albertabeef/petalinux_cache/downloads_2023.2/"
+CONFIG_PRE_MIRROR_URL="http://petalinux.xilinx.com/sswreleases/rel-v${PETALINUX_MAJOR_VER}/downloads"
 
 #
 # Local sstate feeds settings
 #
-CONFIG_YOCTO_LOCAL_SSTATE_FEEDS_URL="/home/albertabeef/petalinux_cache/sstate_2023.2/aarch64/"
+#CONFIG_YOCTO_LOCAL_SSTATE_FEEDS_URL="/home/albertabeef/petalinux_cache/sstate_2023.2/aarch64/"
+CONFIG_YOCTO_LOCAL_SSTATE_FEEDS_URL=""
 CONFIG_YOCTO_NETWORK_SSTATE_FEEDS=y
 
 #
