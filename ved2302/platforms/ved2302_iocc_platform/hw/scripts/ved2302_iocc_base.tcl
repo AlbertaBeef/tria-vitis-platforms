@@ -42,9 +42,8 @@ if { [string first $scripts_vivado_version $current_vivado_version] == -1 } {
 
 set list_projs [get_projects -quiet]
 if { $list_projs eq "" } {
-   #create_project project_1 myproj -part xcve2802-vsvh1760-2MP-e-S-es1
-   #set_property BOARD_PART xilinx.com:vek280_es_revb:part0:1.1 [current_project]
-   create_project project_1 myproj -part xcve2302-sfva784-1LP-e-S-es1
+   #create_project project_1 myproj -part xcve2302-sfva784-1LP-e-S-es1
+   create_project project_1 myproj -part xcve2302-sfva784-1LP-e-S
    set_property BOARD_PART avnet.com:ve2302_iocc:part0:1.0 [current_project]
 }
 
@@ -212,35 +211,50 @@ proc create_root_design { parentCell } {
   # Create instance: CIPS_0, and set properties
   set CIPS_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:versal_cips CIPS_0 ]
   set_property -dict [list \
+    CONFIG.BOOT_MODE {Custom} \
     CONFIG.DDR_MEMORY_MODE {Custom} \
     CONFIG.DEBUG_MODE {JTAG} \
     CONFIG.DESIGN_MODE {1} \
     CONFIG.DEVICE_INTEGRITY_MODE {Custom} \
+    CONFIG.IO_CONFIG_MODE {Custom} \
     CONFIG.PS_BOARD_INTERFACE {Custom} \
     CONFIG.PS_PL_CONNECTIVITY_MODE {Custom} \
     CONFIG.PS_PMC_CONFIG { \
+      BOOT_MODE {Custom} \
       DDR_MEMORY_MODE {Connectivity to DDR via NOC} \
       DEBUG_MODE {JTAG} \
       DESIGN_MODE {1} \
       DEVICE_INTEGRITY_MODE {Custom} \
+      IO_CONFIG_MODE {Custom} \
       PMC_CRP_HSM0_REF_CTRL_FREQMHZ {33.334} \
       PMC_CRP_HSM1_REF_CTRL_FREQMHZ {133.334} \
       PMC_CRP_PL0_REF_CTRL_FREQMHZ {100} \
       PMC_GPIO0_MIO_PERIPHERAL {{ENABLE 1} {IO {PMC_MIO 0 .. 25}}} \
       PMC_GPIO1_MIO_PERIPHERAL {{ENABLE 0} {IO {PMC_MIO 26 .. 51}}} \
+      PMC_GPIO_EMIO_PERIPHERAL_ENABLE {0} \
       PMC_I2CPMC_PERIPHERAL {{ENABLE 1} {IO {PMC_MIO 50 .. 51}}} \
+      PMC_MIO11 {{AUX_IO 0} {DIRECTION in} {DRIVE_STRENGTH 8mA} {OUTPUT_DATA default} {PULL disable} {SCHMITT 0} {SLEW slow} {USAGE GPIO}} \
+      PMC_MIO12 {{AUX_IO 0} {DIRECTION out} {DRIVE_STRENGTH 8mA} {OUTPUT_DATA high} {PULL pullup} {SCHMITT 0} {SLEW slow} {USAGE GPIO}} \
+      PMC_MIO28 {{AUX_IO 0} {DIRECTION out} {DRIVE_STRENGTH 8mA} {OUTPUT_DATA high} {PULL pullup} {SCHMITT 0} {SLEW slow} {USAGE GPIO}} \
+      PMC_MIO37 {{AUX_IO 0} {DIRECTION in} {DRIVE_STRENGTH 8mA} {OUTPUT_DATA default} {PULL pullup} {SCHMITT 0} {SLEW slow} {USAGE GPIO}} \
+      PMC_MIO46 {{AUX_IO 0} {DIRECTION in} {DRIVE_STRENGTH 8mA} {OUTPUT_DATA default} {PULL disable} {SCHMITT 0} {SLEW slow} {USAGE GPIO}} \
+      PMC_MIO47 {{AUX_IO 0} {DIRECTION out} {DRIVE_STRENGTH 8mA} {OUTPUT_DATA low} {PULL pulldown} {SCHMITT 0} {SLEW slow} {USAGE GPIO}} \
+      PMC_MIO48 {{AUX_IO 0} {DIRECTION out} {DRIVE_STRENGTH 8mA} {OUTPUT_DATA low} {PULL pulldown} {SCHMITT 0} {SLEW slow} {USAGE GPIO}} \
       PMC_OSPI_PERIPHERAL {{ENABLE 1} {IO {PMC_MIO 0 .. 11}} {MODE Single}} \
       PMC_REF_CLK_FREQMHZ {33.3333} \
-      PMC_SD0 {{CD_ENABLE 0} {CD_IO {PMC_MIO 24}} {POW_ENABLE 1} {POW_IO {PMC_MIO 49}} {RESET_ENABLE 0} {RESET_IO {PMC_MIO 17}} {WP_ENABLE 1} {WP_IO {PMC_MIO 37}}} \
-      PMC_SD0_PERIPHERAL {{CLK_100_SDR_OTAP_DLY 0x3} {CLK_200_SDR_OTAP_DLY 0x2} {CLK_50_DDR_ITAP_DLY 0x36} {CLK_50_DDR_OTAP_DLY 0x3} {CLK_50_SDR_ITAP_DLY 0x2C} {CLK_50_SDR_OTAP_DLY 0x4} {ENABLE 1} {IO {PMC_MIO 37 .. 49}}} \
-      PMC_SD0_SLOT_TYPE {SD 3.0} \
+      PMC_SD0 {{CD_ENABLE 1} {CD_IO {PMC_MIO 39}} {POW_ENABLE 1} {POW_IO {PMC_MIO 49}} {RESET_ENABLE 0} {RESET_IO {PMC_MIO 17}} {WP_ENABLE 0} {WP_IO {PMC_MIO 25}}} \
+      PMC_SD0_PERIPHERAL {{CLK_100_SDR_OTAP_DLY 0x3} {CLK_200_SDR_OTAP_DLY 0x2} {CLK_50_DDR_ITAP_DLY 0x36} {CLK_50_DDR_OTAP_DLY 0x3} {CLK_50_SDR_ITAP_DLY 0x2C} {CLK_50_SDR_OTAP_DLY 0x4} {ENABLE 1} {IO\
+{PMC_MIO 37 .. 49}}} \
+      PMC_SD0_SLOT_TYPE {SD 3.0 AUTODIR} \
       PMC_SD1_DATA_TRANSFER_MODE {8Bit} \
-      PMC_SD1_PERIPHERAL {{CLK_100_SDR_OTAP_DLY 0x00} {CLK_200_SDR_OTAP_DLY 0x2} {CLK_50_DDR_ITAP_DLY 0x1E} {CLK_50_DDR_OTAP_DLY 0x5} {CLK_50_SDR_ITAP_DLY 0x2C} {CLK_50_SDR_OTAP_DLY 0x5} {ENABLE 1} {IO {PMC_MIO 26 .. 36}}} \
+      PMC_SD1_PERIPHERAL {{CLK_100_SDR_OTAP_DLY 0x00} {CLK_200_SDR_OTAP_DLY 0x2} {CLK_50_DDR_ITAP_DLY 0x1E} {CLK_50_DDR_OTAP_DLY 0x5} {CLK_50_SDR_ITAP_DLY 0x2C} {CLK_50_SDR_OTAP_DLY 0x5} {ENABLE 1} {IO\
+{PMC_MIO 26 .. 36}}} \
       PMC_SD1_SLOT_TYPE {eMMC} \
       PMC_USE_PMC_NOC_AXI0 {1} \
       PS_BOARD_INTERFACE {Custom} \
       PS_CAN0_PERIPHERAL {{ENABLE 1} {IO {PS_MIO 14 .. 15}}} \
       PS_CAN1_PERIPHERAL {{ENABLE 1} {IO {PS_MIO 20 .. 21}}} \
+      PS_ENET0_MDIO {{ENABLE 1} {IO {PS_MIO 24 .. 25}}} \
       PS_ENET0_PERIPHERAL {{ENABLE 1} {IO {PS_MIO 0 .. 11}}} \
       PS_ENET1_PERIPHERAL {{ENABLE 0} {IO {PMC_MIO 38 .. 49}}} \
       PS_GEN_IPI0_ENABLE {1} \
@@ -251,11 +265,13 @@ proc create_root_design { parentCell } {
       PS_GEN_IPI4_ENABLE {1} \
       PS_GEN_IPI5_ENABLE {1} \
       PS_GEN_IPI6_ENABLE {1} \
+      PS_GPIO_EMIO_PERIPHERAL_ENABLE {0} \
       PS_HSDP_EGRESS_TRAFFIC {JTAG} \
       PS_HSDP_INGRESS_TRAFFIC {JTAG} \
       PS_HSDP_MODE {NONE} \
-      PS_I2C0_PERIPHERAL {{ENABLE 1} {IO {PS_MIO 18 .. 19}}} \
-      PS_IRQ_USAGE {{CH0 1} {CH1 1} {CH10 0} {CH11 0} {CH12 0} {CH13 0} {CH14 0} {CH15 0} {CH2 0} {CH3 0} {CH4 0} {CH5 0} {CH6 0} {CH7 0} {CH8 0} {CH9 0}} \
+      PS_I2C0_PERIPHERAL {{ENABLE 1} {IO {PS_MIO 22 .. 23}}} \
+      PS_I2C1_PERIPHERAL {{ENABLE 0} {IO {PS_MIO 0 .. 1}}} \
+      PS_IRQ_USAGE {{CH0 1} {CH1 1} {CH10 0} {CH11 0} {CH12 0} {CH13 0} {CH14 0} {CH15 0} {CH2 1} {CH3 1} {CH4 1} {CH5 1} {CH6 1} {CH7 1} {CH8 0} {CH9 0}} \
       PS_LPDMA0_ROUTE_THROUGH_FPD {1} \
       PS_LPDMA1_ROUTE_THROUGH_FPD {1} \
       PS_LPDMA2_ROUTE_THROUGH_FPD {1} \
@@ -264,17 +280,21 @@ proc create_root_design { parentCell } {
       PS_LPDMA5_ROUTE_THROUGH_FPD {1} \
       PS_LPDMA6_ROUTE_THROUGH_FPD {1} \
       PS_LPDMA7_ROUTE_THROUGH_FPD {1} \
+      PS_MIO12 {{AUX_IO 0} {DIRECTION out} {DRIVE_STRENGTH 8mA} {OUTPUT_DATA low} {PULL pulldown} {SCHMITT 1} {SLEW slow} {USAGE GPIO}} \
+      PS_MIO13 {{AUX_IO 0} {DIRECTION out} {DRIVE_STRENGTH 8mA} {OUTPUT_DATA low} {PULL pulldown} {SCHMITT 0} {SLEW slow} {USAGE GPIO}} \
       PS_MIO7 {{AUX_IO 0} {DIRECTION in} {DRIVE_STRENGTH 8mA} {OUTPUT_DATA default} {PULL disable} {SCHMITT 0} {SLEW slow} {USAGE Reserved}} \
       PS_MIO9 {{AUX_IO 0} {DIRECTION in} {DRIVE_STRENGTH 8mA} {OUTPUT_DATA default} {PULL disable} {SCHMITT 0} {SLEW slow} {USAGE Reserved}} \
       PS_NUM_FABRIC_RESETS {1} \
       PS_PCIE_EP_RESET1_IO {None} \
       PS_PCIE_EP_RESET2_IO {None} \
-      PS_PCIE_RESET {{ENABLE 1}} \
+      PS_PCIE_RESET {{ENABLE 0}} \
+      PS_TTC0_PERIPHERAL_ENABLE {1} \
       PS_UART0_PERIPHERAL {{ENABLE 1} {IO {PS_MIO 16 .. 17}}} \
-      PS_UART1_PERIPHERAL {{ENABLE 1} {IO {PS_MIO 12 .. 13}}} \
+      PS_UART0_RTS_CTS {{ENABLE 1} {IO {PS_MIO 18 .. 19}}} \
+      PS_UART1_PERIPHERAL {{ENABLE 0} {IO {PMC_MIO 4 .. 5}}} \
       PS_USB3_PERIPHERAL {{ENABLE 1} {IO {PMC_MIO 13 .. 25}}} \
-      PS_USE_FPD_AXI_NOC0 {1} \
-      PS_USE_FPD_AXI_NOC1 {1} \
+      PS_USE_FPD_AXI_NOC0 {0} \
+      PS_USE_FPD_AXI_NOC1 {0} \
       PS_USE_FPD_CCI_NOC {1} \
       PS_USE_M_AXI_FPD {1} \
       PS_USE_M_AXI_LPD {0} \
@@ -286,18 +306,6 @@ proc create_root_design { parentCell } {
       SMON_ALARMS {Set_Alarms_On} \
       SMON_ENABLE_TEMP_AVERAGING {0} \
       SMON_INTERFACE_TO_USE {None} \
-      SMON_MEAS20 {{ALARM_ENABLE 1} {ALARM_LOWER 0.00} {ALARM_UPPER 2.00} {AVERAGE_EN 0} {ENABLE 1} {MODE {2 V unipolar}} {NAME VCC_PMC} {SUPPLY_NUM 2}} \
-      SMON_MEAS21 {{ALARM_ENABLE 1} {ALARM_LOWER 0.00} {ALARM_UPPER 2.00} {AVERAGE_EN 0} {ENABLE 1} {MODE {2 V unipolar}} {NAME VCC_PSFP} {SUPPLY_NUM 3}} \
-      SMON_MEAS22 {{ALARM_ENABLE 1} {ALARM_LOWER 0.00} {ALARM_UPPER 2.00} {AVERAGE_EN 0} {ENABLE 1} {MODE {2 V unipolar}} {NAME VCC_PSLP} {SUPPLY_NUM 4}} \
-      SMON_MEAS24 {{ALARM_ENABLE 1} {ALARM_LOWER 0.00} {ALARM_UPPER 2.00} {AVERAGE_EN 0} {ENABLE 1} {MODE {2 V unipolar}} {NAME VCC_SOC} {SUPPLY_NUM 0}} \
-      SMON_MEAS25 {{ALARM_ENABLE 1} {ALARM_LOWER 0.00} {ALARM_UPPER 2.00} {AVERAGE_EN 0} {ENABLE 1} {MODE {2 V unipolar}} {NAME VP_VN} {SUPPLY_NUM 1}} \
-      SMON_MEAS44 {{ALARM_ENABLE 1} {ALARM_LOWER 0.00} {ALARM_UPPER 2.00} {AVERAGE_EN 0} {ENABLE 1} {MODE {2 V unipolar}} {NAME VCC_PMC} {SUPPLY_NUM 2}} \
-      SMON_MEAS45 {{ALARM_ENABLE 1} {ALARM_LOWER 0.00} {ALARM_UPPER 2.00} {AVERAGE_EN 0} {ENABLE 1} {MODE {2 V unipolar}} {NAME VCC_PSFP} {SUPPLY_NUM 3}} \
-      SMON_MEAS46 {{ALARM_ENABLE 1} {ALARM_LOWER 0.00} {ALARM_UPPER 2.00} {AVERAGE_EN 0} {ENABLE 1} {MODE {2 V unipolar}} {NAME VCC_PSLP} {SUPPLY_NUM 4}} \
-      SMON_MEAS48 {{ALARM_ENABLE 1} {ALARM_LOWER 0.00} {ALARM_UPPER 2.00} {AVERAGE_EN 0} {ENABLE 1} {MODE {2 V unipolar}} {NAME VCC_SOC} {SUPPLY_NUM 5}} \
-      SMON_MEAS49 {{ALARM_ENABLE 1} {ALARM_LOWER 0.00} {ALARM_UPPER 2.00} {AVERAGE_EN 0} {ENABLE 1} {MODE {2 V unipolar}} {NAME VP_VN} {SUPPLY_NUM 6}} \
-      SMON_MEAS6 {{ALARM_ENABLE 1} {ALARM_LOWER 0.00} {ALARM_UPPER 2.00} {AVERAGE_EN 0} {ENABLE 1} {MODE {2 V unipolar}} {NAME VCCAUX} {SUPPLY_NUM 5}} \
-      SMON_MEAS7 {{ALARM_ENABLE 1} {ALARM_LOWER 0.00} {ALARM_UPPER 2.00} {AVERAGE_EN 0} {ENABLE 1} {MODE {2 V unipolar}} {NAME VCCAUX_PMC} {SUPPLY_NUM 6}} \
       SMON_TEMP_AVERAGING_SAMPLES {0} \
     } \
     CONFIG.PS_PMC_CONFIG_APPLIED {1} \
@@ -657,8 +665,7 @@ proc create_root_design { parentCell } {
   current_bd_instance $oldCurInst
 
   # Create PFM attributes
-  #set_property PFM_NAME {xilinx.com:xd:vek280_base:202320.1} [get_files [current_bd_design].bd]
-  set_property PFM_NAME {tria-technologies.com:xd:ved2302_iocc_base:202310.1} [get_files [current_bd_design].bd]
+  set_property PFM_NAME {tria-technologies.com:ved2302_iocc:ved2302_iocc_base:1.0} [get_files [current_bd_design].bd]
   set_property PFM.AXI_PORT {S08_AXI {memport "S_AXI_NOC" sptag "NOC_S08"} S09_AXI {memport "S_AXI_NOC" sptag "NOC_S09"} S10_AXI {memport "S_AXI_NOC" sptag "NOC_S10"} S11_AXI {memport "S_AXI_NOC" sptag "NOC_S11"} S12_AXI {memport "S_AXI_NOC" sptag "NOC_S12"} S13_AXI {memport "S_AXI_NOC" sptag "NOC_S13"} S14_AXI {memport "S_AXI_NOC" sptag "NOC_S14"} S15_AXI {memport "S_AXI_NOC" sptag "NOC_S15"} S16_AXI {memport "S_AXI_NOC" sptag "NOC_S16"} S17_AXI {memport "S_AXI_NOC" sptag "NOC_S17"} S18_AXI {memport "S_AXI_NOC" sptag "NOC_S18"} S19_AXI {memport "S_AXI_NOC" sptag "NOC_S19"} S20_AXI {memport "S_AXI_NOC" sptag "NOC_S20"} S21_AXI {memport "S_AXI_NOC" sptag "NOC_S21"} S22_AXI {memport "S_AXI_NOC" sptag "NOC_S22"} S23_AXI {memport "S_AXI_NOC" sptag "NOC_S23"} S24_AXI {memport "S_AXI_NOC" sptag "NOC_S24"} S25_AXI {memport "S_AXI_NOC" sptag "NOC_S25"} S26_AXI {memport "S_AXI_NOC" sptag "NOC_S26"} S27_AXI {memport "S_AXI_NOC" sptag "NOC_S27"} S28_AXI {memport "S_AXI_NOC" sptag "NOC_S28"} S29_AXI {memport "S_AXI_NOC" sptag "NOC_S29"} S30_AXI {memport "S_AXI_NOC" sptag "NOC_S30"} } [get_bd_cells /cips_noc]
   set_property PFM.IRQ {intr {id 0 range 32}} [get_bd_cells /axi_intc_parent]
   set_property PFM.CLOCK {clk_out1 {id "1" is_default "false" proc_sys_reset "psr_100mhz" status "fixed"} clk_out2 {id "0" is_default "false" proc_sys_reset "psr_150mhz" status "fixed"} clk_out3 {id "2" is_default "true" proc_sys_reset "psr_300mhz" status "fixed"} clk_out4 {id "3" is_default "false" proc_sys_reset "psr_75mhz" status "fixed"} clk_out5 {id "4" is_default "false" proc_sys_reset "psr_200mhz" status "fixed"} clk_out6 {id "5" is_default "false" proc_sys_reset "psr_400mhz" status "fixed"} clk_out7 {id "6" is_default "false" proc_sys_reset "psr_600mhz" status "fixed"}} [get_bd_cells /clk_wizard_0]

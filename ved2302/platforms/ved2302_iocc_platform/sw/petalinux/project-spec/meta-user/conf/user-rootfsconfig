@@ -25,5 +25,4 @@ CONFIG_vvas-gst
 CONFIG_vvas-accel-libs
 CONFIG_vvas-core
 CONFIG_simd
-CONFIG_initcams
 CONFIG_auto-resize

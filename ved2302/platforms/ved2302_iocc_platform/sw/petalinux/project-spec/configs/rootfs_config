@@ -181,7 +181,7 @@ CONFIG_fpga-manager-script=y
 #
 # i2c-tools 
 #
-# CONFIG_i2c-tools is not set
+CONFIG_i2c-tools=y
 # CONFIG_i2c-tools-dev is not set
 # CONFIG_i2c-tools-misc is not set
 # CONFIG_i2c-tools-dbg is not set
@@ -396,7 +396,7 @@ CONFIG_mtd-utils=y
 # CONFIG_util-linux-readprofile is not set
 # CONFIG_util-linux-mountpoint is not set
 # CONFIG_util-linux-fdisk is not set
-# CONFIG_util-linux-lscpu is not set
+CONFIG_util-linux-lscpu=y
 # CONFIG_util-linux-dbg is not set
 # CONFIG_util-linux-uuidd is not set
 # CONFIG_util-linux-mkfs.cramfs is not set
@@ -708,7 +708,7 @@ CONFIG_nfs-utils=y
 #
 # git 
 #
-# CONFIG_git is not set
+CONFIG_git=y
 # CONFIG_git-bash-completion is not set
 # CONFIG_git-perltools is not set
 # CONFIG_gitweb is not set
@@ -1861,7 +1861,7 @@ CONFIG_libdfx=y
 #
 # ai-engine
 #
-# CONFIG_ai-engine-driver is not set
+CONFIG_ai-engine-driver=y
 # CONFIG_ai-engine-driver-dbg is not set
 # CONFIG_ai-engine-driver-dev is not set
 
@@ -2011,7 +2011,7 @@ CONFIG_libdfx=y
 #
 # opencv 
 #
-# CONFIG_opencv is not set
+CONFIG_opencv=y
 # CONFIG_opencv-dbg is not set
 # CONFIG_opencv-apps is not set
 # CONFIG_opencv-dev is not set
@@ -2112,17 +2112,17 @@ CONFIG_zocl=y
 #
 # opencl-clhpp
 #
-# CONFIG_opencl-clhpp-dev is not set
+CONFIG_opencl-clhpp-dev=y
 
 #
 # opencl-headers
 #
-# CONFIG_opencl-headers is not set
+CONFIG_opencl-headers=y
 
 #
 # protobuf
 #
-# CONFIG_protobuf is not set
+CONFIG_protobuf=y
 
 #
 # zlib 
@@ -2774,10 +2774,10 @@ CONFIG_python3=y
 # CONFIG_python3-html is not set
 # CONFIG_python3-image is not set
 # CONFIG_python3-difflib is not set
-# CONFIG_python3-dev is not set
+CONFIG_python3-dev=y
 # CONFIG_python3-syslog is not set
 # CONFIG_python3-curses is not set
-# CONFIG_libpython3 is not set
+CONFIG_libpython3=y
 # CONFIG_python3-logging is not set
 # CONFIG_python3-profile is not set
 # CONFIG_python3-xmlrpc is not set
@@ -3383,7 +3383,7 @@ CONFIG_tcf-agent=y
 #
 # yavta 
 #
-# CONFIG_yavta is not set
+CONFIG_yavta=y
 # CONFIG_yavta-dbg is not set
 # CONFIG_yavta-dev is not set
 
@@ -3526,7 +3526,7 @@ CONFIG_bridge-utils=y
 #
 # dosfstools 
 #
-# CONFIG_dosfstools is not set
+CONFIG_dosfstools=y
 # CONFIG_dosfstools-dev is not set
 # CONFIG_dosfstools-dbg is not set
 
@@ -3562,12 +3562,12 @@ CONFIG_u-boot-tools=y
 #
 # libdrm 
 #
-# CONFIG_libdrm is not set
-# CONFIG_libdrm-tests is not set
-# CONFIG_libdrm-drivers is not set
+CONFIG_libdrm=y
+CONFIG_libdrm-tests=y
+CONFIG_libdrm-drivers=y
 # CONFIG_libdrm-amdgpu is not set
 # CONFIG_libdrm-nouveau is not set
-# CONFIG_libdrm-dev is not set
+CONFIG_libdrm-dev=y
 # CONFIG_libdrm-freedreno is not set
 # CONFIG_libdrm-radeon is not set
 # CONFIG_libdrm-dbg is not set
@@ -4010,7 +4010,7 @@ CONFIG_u-boot-tools=y
 #
 # packagegroup-petalinux-self-hosted 
 #
-# CONFIG_packagegroup-petalinux-self-hosted is not set
+CONFIG_packagegroup-petalinux-self-hosted=y
 # CONFIG_packagegroup-petalinux-self-hosted-dbg is not set
 # CONFIG_packagegroup-petalinux-self-hosted-dev is not set
 
@@ -4024,7 +4024,7 @@ CONFIG_u-boot-tools=y
 #
 # packagegroup-petalinux-v4lutils 
 #
-# CONFIG_packagegroup-petalinux-v4lutils is not set
+CONFIG_packagegroup-petalinux-v4lutils=y
 # CONFIG_packagegroup-petalinux-v4lutils-dbg is not set
 # CONFIG_packagegroup-petalinux-v4lutils-dev is not set
 
@@ -4071,10 +4071,9 @@ CONFIG_Init-manager-systemd=y
 # CONFIG_libvdu-omxil is not set
 # CONFIG_aie-notebooks is not set
 # CONFIG_aie-oob is not set
-# CONFIG_auto-resize is not set
+CONFIG_auto-resize=y
 # CONFIG_gpio-demo is not set
-# CONFIG_hdmi21-modules is not set
-# CONFIG_initcams is not set
+CONFIG_hdmi21-modules=y
 # CONFIG_kernel-module-vdu is not set
 # CONFIG_openamp-demo-notebooks is not set
 # CONFIG_packagegroup-petalinux-jupyter is not set

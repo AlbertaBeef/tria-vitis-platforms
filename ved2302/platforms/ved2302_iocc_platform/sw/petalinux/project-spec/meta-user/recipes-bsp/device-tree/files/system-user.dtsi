@@ -1,28 +1,128 @@
-/include/ "system-conf.dtsi"
+#include "include/dt-bindings/gpio/gpio.h"
+#include "include/dt-bindings/phy/phy.h"
+#include "include/dt-bindings/input/input.h"
+
 / {
+	chosen {
+		bootargs = "console=ttyAMA0 earlycon=pl011,mmio32,0xFF000000,115200n8 root=/dev/mmcblk1p2 rw rootwait";
+		stdout-path = "serial0:115200";
+	};
 
-   chosen {
-       bootargs = "console=ttyAMA0  earlycon=pl011,mmio32,0xFF000000,115200n8 clk_ignore_unused root=/dev/mmcblk0p2 rw rootwait cma=6G";
-       stdout-path = "serial0:115200n8";
-   };
-
-	iio_hwmon {
-        compatible = "iio-hwmon";
-        io-channels = <&sysmon0 7>, <&sysmon0 8>, <&sysmon0 9>, <&sysmon0 10>;
-    };
+	aliases {
+		serial0 = &serial0;
+/*		serial2 = &dcc;*/
+		i2c0 = &i2c0;
+		i2c2 = &i2c2;
+		mmc0 = &sdhci1;
+		mmc1 = &sdhci0;
+		spi0 = &ospi;
+		usb0 = &usb0;
+		rtc0 = &rtc;
+/*		nvmem0 = &eeprom;*/
+	};
 };
 
-&cpu_opp_table {
-    // add cpu freq 1.35GHz
-    opp04 {
-       opp-hz = /bits/ 64 <1349986450>;
-        opp-microvolt = <1000000>;
-        clock-latency-ns = <500000>;
-    };
+/* SD_BUSPWR - PMC MIO49 */
+/* PMC_LED_2 - PMC MIO48 */
+/* PMC_LED_1 - PMC MIO47 */
+/* PMC_PB_2 - PMC MIO46 */
+/* PMC_PB_1 - PMC MIO37 */
+/* PMC_I2C_EXP_RST_B - MIO28 */
+/* PMC_INT_B - MIO11 */
+
+
+&ospi { /* PMC MIO0-10, 12, U3 MT35XU02G or MT35X512M */
+	bus-num = <2>;
+	num-cs = <1>;
+	#stream-id-cells = <1>;
+	#address-cells = <1>;
+	#size-cells = <0>;
+
+	flash0:flash@0 {
+		compatible = "mt35xu02g", "micron,m25p80", "jedec,spi-nor";
+		reg = <0>;
+		#address-cells = <1>;
+		#size-cells = <1>;
+		cdns,read-delay = <0>;
+		cdns,tshsl-ns = <0>;
+		cdns,tsd2d-ns = <0>;
+		cdns,tchsh-ns = <1>;
+		cdns,tslch-ns = <1>;
+		spi-tx-bus-width = <8>;
+		spi-rx-bus-width = <8>;
+		spi-max-frequency = <20000000>;
+		no-wp;
+		reset-gpios = <&gpio1 12 GPIO_ACTIVE_LOW>;
+		partition@0 {
+			label = "spi0-boot";
+			reg = <0x00000000 0x00f40000>;
+		};
+		partition@1 {
+			label = "spi0-kernel";
+			reg = <0x00f40000 0x01e00000>;
+		};
+		partition@2 {
+			label = "spi0-bootenv";
+			reg = <0x02d40000 0x00040000>;
+		};
+	};
 };
 
-&sysmon0 {
-    #io-channel-cells = <1>;
+&usb0 {
+	status = "okay";
 };
 
-#include "i2c0_mux_conf.dtsi"
+&dwc3_0 { /* USB 2.0 host */
+	status = "okay";
+	dr_mode = "host";
+	maximum-speed = "high-speed";
+	snps,dis_u2_susphy_quirk;
+	snps,dis_u3_susphy_quirk;
+	snps,usb3_lpm_capable;
+};
+
+&sdhci0 { /* PMC_MIO38-45/49 */
+	status = "okay";
+	xlnx,mio-bank = <1>;
+	no-1-8-v;
+};
+
+&sdhci1 { /* PMC_MIO26-27/29-36 */
+	status = "okay";
+	bus-width = <8>;
+};
+
+&gem0 { /* PMC_MIO_48, LPD_MIO0-11/24/25 */
+	status = "okay";
+	phy-handle = <&phy0>;
+	phy-mode = "rgmii-id";
+	mdio: mdio {
+		#address-cells = <1>;
+		#size-cells = <0>;
+		phy0: ethernet-phy@7 { /* U7 - KSZ9131RNXI */
+			#phy-cells = <1>;
+			reg = <0x7>;
+		};
+	};
+};
+
+&i2c0 { 
+	status = "okay";
+	bootph-all;
+	clock-frequency = <100000>;
+
+/*	eeprom: eeprom@54 { 
+		compatible = "atmel,24mac402";
+		reg = <0x54>; 
+		bootph-all;
+		mac_address: mac-address@9A {
+			reg <0x9A 0x06>;
+		};
+	}; */
+};
+
+&i2c2 { 
+	status = "okay";
+	bootph-all;
+	clock-frequency = <100000>;
+};
