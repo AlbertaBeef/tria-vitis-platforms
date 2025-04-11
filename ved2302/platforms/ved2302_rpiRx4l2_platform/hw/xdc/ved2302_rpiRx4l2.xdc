@@ -49,12 +49,16 @@ set_property BITSTREAM.GENERAL.COMPRESS TRUE [current_design]
 ### GPIO
 
 # CAMERA 0 - GPIO0 - XPIO_703_L5_3V3_N - <LEVEL-SHIFTER> - XPIO_703_L5_N - JX2B-D4 - B28
-set_property PACKAGE_PIN B28 [get_ports {rpi_rx_0_gpio_tri_o[0]}]
-set_property IOSTANDARD LVCMOS12 [get_ports {rpi_rx_0_gpio_tri_o[0]}]
+#set_property PACKAGE_PIN B28 [get_ports {rpi_rx_0_gpio_tri_o[0]}]
+#set_property IOSTANDARD LVCMOS12 [get_ports {rpi_rx_0_gpio_tri_o[0]}]
+set_property PACKAGE_PIN B28 [get_ports {rpi_rx_0_gpio[0]}]
+set_property IOSTANDARD LVCMOS12 [get_ports {rpi_rx_0_gpio[0]}]
 
 # CAMERA 0 - GPIO1 - XPIO_703_L5_3V3_P - <LEVEL-SHIFTER> - XPIO_703_L5_p - JX2B-D3 - C27
-set_property PACKAGE_PIN C27 [get_ports {rpi_rx_0_gpio_tri_o[1]}]
-set_property IOSTANDARD LVCMOS12 [get_ports {rpi_rx_0_gpio_tri_o[1]}]
+#set_property PACKAGE_PIN C27 [get_ports {rpi_rx_0_gpio_tri_o[1]}]
+#set_property IOSTANDARD LVCMOS12 [get_ports {rpi_rx_0_gpio_tri_o[1]}]
+set_property PACKAGE_PIN C27 [get_ports {rpi_rx_0_gpio[1]}]
+set_property IOSTANDARD LVCMOS12 [get_ports {rpi_rx_0_gpio[1]}]
 
 ### MIPI
 
@@ -102,12 +106,16 @@ set_property DIFF_TERM_ADV TERM_100 [get_ports {rpi_rx_0_mipi_data_n[*]}]
 ### GPIO
 
 # CAMERA 1 - GPIO0 - XPIO_703_L11_3V3_N - <LEVEL-SHIFTER> - XPIO_703_L11_N - JX2A-A7 - B27
-set_property PACKAGE_PIN B27 [get_ports {rpi_rx_1_gpio_tri_o[0]}]
-set_property IOSTANDARD LVCMOS12 [get_ports {rpi_rx_1_gpio_tri_o[0]}]
+#set_property PACKAGE_PIN B27 [get_ports {rpi_rx_1_gpio_tri_o[0]}]
+#set_property IOSTANDARD LVCMOS12 [get_ports {rpi_rx_1_gpio_tri_o[0]}]
+set_property PACKAGE_PIN B27 [get_ports {rpi_rx_1_gpio[0]}]
+set_property IOSTANDARD LVCMOS12 [get_ports {rpi_rx_1_gpio[0]}]
 
 # CAMERA 1 - GPIO1 - XPIO_703_L11_3V3_P - <LEVEL-SHIFTER> - XPIO_703_L11_p - JX2A-A6 - B26
-set_property PACKAGE_PIN B26 [get_ports {rpi_rx_1_gpio_tri_o[1]}]
-set_property IOSTANDARD LVCMOS12 [get_ports {rpi_rx_1_gpio_tri_o[1]}]
+#set_property PACKAGE_PIN B26 [get_ports {rpi_rx_1_gpio_tri_o[1]}]
+#set_property IOSTANDARD LVCMOS12 [get_ports {rpi_rx_1_gpio_tri_o[1]}]
+set_property PACKAGE_PIN B26 [get_ports {rpi_rx_1_gpio[1]}]
+set_property IOSTANDARD LVCMOS12 [get_ports {rpi_rx_1_gpio[1]}]
 
 ### MIPI
 
@@ -155,12 +163,16 @@ set_property DIFF_TERM_ADV TERM_100 [get_ports {rpi_rx_1_mipi_data_n[*]}]
 ### GPIO
 
 # CAMERA 2 - GPIO0 - XPIO_703_L17_3V3_N - <LEVEL-SHIFTER> - XPIO_703_L17_N - JX2A-B13 - A24
-set_property PACKAGE_PIN A24 [get_ports {rpi_rx_2_gpio_tri_o[0]}]
-set_property IOSTANDARD LVCMOS12 [get_ports {rpi_rx_2_gpio_tri_o[0]}]
+#set_property PACKAGE_PIN A24 [get_ports {rpi_rx_2_gpio_tri_o[0]}]
+#set_property IOSTANDARD LVCMOS12 [get_ports {rpi_rx_2_gpio_tri_o[0]}]
+set_property PACKAGE_PIN A24 [get_ports {rpi_rx_2_gpio[0]}]
+set_property IOSTANDARD LVCMOS12 [get_ports {rpi_rx_2_gpio[0]}]
 
 # CAMERA 2 - GPIO1 - XPIO_703_L17_3V3_P - <LEVEL-SHIFTER> - XPIO_703_L17_p - JX2A-B12 - A23
-set_property PACKAGE_PIN A23 [get_ports {rpi_rx_2_gpio_tri_o[1]}]
-set_property IOSTANDARD LVCMOS12 [get_ports {rpi_rx_2_gpio_tri_o[1]}]
+#set_property PACKAGE_PIN A23 [get_ports {rpi_rx_2_gpio_tri_o[1]}]
+#set_property IOSTANDARD LVCMOS12 [get_ports {rpi_rx_2_gpio_tri_o[1]}]
+set_property PACKAGE_PIN A23 [get_ports {rpi_rx_2_gpio[1]}]
+set_property IOSTANDARD LVCMOS12 [get_ports {rpi_rx_2_gpio[1]}]
 
 ### MIPI
 
@@ -209,12 +221,16 @@ set_property DIFF_TERM_ADV TERM_100 [get_ports {rpi_rx_2_mipi_data_n[*]}]
 ### GPIO
 
 # CAMERA 3 - GPIO0 - XPIO_703_L23_3V3_N - <LEVEL-SHIFTER> - XPIO_703_L23_N - JX2A-B19 - B22
-set_property PACKAGE_PIN B22 [get_ports {rpi_rx_3_gpio_tri_o[0]}]
-set_property IOSTANDARD LVCMOS12 [get_ports {rpi_rx_3_gpio_tri_o[0]}]
+#set_property PACKAGE_PIN B22 [get_ports {rpi_rx_3_gpio_tri_o[0]}]
+#set_property IOSTANDARD LVCMOS12 [get_ports {rpi_rx_3_gpio_tri_o[0]}]
+set_property PACKAGE_PIN B22 [get_ports {rpi_rx_3_gpio[0]}]
+set_property IOSTANDARD LVCMOS12 [get_ports {rpi_rx_3_gpio[0]}]
 
 # CAMERA 3 - GPIO1 - XPIO_703_L23_3V3_P - <LEVEL-SHIFTER> - XPIO_703_L23_p - JX2A-B18 - C22
-set_property PACKAGE_PIN C22 [get_ports {rpi_rx_3_gpio_tri_o[1]}]
-set_property IOSTANDARD LVCMOS12 [get_ports {rpi_rx_3_gpio_tri_o[1]}]
+#set_property PACKAGE_PIN C22 [get_ports {rpi_rx_3_gpio_tri_o[1]}]
+#set_property IOSTANDARD LVCMOS12 [get_ports {rpi_rx_3_gpio_tri_o[1]}]
+set_property PACKAGE_PIN C22 [get_ports {rpi_rx_3_gpio[1]}]
+set_property IOSTANDARD LVCMOS12 [get_ports {rpi_rx_3_gpio[1]}]
 
 ### MIPI
 

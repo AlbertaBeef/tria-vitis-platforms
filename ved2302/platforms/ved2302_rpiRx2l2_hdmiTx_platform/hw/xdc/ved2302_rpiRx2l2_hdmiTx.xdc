@@ -49,12 +49,16 @@ set_property IOSTANDARD LVCMOS12 [get_ports LED0]
 ### GPIO
 
 # CAMERA 0 - GPIO0 - XPIO_703_L5_3V3_N - <LEVEL-SHIFTER> - XPIO_703_L5_N - JX2B-D4 - B28
-set_property PACKAGE_PIN B28 [get_ports {rpi_rx_0_gpio_tri_o[0]}]
-set_property IOSTANDARD LVCMOS12 [get_ports {rpi_rx_0_gpio_tri_o[0]}]
+#set_property PACKAGE_PIN B28 [get_ports {rpi_rx_0_gpio_tri_o[0]}]
+#set_property IOSTANDARD LVCMOS12 [get_ports {rpi_rx_0_gpio_tri_o[0]}]
+set_property PACKAGE_PIN B28 [get_ports {rpi_rx_0_gpio[0]}]
+set_property IOSTANDARD LVCMOS12 [get_ports {rpi_rx_0_gpio[0]}]
 
 # CAMERA 0 - GPIO1 - XPIO_703_L5_3V3_P - <LEVEL-SHIFTER> - XPIO_703_L5_p - JX2B-D3 - C27
-set_property PACKAGE_PIN C27 [get_ports {rpi_rx_0_gpio_tri_o[1]}]
-set_property IOSTANDARD LVCMOS12 [get_ports {rpi_rx_0_gpio_tri_o[1]}]
+#set_property PACKAGE_PIN C27 [get_ports {rpi_rx_0_gpio_tri_o[1]}]
+#set_property IOSTANDARD LVCMOS12 [get_ports {rpi_rx_0_gpio_tri_o[1]}]
+set_property PACKAGE_PIN C27 [get_ports {rpi_rx_0_gpio[1]}]
+set_property IOSTANDARD LVCMOS12 [get_ports {rpi_rx_0_gpio[1]}]
 
 ### MIPI
 
@@ -102,12 +106,16 @@ set_property DIFF_TERM_ADV TERM_100 [get_ports {rpi_rx_0_mipi_data_n[*]}]
 ### GPIO
 
 # CAMERA 1 - GPIO0 - XPIO_703_L11_3V3_N - <LEVEL-SHIFTER> - XPIO_703_L11_N - JX2A-A7 - B27
-set_property PACKAGE_PIN B27 [get_ports {rpi_rx_1_gpio_tri_o[0]}]
-set_property IOSTANDARD LVCMOS12 [get_ports {rpi_rx_1_gpio_tri_o[0]}]
+#set_property PACKAGE_PIN B27 [get_ports {rpi_rx_1_gpio_tri_o[0]}]
+#set_property IOSTANDARD LVCMOS12 [get_ports {rpi_rx_1_gpio_tri_o[0]}]
+set_property PACKAGE_PIN B27 [get_ports {rpi_rx_1_gpio[0]}]
+set_property IOSTANDARD LVCMOS12 [get_ports {rpi_rx_1_gpio[0]}]
 
 # CAMERA 1 - GPIO1 - XPIO_703_L11_3V3_P - <LEVEL-SHIFTER> - XPIO_703_L11_p - JX2A-A6 - B26
-set_property PACKAGE_PIN B26 [get_ports {rpi_rx_1_gpio_tri_o[1]}]
-set_property IOSTANDARD LVCMOS12 [get_ports {rpi_rx_1_gpio_tri_o[1]}]
+#set_property PACKAGE_PIN B26 [get_ports {rpi_rx_1_gpio_tri_o[1]}]
+#set_property IOSTANDARD LVCMOS12 [get_ports {rpi_rx_1_gpio_tri_o[1]}]
+set_property PACKAGE_PIN B26 [get_ports {rpi_rx_1_gpio[1]}]
+set_property IOSTANDARD LVCMOS12 [get_ports {rpi_rx_1_gpio[1]}]
 
 ### MIPI
 
@@ -157,10 +165,14 @@ set_property DIFF_TERM_ADV TERM_100 [get_ports {rpi_rx_1_mipi_data_n[*]}]
 # CAMERA 2 - GPIO0 - XPIO_703_L17_3V3_N - <LEVEL-SHIFTER> - XPIO_703_L17_N - JX2A-B13 - A24
 #set_property PACKAGE_PIN A24 [get_ports {rpi_rx_2_gpio_tri_o[0]}]
 #set_property IOSTANDARD LVCMOS12 [get_ports {rpi_rx_2_gpio_tri_o[0]}]
+#set_property PACKAGE_PIN A24 [get_ports {rpi_rx_2_gpio[0]}]
+#set_property IOSTANDARD LVCMOS12 [get_ports {rpi_rx_2_gpio[0]}]
 
 # CAMERA 2 - GPIO1 - XPIO_703_L17_3V3_P - <LEVEL-SHIFTER> - XPIO_703_L17_p - JX2A-B12 - A23
 #set_property PACKAGE_PIN A23 [get_ports {rpi_rx_2_gpio_tri_o[1]}]
 #set_property IOSTANDARD LVCMOS12 [get_ports {rpi_rx_2_gpio_tri_o[1]}]
+#set_property PACKAGE_PIN A23 [get_ports {rpi_rx_2_gpio[1]}]
+#set_property IOSTANDARD LVCMOS12 [get_ports {rpi_rx_2_gpio[1]}]
 
 ### MIPI
 
@@ -211,10 +223,14 @@ set_property DIFF_TERM_ADV TERM_100 [get_ports {rpi_rx_1_mipi_data_n[*]}]
 # CAMERA 3 - GPIO0 - XPIO_703_L23_3V3_N - <LEVEL-SHIFTER> - XPIO_703_L23_N - JX2A-B19 - B22
 #set_property PACKAGE_PIN B22 [get_ports {rpi_rx_3_gpio_tri_o[0]}]
 #set_property IOSTANDARD LVCMOS12 [get_ports {rpi_rx_3_gpio_tri_o[0]}]
+#set_property PACKAGE_PIN B22 [get_ports {rpi_rx_3_gpio[0]}]
+#set_property IOSTANDARD LVCMOS12 [get_ports {rpi_rx_3_gpio[0]}]
 
 # CAMERA 3 - GPIO1 - XPIO_703_L23_3V3_P - <LEVEL-SHIFTER> - XPIO_703_L23_p - JX2A-B18 - C22
 #set_property PACKAGE_PIN C22 [get_ports {rpi_rx_3_gpio_tri_o[1]}]
 #set_property IOSTANDARD LVCMOS12 [get_ports {rpi_rx_3_gpio_tri_o[1]}]
+#set_property PACKAGE_PIN C22 [get_ports {rpi_rx_3_gpio[1]}]
+#set_property IOSTANDARD LVCMOS12 [get_ports {rpi_rx_3_gpio[1]}]
 
 ### MIPI
 
@@ -319,19 +335,19 @@ create_clock -period 3.367 [get_ports TX_REFCLK_P_IN_V_clk_p]
 set_property PACKAGE_PIN R22 [get_ports TX_HPD_IN]
 set_property IOSTANDARD LVCMOS12 [get_ports TX_HPD_IN]
 
-# HDMI_TX_SRC_SCL -> XPIO_702_L20_P_HTX_SCL
+# HDMI_TX_SRC_SCL -> XPIO_702_L20_P_HTX_SCL - JX2A-A36 - XPIO_702_L20_P - R21
 set_property PACKAGE_PIN R21 [get_ports TX_DDC_OUT_scl_io]
 set_property IOSTANDARD LVCMOS12 [get_ports TX_DDC_OUT_scl_io]
 
-# HDMI_TX_SRC_SDA -> XPIO_702_L20_N_HTX_SDA
+# HDMI_TX_SRC_SDA -> XPIO_702_L20_N_HTX_SDA - JX2A-A37 - XPIO_702_L20_N - P22
 set_property PACKAGE_PIN P22 [get_ports TX_DDC_OUT_sda_io]
 set_property IOSTANDARD LVCMOS12 [get_ports TX_DDC_OUT_sda_io]
 
-# HDMI_CTRL_SCL -> XPIO_702_L22_N_HCTL_SCL - JX1A-A34 - L22
+# HDMI_CTRL_SCL -> XPIO_702_L22_N_HCTL_SCL - JX1A-A34 - XPIO_702_L22_N - L22
 set_property PACKAGE_PIN L22 [get_ports HDMI_CTRL_scl_io]
 set_property IOSTANDARD LVCMOS12 [get_ports HDMI_CTRL_scl_io]
 
-# HDMI_CTRL_SDA -> XPIO_702_L22_P_HCTL_SDA - JX1A-A33 - K21
+# HDMI_CTRL_SDA -> XPIO_702_L22_P_HCTL_SDA - JX1A-A33 - XPIO_702_L22_P - K21
 set_property PACKAGE_PIN K21 [get_ports HDMI_CTRL_sda_io]
 set_property IOSTANDARD LVCMOS12 [get_ports HDMI_CTRL_sda_io]
 

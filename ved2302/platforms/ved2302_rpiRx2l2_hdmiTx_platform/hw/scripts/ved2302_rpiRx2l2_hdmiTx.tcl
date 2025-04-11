@@ -548,6 +548,7 @@ proc create_hier_cell_mipi_1 { parentCell nameHier } {
   set rpi_gpio [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_gpio rpi_gpio ]
   set_property -dict [list \
     CONFIG.C_ALL_OUTPUTS {1} \
+    CONFIG.C_DOUT_DEFAULT {0xFFFFFFFF} \
     CONFIG.C_GPIO_WIDTH {2} \
   ] $rpi_gpio
 
@@ -738,6 +739,7 @@ proc create_hier_cell_mipi_0 { parentCell nameHier } {
   set rpi_gpio [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_gpio rpi_gpio ]
   set_property -dict [list \
     CONFIG.C_ALL_OUTPUTS {1} \
+    CONFIG.C_DOUT_DEFAULT {0xFFFFFFFF} \
     CONFIG.C_GPIO_WIDTH {2} \
   ] $rpi_gpio
 
@@ -2178,9 +2180,9 @@ proc create_root_design { parentCell } {
 
   set rpi_rx_1_mipi [ create_bd_intf_port -mode Slave -vlnv xilinx.com:interface:mipi_phy_rtl:1.0 rpi_rx_1_mipi ]
 
-  set rpi_rx_0_gpio [ create_bd_intf_port -mode Master -vlnv xilinx.com:interface:gpio_rtl:1.0 rpi_rx_0_gpio ]
+  #set rpi_rx_0_gpio [ create_bd_intf_port -mode Master -vlnv xilinx.com:interface:gpio_rtl:1.0 rpi_rx_0_gpio ]
 
-  set rpi_rx_1_gpio [ create_bd_intf_port -mode Master -vlnv xilinx.com:interface:gpio_rtl:1.0 rpi_rx_1_gpio ]
+  #set rpi_rx_1_gpio [ create_bd_intf_port -mode Master -vlnv xilinx.com:interface:gpio_rtl:1.0 rpi_rx_1_gpio ]
 
 
   # Create ports
@@ -2191,6 +2193,8 @@ proc create_root_design { parentCell } {
   set TX_HPD_IN [ create_bd_port -dir I TX_HPD_IN ]
   set rx_en [ create_bd_port -dir O -from 0 -to 0 rx_en ]
   set tx_en [ create_bd_port -dir O -from 0 -to 0 tx_en ]
+  set rpi_rx_1_gpio [ create_bd_port -dir O -from 1 -to 0 rpi_rx_1_gpio ]
+  set rpi_rx_0_gpio [ create_bd_port -dir O -from 1 -to 0 rpi_rx_0_gpio ]
 
   # Create instance: ConfigNoc, and set properties
   set ConfigNoc [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_noc ConfigNoc ]
@@ -2529,6 +2533,20 @@ proc create_root_design { parentCell } {
   set vcc_const [ create_bd_cell -type ip -vlnv xilinx.com:ip:xlconstant vcc_const ]
   set_property CONFIG.CONST_VAL {1} $vcc_const
 
+  # Create instance: rpi_rx_1_gpio_default_high, and set properties
+  set rpi_rx_1_gpio_default_high [ create_bd_cell -type ip -vlnv xilinx.com:ip:xlconstant rpi_rx_1_gpio_default_high ]
+  set_property -dict [list \
+    CONFIG.CONST_VAL {3} \
+    CONFIG.CONST_WIDTH {2} \
+  ] $rpi_rx_1_gpio_default_high
+
+
+  # Create instance: rpi_rx_0_gpio_default_high, and set properties
+  set rpi_rx_0_gpio_default_high [ create_bd_cell -type ip -vlnv xilinx.com:ip:xlconstant rpi_rx_0_gpio_default_high ]
+  set_property -dict [list \
+    CONFIG.CONST_VAL {3} \
+    CONFIG.CONST_WIDTH {2} \
+  ] $rpi_rx_0_gpio_default_high
 
   # Create interface connections
   connect_bd_intf_net -intf_net GT_DRU_FRL_CLK_IN_1 [get_bd_intf_ports GT_DRU_FRL_CLK_IN] [get_bd_intf_pins hdmiphy_ss/GT_DRU_FRL_CLK_IN]
@@ -2568,9 +2586,9 @@ proc create_root_design { parentCell } {
   connect_bd_intf_net -intf_net mipi_1_mm_video_scaled [get_bd_intf_pins mipi_1/mm_video_scaled] [get_bd_intf_pins smartconnect_mipi5/S01_AXI]
   connect_bd_intf_net -intf_net noc_ddr4_CH0_LPDDR4_0 [get_bd_intf_ports ch0_lpddr4_trip1] [get_bd_intf_pins noc_ddr4/CH0_LPDDR4_0]
   connect_bd_intf_net -intf_net noc_ddr4_CH1_LPDDR4_0 [get_bd_intf_ports ch1_lpddr4_trip1] [get_bd_intf_pins noc_ddr4/CH1_LPDDR4_0]
-  connect_bd_intf_net -intf_net rpi_rx_0_gpio [get_bd_intf_ports rpi_rx_0_gpio] [get_bd_intf_pins mipi_0/rpi_gpio]
+  #connect_bd_intf_net -intf_net rpi_rx_0_gpio [get_bd_intf_ports rpi_rx_0_gpio] [get_bd_intf_pins mipi_0/rpi_gpio]
   connect_bd_intf_net -intf_net rpi_rx_0_mipi [get_bd_intf_ports rpi_rx_0_mipi] [get_bd_intf_pins mipi_0/mipi_phy_if_0]
-  connect_bd_intf_net -intf_net rpi_rx_1_gpio [get_bd_intf_ports rpi_rx_1_gpio] [get_bd_intf_pins mipi_1/rpi_gpio]
+  #connect_bd_intf_net -intf_net rpi_rx_1_gpio [get_bd_intf_ports rpi_rx_1_gpio] [get_bd_intf_pins mipi_1/rpi_gpio]
   connect_bd_intf_net -intf_net rpi_rx_1_mipi [get_bd_intf_ports rpi_rx_1_mipi] [get_bd_intf_pins mipi_1/mipi_phy_if_0]
   connect_bd_intf_net -intf_net s_axi_CTRL_1 [get_bd_intf_pins cips_ss_0/M06_AXI] [get_bd_intf_pins mipi_1/mipi_s_axi]
   connect_bd_intf_net -intf_net smartconnect_mipi2_M00_AXI [get_bd_intf_pins cips_noc/S06_AXI] [get_bd_intf_pins smartconnect_mipi2/M00_AXI]
@@ -2623,6 +2641,8 @@ proc create_root_design { parentCell } {
   connect_bd_net -net s_axis_video_aresetn_1 [get_bd_pins cips_ss_0/peripheral_aresetn2_300M] [get_bd_pins hdmi/s_axis_video_aresetn] [get_bd_pins v_fifo_dc/rstn]
   connect_bd_net -net v_hdmi_txss1_0_locked [get_bd_pins hdmi/LED0] [get_bd_ports LED0]
   connect_bd_net -net vphy_irq_1 [get_bd_pins hdmiphy_ss/irq] [get_bd_pins cips_ss_0/vphy_irq5]
+  connect_bd_net -net rpi_rx_0_gpio_default_high_dout [get_bd_pins rpi_rx_0_gpio_default_high/dout] [get_bd_ports rpi_rx_0_gpio]
+  connect_bd_net -net rpi_rx_1_gpio_default_high1_dout [get_bd_pins rpi_rx_1_gpio_default_high/dout] [get_bd_ports rpi_rx_1_gpio]
   connect_bd_net -net xlslice_1_Dout [get_bd_pins cips_ss_0/rx_en] [get_bd_ports rx_en] [get_bd_ports tx_en]
 
   # Create address segments
