@@ -302,15 +302,15 @@ set_property DIFF_TERM_ADV TERM_100 [get_ports {rpi_rx_3_mipi_data_n[*]}]
 #set_property PACKAGE_PIN M7 [get_ports {GT_DRU_FRL_CLK_IN_clk_p[0]}]
 #create_clock -period 2.500 [get_ports GT_DRU_FRL_CLK_IN_clk_p]
 
-# HDMI_RX_HPD mapped to XPIO_702_L16_N_HRX_HPD
+# HDMI_RX_HPD mapped to XPIO_702_L16_N_HRX_HPD - JX2B-C28 - K24
 #set_property PACKAGE_PIN K24 [get_ports {RX_HPD_OUT[0]}]
 #set_property IOSTANDARD LVCMOS12 [get_ports {RX_HPD_OUT[0]}]
 
-# HDMI_RX_SNK_SCL mapped to XPIO_702_XCC_L18_P_HRX_SCL
+# HDMI_RX_SNK_SCL mapped to XPIO_702_XCC_L18_P_HRX_SCL - JX2A-B39 - V21
 #set_property PACKAGE_PIN V21 [get_ports RX_DDC_OUT_scl_io]
 #set_property IOSTANDARD LVCMOS12 [get_ports RX_DDC_OUT_scl_io]
 
-# HDMI_RX_SNK_SDA mapped to XPIO_702_XCC_L18_N_HRX_SDA
+# HDMI_RX_SNK_SDA mapped to XPIO_702_XCC_L18_N_HRX_SDA - JX2A-B40 - U22
 #set_property PACKAGE_PIN U22 [get_ports RX_DDC_OUT_sda_io]
 #set_property IOSTANDARD LVCMOS12 [get_ports RX_DDC_OUT_sda_io]
 
@@ -327,37 +327,40 @@ set_property DIFF_TERM_ADV TERM_100 [get_ports {rpi_rx_3_mipi_data_n[*]}]
 #set_property PACKAGE_PIN F7 [get_ports {TX_REFCLK_P_IN_V_clk_p[0]}]
 #create_clock -period 3.367 [get_ports TX_REFCLK_P_IN_V_clk_p]
 
-# HDMI_TX_SRC_HPD -> XPIO_702_L19_N_HTX_HPD
+# HDMI_TX_SRC_HPD -> XPIO_702_L19_N_HTX_HPD - JX2A-A40 - R22
 #set_property PACKAGE_PIN R22 [get_ports TX_HPD_IN]
 #set_property IOSTANDARD LVCMOS12 [get_ports TX_HPD_IN]
 
-# HDMI_TX_SRC_SCL -> XPIO_702_L20_P_HTX_SCL
+# HDMI_TX_SRC_SCL -> XPIO_702_L20_P_HTX_SCL - JX2A-A36 - XPIO_702_L20_P - R21
 #set_property PACKAGE_PIN R21 [get_ports TX_DDC_OUT_scl_io]
 #set_property IOSTANDARD LVCMOS12 [get_ports TX_DDC_OUT_scl_io]
 
-# HDMI_TX_SRC_SDA -> XPIO_702_L20_N_HTX_SDA
+# HDMI_TX_SRC_SDA -> XPIO_702_L20_N_HTX_SDA - JX2A-A37 - XPIO_702_L20_N - P22
 #set_property PACKAGE_PIN P22 [get_ports TX_DDC_OUT_sda_io]
 #set_property IOSTANDARD LVCMOS12 [get_ports TX_DDC_OUT_sda_io]
 
-# HDMI_CTRL_SCL -> XPIO_702_L22_N_HCTL_SCL
+# HDMI_CTRL_SCL -> XPIO_702_L22_N_HCTL_SCL - JX1A-A34 - XPIO_702_L22_N - L22
 set_property PACKAGE_PIN L22 [get_ports HDMI_CTRL_scl_io]
 set_property IOSTANDARD LVCMOS12 [get_ports HDMI_CTRL_scl_io]
 
-# HDMI_CTRL_SDA -> XPIO_702_L22_P_HCTL_SDA
+# HDMI_CTRL_SDA -> XPIO_702_L22_P_HCTL_SDA - JX1A-A33 - XPIO_702_L22_P - K21
 set_property PACKAGE_PIN K21 [get_ports HDMI_CTRL_sda_io]
 set_property IOSTANDARD LVCMOS12 [get_ports HDMI_CTRL_sda_io]
 
 
 
-# PLL_LOSS_OF_LOCK - TIE TO A 702 PUSH BUTTON - XPIO_702_L26_P (LOW-NO PUSH / HIGH-WHEN PUSHED)
-#set_property PACKAGE_PIN N25 [get_ports IDT8T49N241_LOL_IN]
+## PLL_LOSS_OF_LOCK - TIE TO A 702 PUSH BUTTON - XPIO_702_L26_P (LOW-NO PUSH / HIGH-WHEN PUSHED)
+##set_property PACKAGE_PIN N25 [get_ports IDT8T49N241_LOL_IN]
+##set_property IOSTANDARD LVCMOS12 [get_ports IDT8T49N241_LOL_IN]
+# LOL_LS_CLKG - XPIO_702_XCC_L15_P - JX2B-D30 - M22
+#set_property PACKAGE_PIN M22 [get_ports IDT8T49N241_LOL_IN]
 #set_property IOSTANDARD LVCMOS12 [get_ports IDT8T49N241_LOL_IN]
 
-# HDMI_RX_ENABLE_N -> XPIO_702_L16_P_HRX_ENB
+# HDMI_RX_ENABLE_N -> XPIO_702_L16_P_HRX_ENB - JX2B-C27 - L23
 set_property PACKAGE_PIN L23 [get_ports {rx_en[0]}]
 set_property IOSTANDARD LVCMOS12 [get_ports {rx_en[0]}]
 
-# HDMI_TX_ENABLE_N -> XPIO_702_L19_P_HTX_ENB
+# HDMI_TX_ENABLE_N -> XPIO_702_L19_P_HTX_ENB - JX2A-A40 - T21
 set_property PACKAGE_PIN T21 [get_ports {tx_en[0]}]
 set_property IOSTANDARD LVCMOS12 [get_ports {tx_en[0]}]
 
