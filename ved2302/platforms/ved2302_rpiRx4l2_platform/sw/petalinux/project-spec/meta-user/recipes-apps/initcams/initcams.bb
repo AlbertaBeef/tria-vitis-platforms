@@ -11,8 +11,10 @@ SRC_URI = "file://init_cams_yuyv.sh \
 	   file://init_cams_bgr.sh \
 	   file://displaycams_bgr.sh \
 	   file://displaycams_remote.sh \
-	   file://capture_frames.sh \
-		  "
+	   file://capture_frames_yavta_yuyv.sh \
+	   file://capture_frames_yavta_bgr.sh \
+	   file://capture_frames_libcamera_bgr.sh \
+"
 
 S = "${WORKDIR}"
 
@@ -24,5 +26,7 @@ do_install() {
         install -m 0755 ${WORKDIR}/init_cams_bgr.sh ${D}${bindir}/
         install -m 0755 ${WORKDIR}/displaycams_bgr.sh ${D}${bindir}/
         install -m 0755 ${WORKDIR}/displaycams_remote.sh ${D}${bindir}/
-        install -m 0755 ${WORKDIR}/capture_frames.sh ${D}${bindir}/
+        install -m 0755 ${WORKDIR}/capture_frames_yavta_yuyv.sh ${D}${bindir}/
+        install -m 0755 ${WORKDIR}/capture_frames_yavta_bgr.sh ${D}${bindir}/
+        install -m 0755 ${WORKDIR}/capture_frames_libcamera_bgr.sh ${D}${bindir}/
 }
