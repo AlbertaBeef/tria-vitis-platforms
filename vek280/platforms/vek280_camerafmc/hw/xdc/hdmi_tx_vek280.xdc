@@ -16,6 +16,7 @@ set_property PACKAGE_PIN M36 [get_ports {GT_Serial_gtx_p[3]}]
 #FMCP1_GBTCLK0_M2C_C_P
 set_property PACKAGE_PIN AC32 [get_ports {HDMI_RX_CLK_P_IN_V_clk_p[0]}]
 create_clock -period 3.367 [get_ports HDMI_RX_CLK_P_IN_V_clk_p]
+
 #SI570_8A34001_MUX_BUF0_C_P
 set_property PACKAGE_PIN Y30 [get_ports {GT_DRU_FRL_CLK_IN_clk_p[0]}]
 create_clock -period 2.500 [get_ports GT_DRU_FRL_CLK_IN_clk_p]

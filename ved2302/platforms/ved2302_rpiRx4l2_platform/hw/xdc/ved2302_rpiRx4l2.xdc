@@ -281,6 +281,16 @@ set_property DIFF_TERM_ADV TERM_100 [get_ports {rpi_rx_3_mipi_data_n[*]}]
 #set_property IOSTANDARD LVCMOS15 [get_ports HDMI_CTRL_scl_io]
 #set_property IOSTANDARD LVCMOS15 [get_ports HDMI_CTRL_sda_io]
 
+# HDMI_RX_TMDS_DATA0_P/N - GTYP_104_RX0_P/N - JX3B-D24/D25 - GTYP_104_RX0_P/N - F2/F1
+# HDMI_RX_TMDS_DATA1_P/N - GTYP_104_RX1_P/N - JX3B-C20/C21 - GTYP_104_RX1_P/N - D2/D1
+# HDMI_RX_TMDS_DATA2_P/N - GTYP_104_RX2_P/N - JX3B-D17/D18 - GTYP_104_RX2_P/N - B2/B1
+# HDMI_RX_TMDS_CLK_P/N - GTYP_104_RX3_P/N - JX3B-C14/C15 - GTYP_104_RX3_P/N - A5/A4
+
+# HDMI_TX_TMDS_DATA0_P/N - GTYP_104_TX0_P/N - JX3A-B23/B24 - GTYP_104_TX0_P/N - E5/E4
+# HDMI_TX_TMDS_DATA1_P/N - GTYP_104_TX1_P/N - JX3A-A14/A15 - GTYP_104_TX1_P/N - D8/D7
+# HDMI_TX_TMDS_DATA2_P/N - GTYP_104_TX2_P/N - JX3A-A20/A21 - GTYP_104_TX2_P/N - C5/C4
+# HDMI_TX_TMDS_CLK_P/N - TYP_104_TX3_P/N - JX3A-B17/B18 - GTYP_104_TX3_P/N - B8/B7
+
 # GTYP_104
 #set_property PACKAGE_PIN F2 [get_ports {GT_Serial_grx_p[0]}]
 #set_property PACKAGE_PIN E5 [get_ports {GT_Serial_gtx_p[0]}]
@@ -294,11 +304,13 @@ set_property DIFF_TERM_ADV TERM_100 [get_ports {rpi_rx_3_mipi_data_n[*]}]
 
 # HDMI RX
 # RCLKOUTP/N -> HDMI_RCLK_OUT_P/N -> GTYP_104_REFCLK0_P/N
+# GTYP_104_REFCLK0_P/N - JX3A-A7/A8 - GTYP_104_REFCLK0_P/N - GTYP_104_REFCLK0_C_P/N - H7/H6
 #set_property PACKAGE_PIN H7 [get_ports {HDMI_RX_CLK_P_IN_V_clk_p[0]}]
 #create_clock -period 3.367 [get_ports HDMI_RX_CLK_P_IN_V_clk_p]
 
 # 100MHz Clock Originally from GTYP_REFCLK - Mapped to 156.25MHz GTYP_103_REFCLK0_P
 # Leaving contraint at 100MHz from original reference design.
+# U48(156.25MHz) - GTYP_103_REFCLK0_P/N - JX3B-C7/C8 - GTYP_103_REFCLK0_P/N - GTYP_103_REFCLK0_C_P/N - M7/M6
 #set_property PACKAGE_PIN M7 [get_ports {GT_DRU_FRL_CLK_IN_clk_p[0]}]
 #create_clock -period 2.500 [get_ports GT_DRU_FRL_CLK_IN_clk_p]
 
@@ -306,24 +318,27 @@ set_property DIFF_TERM_ADV TERM_100 [get_ports {rpi_rx_3_mipi_data_n[*]}]
 #set_property PACKAGE_PIN K24 [get_ports {RX_HPD_OUT[0]}]
 #set_property IOSTANDARD LVCMOS12 [get_ports {RX_HPD_OUT[0]}]
 
-# HDMI_RX_SNK_SCL mapped to XPIO_702_XCC_L18_P_HRX_SCL - JX2A-B39 - V21
+# HDMI_RX_SNK_SCL -> XPIO_702_XCC_L18_P_HRX_SCL - JX2A-B39 - V21
 #set_property PACKAGE_PIN V21 [get_ports RX_DDC_OUT_scl_io]
 #set_property IOSTANDARD LVCMOS12 [get_ports RX_DDC_OUT_scl_io]
 
-# HDMI_RX_SNK_SDA mapped to XPIO_702_XCC_L18_N_HRX_SDA - JX2A-B40 - U22
+# HDMI_RX_SNK_SDA -> XPIO_702_XCC_L18_N_HRX_SDA - JX2A-B40 - U22
 #set_property PACKAGE_PIN U22 [get_ports RX_DDC_OUT_sda_io]
 #set_property IOSTANDARD LVCMOS12 [get_ports RX_DDC_OUT_sda_io]
 
-# HDMI_RX_REFCLK_OU_P -> XPIO_702_L23_P_CLKIN_CG
+# HDMI_RX_REFCLK_OUT_P -> XPIO_702_L23_P_CLKIN_CG
+# 8T49N241-CLK0/nCLK0 - CLKIN_C_P/N - XPIO_702_L23_P/N_CLKIN_CG - JX2A-B33/B34 - XPIO_702_L23_P/N - J21/J22
 #set_property PACKAGE_PIN J21 [get_ports RX_REFCLK_P_OUT]
 ##set_property IOSTANDARD LVDS15 [get_ports RX_REFCLK_P_OUT]
 
 # HDMI_RX_SIG_DET_OUT -> XPIO_702_L17_N_HRX_DETOUT
+# HDMI_RX_SIGDET_OUT - R496(DNP?) - XPIO_702_L17_N_HRX_DETOUT - JX2B-C31 - XPIO_702_L17/N - XPIO_702_L17_N - J24
 #set_property PACKAGE_PIN J24 [get_ports RX_DET_N_IN]
 #set_property IOSTANDARD LVCMOS12 [get_ports RX_DET_N_IN]
 
 # HDMI TX
 # 297MHz Clock From Clock Generator -> GTYP_104_REFCLK1_P
+# 8T49N241-Q2/nQ2 - GTYP_104_REFCLK1_P/N - JX3A-B10/B11 - GTYP_104_REFCLK1_P/N - GTYP_104_REFCLK1_C_P/N - F7/F6
 #set_property PACKAGE_PIN F7 [get_ports {TX_REFCLK_P_IN_V_clk_p[0]}]
 #create_clock -period 3.367 [get_ports TX_REFCLK_P_IN_V_clk_p]
 
