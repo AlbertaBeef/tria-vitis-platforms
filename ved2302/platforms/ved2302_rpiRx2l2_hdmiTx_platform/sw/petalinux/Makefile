@@ -1,8 +1,5 @@
-#******************************************************************************
-# Copyright (C) 2020-2022 Xilinx, Inc. All rights reserved.
-# Copyright (C) 2022-2023 Advanced Micro Devices, Inc. All rights reserved.
-# SPDX-License-Identifier: MIT
-#******************************************************************************
+# (C) Copyright 2025 Tria Technologies, Inc. All rights reserved.
+# SPDX-License-Identifier: Apache-2.0
 
 CWD = $(shell readlink -f .)
 TOP_DIR = $(CWD)/../../
@@ -16,6 +13,7 @@ PETA_FILES += $(CWD)/images/linux/system.dtb
 PETA_FILES += $(CWD)/images/linux/Image
 PETA_FILES += $(CWD)/images/linux/rootfs.ext4
 BOOT_IMAGE = $(CWD)/images/linux/BOOT.BIN
+WIC_IMAGE  = $(CWD)/images/linux/petalinux-sdimage.wic.gz
 
 XSA_DIR    = $(CWD)/../../hw/project
 SW_DIR     ?= $(CWD)/../../sw/build
@@ -27,9 +25,8 @@ ROOTFS_DIR ?= $(SW_DIR)/platform/filesystem
 help:
 	@echo 'Usage:'
 	@echo ''
-	@echo '  make all BUILD_ONNX=<0/1>'
+	@echo '  make all'
 	@echo '    This rule builds all'
-	@echo '    BUILD_ONNX needs externel network. on xcd defalut value is 0'
 	@echo ''
 	@echo '  make wic'
 	@echo '    This rule builds an SD card wic image.'
@@ -92,7 +89,7 @@ $(SW_FILES): $(SYSTEM_XSA) $(PETA_FILES)
 	@cp -f images/linux/rootfs.ext4   $(ROOTFS_DIR)/rootfs.ext4
 
 .PHONY: all
-all:  linux spfm boot
+all:  linux spfm boot wic
 
 .PHONY: boot
 boot: $(BOOT_IMAGE)
@@ -100,14 +97,17 @@ $(BOOT_IMAGE):
 	$(info "BOOT image for platforms")
 	@if [ -f project-spec/hw-description/*.pdi ]; then  \
 		echo "INFO: BOOT image generation started...";  \
-		petalinux-package --force --boot --u-boot --qemu-rootfs no --bif linux_bif/bootgen.bif;  \
+		petalinux-package --boot --force --u-boot --qemu-rootfs no --bif ./package_scripts/bootgen.bif;  \
 	else  \
 		echo "WARNING: "hw.bit" file not found. Skipping BOOT image generation.";  \
 	fi
 
 .PHONY: wic
-wic: $(BOOT_IMAGE) $(PETA_FILES)
-	petalinux-package --wic -w ./project-spec/configs/sdimage.wks --extra-bootfiles " system.dtb " --wic-extra-args "-c gzip"
+#wic: $(BOOT_IMAGE) $(PETA_FILES)
+#wic: $(WIC_IMAGE)
+#$(WIC_IMAGE):
+wic:
+	petalinux-package --wic -w ./package_scripts/sdimage.wks --extra-bootfiles=" system.dtb " --wic-extra-args="-c gzip"
 		
 clean:
 	petalinux-build -x mrproper

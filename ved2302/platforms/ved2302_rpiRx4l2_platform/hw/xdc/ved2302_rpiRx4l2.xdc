@@ -371,6 +371,10 @@ set_property IOSTANDARD LVCMOS12 [get_ports HDMI_CTRL_sda_io]
 #set_property PACKAGE_PIN M22 [get_ports IDT8T49N241_LOL_IN]
 #set_property IOSTANDARD LVCMOS12 [get_ports IDT8T49N241_LOL_IN]
 
+# RST_LS_CLKG - XPIO_702_GC_XCC_L12_3V3_P - XPIO_702_GC_XCC_L12_P - JX2B-C39 - U23
+#set_property PACKAGE_PIN U23 [get_ports {IDT8T49N241_RST_N[0]}]
+#set_property IOSTANDARD LVCMOS12 [get_ports {IDT8T49N241_RST_N[0]}]
+
 # HDMI_RX_ENABLE_N -> XPIO_702_L16_P_HRX_ENB - JX2B-C27 - L23
 set_property PACKAGE_PIN L23 [get_ports {rx_en[0]}]
 set_property IOSTANDARD LVCMOS12 [get_ports {rx_en[0]}]
