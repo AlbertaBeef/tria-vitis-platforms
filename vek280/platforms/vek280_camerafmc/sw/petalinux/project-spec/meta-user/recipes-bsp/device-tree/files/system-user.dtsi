@@ -2,7 +2,10 @@
 /include/ "system-conf.dtsi"
 / {
 	chosen {
-		bootargs = "console=ttyAMA0  earlycon=pl011,mmio32,0xFF000000,115200n8 clk_ignore_unused root=/dev/mmcblk0p2 rw rootwait";
+		//bootargs = "console=ttyAMA0  earlycon=pl011,mmio32,0xFF000000,115200n8 clk_ignore_unused root=/dev/mmcblk0p2 rw rootwait";	
+		//bootargs = "console=ttyAMA0  earlycon=pl011,mmio32,0xFF000000,115200n8 clk_ignore_unused debug root=/dev/mmcblk0p2 rw rootwait";
+		//bootargs = "console=ttyAMA0  earlycon=pl011,mmio32,0xFF000000,115200n8 clk_ignore_unused dyndbg=\"QUERY\" root=/dev/mmcblk0p2 rw rootwait";
+		bootargs = "console=ttyAMA0  earlycon=pl011,mmio32,0xFF000000,115200n8 clk_ignore_unused dyndbg=\"file drivers/gpu/drm/xlnx/* +p\" root=/dev/mmcblk0p2 rw rootwait";
 		stdout-path = "serial0:115200n8";
 	};
 
