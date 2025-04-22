@@ -68,7 +68,9 @@ enum {
  */
 const struct reg_fields ti_tmds1204tx_regs[] = {
 
-	{TX_TI_R1_INIT, 0x0A, 0x8E},
+	//{TX_TI_R1_INIT, 0x0A, 0x8E},
+	// For Donny
+	{TX_TI_R1_INIT, 0x0A, 0x0E},
 	{TX_TI_R1_INIT, 0x0B, 0x43},
 	{TX_TI_R1_INIT, 0x0C, 0x70},
 	{TX_TI_R1_INIT, 0x0D, 0x22},
