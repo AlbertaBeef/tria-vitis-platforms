@@ -1,0 +1,24 @@
+--- a/drivers/gpu/drm/xlnx/xlnx_hdmi.c	2025-04-15 00:12:06.740931000 -0400
++++ b/drivers/gpu/drm/xlnx/xlnx_hdmi.c	2025-04-16 11:05:12.395038827 -0400
+@@ -344,6 +344,8 @@
+ #define HDMI_MAX_WIDTH	10240
+ #define HDMI_MAX_HEIGHT	4320
+ 
++#define DEBUG
++
+ /**
+  * enum hdmi_state - Stream state
+  * @HDMI_TX_STATE_STREAM_DOWN: stream down
+diff -r -u a/drivers/gpu/drm/xlnx/xlnx_vtc.c b/drivers/gpu/drm/xlnx/xlnx_vtc.c
+--- a/drivers/gpu/drm/xlnx/xlnx_vtc.c	2025-04-15 00:09:40.518041000 -0400
++++ b/drivers/gpu/drm/xlnx/xlnx_vtc.c	2025-04-16 11:09:16.576975200 -0400
+@@ -91,6 +91,8 @@
+ /* vtc generator encoding register bits */
+ #define XVTC_GENC_INTERL	BIT(6)
+ 
++#define DEBUG
++
+ /**
+  * struct xlnx_vtc - Xilinx VTC object
+  *
+
