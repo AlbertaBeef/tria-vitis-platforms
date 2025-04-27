@@ -12,42 +12,34 @@
 # configures the associated video pipe with values for resolution, format
 # and frame rate, according to a set of variables defined at the top of this
 # script.
-# The next part of the script prints a list of the cameras that were found
+# The last part of the script prints a list of the cameras that were found
 # and configured, showing the port (CAM0,CAM1,CAM2,CAM3), the media device
 # (eg. /dev/media0) and the video device (eg. /dev/video0) for each.
-# The last part of the script launches gstreamer to display all four video
-# streams on a single display.
 
 # This dictionary associates GStreamer pixel formats with those used with media-ctl
 declare -A format_dict
 format_dict["NV12"]="VYYUYY8_1X24"
 format_dict["YUY2"]="UYVY8_1X16"
-format_dict["RGB"]="RBG888_1X24"
+format_dict["BGR"]="RBG888_1X24"
 
 #--------------------------------------------------------------------------------
 # Example settings - the script will configure ALL video pipelines to these specs
 #--------------------------------------------------------------------------------
 # Resolution of RPi cameras (must be a resolution supported by the IMX219 Linux driver 640x480, 1640x1232, 1920x1080)
-SRC_RES_W=1920
-SRC_RES_H=1080
+SRC_RES_W="${1:-1920}"
+SRC_RES_H="${2:-1080}"
 # Resolution of RPi camera pipelines (after Video Processing Subsystem IP)
-#OUT_RES_W=960
-#OUT_RES_H=540
-OUT_RES_W=640
-OUT_RES_H=480
+OUT_RES_W="${3:-1920}"
+OUT_RES_H="${4:-1080}"
 # Output format of the RPi camera pipelines (use a GStreamer pixel format from the dict above)
-#OUT_FORMAT=YUY2
-OUT_FORMAT=RGB
-# Resolution of the monitor
-DISP_RES_W=1920
-DISP_RES_H=1080
-# Frame rate (fps)
-FRM_RATE=30
-#FRM_RATE=15
+OUT_FORMAT="${5:-BGR}"
 #--------------------------------------------------------------------------------
 # End of example settings
 #--------------------------------------------------------------------------------
 
+# Find the vmixer
+VMIX_PATH=$(find /sys/bus/platform/devices/ -name "*.v_mix" | head -n 1)
+VMIX=$(basename "$VMIX_PATH")
 
 echo "-------------------------------------------------"
 echo " Capture pipeline init: RPi cam -> Scaler -> DDR"
@@ -59,6 +51,9 @@ echo " - RPi Camera output    : $SRC_RES_W x $SRC_RES_H"
 echo " - Scaler (VPSS) output : $OUT_RES_W x $OUT_RES_H $OUT_FORMAT"
 echo " - Frame rate           : $FRM_RATE fps"
 
+# Print the bus_id of the video mixer
+echo "Video Mixer found here:"
+echo " - $VMIX"
 
 # Find all the media devices
 media_devices=($(ls /dev/media*))
@@ -124,30 +119,3 @@ echo "Detected and configured the following cameras on RPi Camera FMC:"
 for media in "${!media_to_video_mapping[@]}"; do
         echo " - ${media_to_cam_interface[$media]}: $media = ${media_to_video_mapping[$media]}"
 done
-
-
-#------------------------------------------------------------------------------
-# Run GStreamer to combine all videos and display on the screen
-#-------------------------------------------------------------------------------
-full_command="gst-launch-1.0"
-
-index=0
-
-# For each connected camera, add pipeline to gstreamer command
-for media in "${!media_to_video_mapping[@]}"; do
-        # Append the specific command for the current iteration to the full command
-        full_command+=" v4l2src device=${media_to_video_mapping[$media]} io-mode=mmap"
-        full_command+=" ! video/x-raw, width=${OUT_RES_W}, height=${OUT_RES_H}, format=${OUT_FORMAT}, framerate=${FRM_RATE}/1"
-        full_command+=" ! autovideosink"
-
-        ((index++))
-done
-
-# Display the command being run
-echo "GStreamer command:"
-echo "--------------------------"
-echo "${full_command}"
-echo "--------------------------"
-
-# Execute the command
-eval "${full_command}"

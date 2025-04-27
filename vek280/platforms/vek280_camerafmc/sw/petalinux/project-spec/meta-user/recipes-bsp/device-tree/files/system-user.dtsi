@@ -178,6 +178,8 @@
 };
 
 &mipi_0_ISPPipeline_accel_0 {
+	#compatible = "xlnx,ISPPipeline-accel-1.0", "xlnx,isppipeline-1.0";
+	compatible = "xlnx,isppipeline-1.0";
 	reset-gpios = <&cips_ss_0_axi_gpio_1 0 1>;
 	xlnx,max-height = /bits/ 16 <4096>;
 	xlnx,max-width = /bits/ 16 <4096>;
@@ -202,6 +204,8 @@
 };
 
 &mipi_1_ISPPipeline_accel_0 {
+	#compatible = "xlnx,ISPPipeline-accel-1.0", "xlnx,isppipeline-1.0";
+	compatible = "xlnx,isppipeline-1.0";
 	reset-gpios = <&cips_ss_0_axi_gpio_1 4 1>;
 	xlnx,max-height = /bits/ 16 <4096>;
 	xlnx,max-width = /bits/ 16 <4096>;
@@ -226,6 +230,8 @@
 };
 
 &mipi_3_ISPPipeline_accel_0 {
+	#compatible = "xlnx,ISPPipeline-accel-1.0", "xlnx,isppipeline-1.0";
+	compatible = "xlnx,isppipeline-1.0";
 	reset-gpios = <&cips_ss_0_axi_gpio_1 12 1>;
 	xlnx,max-height = /bits/ 16 <4096>;
 	xlnx,max-width = /bits/ 16 <4096>;

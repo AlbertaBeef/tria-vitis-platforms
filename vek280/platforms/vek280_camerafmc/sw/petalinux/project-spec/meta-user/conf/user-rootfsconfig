@@ -3,6 +3,7 @@
 
 CONFIG_gpio-demo
 CONFIG_peekpoke
+CONFIG_hdmi21-modules
 CONFIG_openamp-demo-notebooks
 CONFIG_python3-ipywidgets
 CONFIG_pm-notebooks
@@ -23,7 +24,14 @@ CONFIG_aie-notebooks
 #CONFIG_vvas-core
 CONFIG_simd
 CONFIG_initcams
+
 CONFIG_auto-resize
+
+# RPICAM scripts/utilities
+
+CONFIG_initcams
+CONFIG_gstmarkerdetect
+CONFIG_tria-cam-python-examples
 
 # LIBCAMERA
 
