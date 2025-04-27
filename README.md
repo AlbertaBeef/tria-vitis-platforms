@@ -105,7 +105,7 @@ Create the BOOT.BIN (without bitstream):
 - petalinux-package --boot --fsbl --pmufw --u-boot --force
 - cd ..
 
-Create the final zub1cg SD card image:
+Create the final u96v2 SD card image:
 - cd sdcard
 - sudo ./generate_sdcard.sh
 
@@ -129,7 +129,7 @@ Create the BOOT.BIN (without bitstream):
 - petalinux-package --boot --fsbl --pmufw --u-boot --force
 - cd ..
 
-Create the final zub1cg SD card image:
+Create the final uz7ev SD card image:
 - cd sdcard
 - sudo ./generate_sdcard.sh
 
